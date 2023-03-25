@@ -6,8 +6,7 @@ import re
 import argparse
 
 """A simple script post process the output for GEC.
-   1) punctuation tokenize Arabic text
-   2) compare the src to the prediction and ignore predictions
+   1) compare the src to the prediction and ignore predictions
       that have a big edit distance compared to src.
       this deals with the issue of the M2 scorer being slow"""
 
@@ -38,9 +37,6 @@ def postprocess(src, preds, output_path, verbose=False, gamma=100):
                 f.write(src_sent)
                 skipped_sents.append((i, src_sent))
             else:
-                pred_sent = re.sub(r'([' + re.escape(puncs) + '])(?!\d)', r' \1 ', pred_sent)
-                pred_sent = re.sub(' +', ' ', pred_sent)
-                pred_sent = pred_sent.strip()
                 post_process_out.append(pred_sent)
                 f.write(pred_sent)
             f.write('\n')
@@ -56,27 +52,27 @@ def postprocess(src, preds, output_path, verbose=False, gamma=100):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument( "--input_file_dir",
+    parser.add_argument( "--input",
                         default=None,
                         type=str,
                         required=True,
-                        help="The input data dir."
+                        help="The input data file used for GEC training."
                         )
-    parser.add_argument("--pred_file_dir",
+    parser.add_argument("--pred",
                         default=None,
                         type=str,
                         required=True,
-                        help="The input data dir."
+                        help="The prediction file."
                         )
-    parser.add_argument("--output_file_dir",
+    parser.add_argument("--output",
                         default=None,
                         type=str,
-                        help="The path of the output file"
+                        help="The postprocessed file."
                         )
 
     args = parser.parse_args()
 
-    src, tgt = read_data_json(args.input_file_dir)
-    preds = read_data(args.pred_file_dir)
+    src, tgt = read_data_json(args.input)
+    preds = read_data(args.pred)
 
-    postprocess(src, preds, args.output_file_dir)
+    postprocess(src, preds, args.output)

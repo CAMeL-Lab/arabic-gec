@@ -1,29 +1,51 @@
 import os
 import argparse
+import glob
 
-def get_best_checkpoint(model_path):
+
+def get_best_checkpoint_gec(model_path):
     checkpoints = os.listdir(model_path)
-
     checkpoint_scores = []
+
     for checkpoint in checkpoints:
-        checkpoint_path = os.path.join(model_path, checkpoint)
+        checkpoints = glob.glob(os.path.join(model_path, 'checkpoint-*'))
+        # checkpoints += [f'{model_path}']
+        checkpoint_scores = []
 
-        if 'checkpoint' in checkpoint_path:
-            with open(os.path.join(checkpoint_path, 'm2.dev.qalb15.pred.txt.pnx.edits.eval')) as f:
-                f_score = f.readlines()[3].strip().split()[-1]
-                checkpoint_scores.append((checkpoint, f_score))
-
-    # evaluating the last checkpoint
-    with open(os.path.join(model_path, 'm2.dev.qalb15.pred.txt.pnx.edits.eval')) as f:
-            f_score = f.readlines()[3].strip().split()[-1]
-            checkpoint_scores.append((model_path, f_score))
+        for checkpoint in checkpoints:
+            for eval_file in glob.glob(os.path.join(checkpoint, 'm2.qalb14_tune.preds.gen.txt.eval')):
+                with open(eval_file) as f:
+                    f_score = f.readlines()[3].strip().split()[-1]
+                    checkpoint_scores.append((eval_file, f_score))
 
     return max(checkpoint_scores, key=lambda x: x[1])
+
+def get_best_checkpoint_ged(model_path):
+    checkpoints = glob.glob(os.path.join(model_path, 'checkpoint-*/'))
+    checkpoints += [model_path]
+    checkpoint_scores = []
+
+    for checkpoint in checkpoints:
+        for eval_file in glob.glob(os.path.join(checkpoint, '*tune.results.txt')):
+            with open(eval_file) as f:
+                metrics = [line.strip().replace(' ','').split('=')
+                           for line in f.readlines()[:4]]
+                metrics = {m[0]: m[1] for m in metrics}
+                eval_metrics = metrics['f0.5']
+                checkpoint_scores.append((eval_file, eval_metrics))
+
+
+    return max(checkpoint_scores, key=lambda x: x[1])
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_path')
+    parser.add_argument('--task')
     args = parser.parse_args()
-    best_checkpoint = get_best_checkpoint(model_path=args.model_path)
+    if args.task == 'ged':
+        best_checkpoint = get_best_checkpoint_ged(model_path=args.model_path)
+    else:
+        best_checkpoint = get_best_checkpoint_gec(model_path=args.model_path)
 
     print(best_checkpoint, flush=True)

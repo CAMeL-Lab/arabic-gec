@@ -3,30 +3,29 @@ import string
 import re
 import argparse
 
-"""A simple script to dediac and punctuation tokenize
-Arabic data"""
+"""A simple script to punctuation tokenize Arabic text"""
 
 parser = argparse.ArgumentParser()
-parser.add_argument( "--input_file_dir",
+parser.add_argument( "--input",
                     default=None,
                     type=str,
                     required=True,
-                    help="The input data dir.."
+                    help="The input data file"
                     )
 
-parser.add_argument("--output_file_dir",
+parser.add_argument("--output",
                     default=None,
                     type=str,
-                    help="The path of the output file"
+                    help="The output data file"
                     )
 
 args = parser.parse_args()
 
 puncs = string.punctuation + ''.join(list(UNICODE_PUNCT_SYMBOL_CHARSET))
 
-output_file = open(args.output_file_dir, mode='w', encoding='utf8')
+output_file = open(args.output, mode='w', encoding='utf8')
 
-with open(args.input_file_dir, encoding='utf8') as f:
+with open(args.input, encoding='utf8') as f:
     for line in f.readlines():
         line = line.strip()
         line = re.sub(r'([' + re.escape(puncs) + '])(?!\d)', r' \1 ', line)
