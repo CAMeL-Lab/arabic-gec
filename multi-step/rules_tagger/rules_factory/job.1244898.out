@@ -1,0 +1,60 @@
+Generating data for /scratch/ba63/gec/data/alignment/modeling_areta_tags_improved/qalb14/qalb14_train.areta+.txt using all rules
+Creating rules...
+Done!
+There are 5060 unique rules!
+Annotating train dataset using 5060 rules..
+Annotating tune dataset using 5060 rules..
+Generating data for /scratch/ba63/gec/data/alignment/modeling_areta_tags_improved/qalb14/qalb14_train.areta+.txt using 4 rules
+Creating rules...
+Done!
+There are 5060 unique rules!
+There are 1094 unique rules after pruning
+Annotating train dataset using 1094 rules..
+Generating data for /scratch/ba63/gec/data/alignment/modeling_areta_tags_improved/qalb14/qalb14_train.areta+.txt using 4 rules
+Annotating tune dataset using 1094 rules..
+Generating data for /scratch/ba63/gec/data/alignment/modeling_areta_tags_improved/qalb14/qalb14_train.areta+.txt using 5 rules
+Creating rules...
+Done!
+There are 5060 unique rules!
+There are 928 unique rules after pruning
+Annotating train dataset using 928 rules..
+Generating data for /scratch/ba63/gec/data/alignment/modeling_areta_tags_improved/qalb14/qalb14_train.areta+.txt using 5 rules
+Annotating tune dataset using 928 rules..
+Generating data for /scratch/ba63/gec/data/alignment/modeling_areta_tags_improved/qalb14/qalb14_train.areta+.txt using 10 rules
+Creating rules...
+Done!
+There are 5060 unique rules!
+There are 601 unique rules after pruning
+Annotating train dataset using 601 rules..
+Generating data for /scratch/ba63/gec/data/alignment/modeling_areta_tags_improved/qalb14/qalb14_train.areta+.txt using 10 rules
+Annotating tune dataset using 601 rules..
+Generating data for /scratch/ba63/gec/data/gec_camelira/areta_tags/qalb14_train.areta+.txt using 4 rules
+Creating rules...
+Done!
+There are 4847 unique rules!
+There are 974 unique rules after pruning
+Annotating train dataset using 974 rules..
+Generating data for /scratch/ba63/gec/data/gec_camelira/areta_tags/qalb14_tune.areta+.txt using 4 rules
+Annotating tune dataset using 974 rules..
+Generating data for /scratch/ba63/gec/data/gec_camelira/areta_tags/qalb14_train.areta+.txt using 5 rules
+Creating rules...
+Done!
+There are 4847 unique rules!
+There are 822 unique rules after pruning
+Annotating train dataset using 822 rules..
+Generating data for /scratch/ba63/gec/data/gec_camelira/areta_tags/qalb14_tune.areta+.txt using 5 rules
+Annotating tune dataset using 822 rules..
+Generating data for /scratch/ba63/gec/data/gec_camelira/areta_tags/qalb14_train.areta+.txt using 10 rules
+Creating rules...
+Done!
+There are 4847 unique rules!
+There are 542 unique rules after pruning
+Annotating train dataset using 542 rules..
+Generating data for /scratch/ba63/gec/data/gec_camelira/areta_tags/qalb14_tune.areta+.txt using 10 rules
+Annotating tune dataset using 542 rules..
+Generating data for /scratch/ba63/gec/data/gec_camelira/areta_tags/qalb14_train.areta+.txt using all rules
+Creating rules...
+Done!
+There are 4847 unique rules!
+Annotating train dataset using 4847 rules..
+Annotating tune dataset using 4847 rules..

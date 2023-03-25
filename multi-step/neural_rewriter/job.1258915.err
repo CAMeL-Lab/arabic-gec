@@ -1,0 +1,35 @@
+INFO:utils.data_utils:*** GED Tags:  {'REPLACE_OH': 0, 'REPLACE_OM': 1, 'REPLACE_PC': 2, 'REPLACE_OD': 3, 'REPLACE_OR': 4, 'REPLACE_SW': 5, 'REPLACE_OH+REPLACE_XC': 6, 'SPLIT': 7, 'REPLACE_OW': 8, 'REPLACE_XG': 9, 'REPLACE_XN': 10, 'REPLACE_OA': 11, 'REPLACE_OT': 12, 'REPLACE_XC': 13, 'DELETE_PM': 14, 'REPLACE_XC+REPLACE_XN': 15, 'REPLACE_S': 16, 'REPLACE_O': 17, 'REPLACE_X': 18, 'REPLACE_XC+REPLACE_XG': 19, 'REPLACE_OH+REPLACE_OM': 20, 'REPLACE_MT': 21, 'REPLACE_OH+REPLACE_OT': 22, 'DELETE_XM': 23, 'REPLACE_OR+REPLACE_OT': 24, 'REPLACE_OM+REPLACE_OR': 25, 'REPLACE_OA+REPLACE_OH': 26, 'REPLACE_MI': 27, 'REPLACE_OD+REPLACE_OR': 28, 'REPLACE_OC': 29, 'REPLACE_XF': 30, 'REPLACE_MI+REPLACE_OH': 31, 'REPLACE_OA+REPLACE_OR': 32, 'REPLACE_OD+REPLACE_OG': 33, 'REPLACE_XM': 34, 'REPLACE_OD+REPLACE_OM': 35, 'REPLACE_XT': 36, 'REPLACE_SF': 37, 'REPLACE_OD+REPLACE_OH': 38, 'REPLACE_M': 39, 'REPLACE_PT': 40, 'REPLACE_PM': 41} ***
+INFO:__main__:Training...
+INFO:__main__:Epoch: 1
+INFO:__main__:	Train Loss: 0.4163   |   Dev Loss: 0.2687
+INFO:__main__:Epoch: 2
+INFO:__main__:	Train Loss: 0.2584   |   Dev Loss: 0.2334
+INFO:__main__:Epoch: 3
+INFO:__main__:	Train Loss: 0.2281   |   Dev Loss: 0.2113
+INFO:__main__:Epoch: 4
+INFO:__main__:	Train Loss: 0.2095   |   Dev Loss: 0.2000
+INFO:__main__:Epoch: 5
+INFO:__main__:	Train Loss: 0.1948   |   Dev Loss: 0.1990
+INFO:__main__:Epoch: 6
+INFO:__main__:	Train Loss: 0.1845   |   Dev Loss: 0.1949
+INFO:__main__:Epoch: 7
+INFO:__main__:	Train Loss: 0.1755   |   Dev Loss: 0.1916
+INFO:__main__:Epoch: 8
+INFO:__main__:	Train Loss: 0.1683   |   Dev Loss: 0.1987
+INFO:__main__:Epoch: 9
+INFO:__main__:	Train Loss: 0.1620   |   Dev Loss: 0.1990
+INFO:__main__:Epoch: 10
+INFO:__main__:	Train Loss: 0.1581   |   Dev Loss: 0.1965
+INFO:__main__:Epoch: 11
+INFO:__main__:	Train Loss: 0.1344   |   Dev Loss: 0.1905
+INFO:__main__:Epoch: 12
+INFO:__main__:	Train Loss: 0.1229   |   Dev Loss: 0.1921
+INFO:__main__:Epoch: 13
+INFO:__main__:	Train Loss: 0.1166   |   Dev Loss: 0.1961
+INFO:__main__:Epoch: 14
+INFO:__main__:	Train Loss: 0.1127   |   Dev Loss: 0.2020
+INFO:__main__:Epoch: 15
+INFO:__main__:	Train Loss: 0.1015   |   Dev Loss: 0.2042
+INFO:__main__:Epoch: 16
+INFO:__main__:	Train Loss: 0.0950   |   Dev Loss: 0.2065
+INFO:__main__:Dev loss hasn't decreased in 6 epochs. Stopping training..

@@ -1,0 +1,1 @@
+{"encoder_input_dim": 110, "encoder_embed_dim": 128, "encoder_hidd_dim": 256, "encoder_num_layers": 2, "decoder_input_dim": 84, "decoder_embed_dim": 128, "decoder_hidd_dim": 256, "decoder_num_layers": 2, "decoder_output_dim": 84, "char_src_padding_idx": 0, "word_src_padding_idx": 0, "trg_padding_idx": 0, "trg_sos_idx": 2, "dropout": 0.2}
