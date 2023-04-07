@@ -12,53 +12,40 @@ import re
 
 puncs = string.punctuation + ''.join(list(UNICODE_PUNCT_SYMBOL_CHARSET))
 
-def read_data_json(path):
-    with open(path) as f:
-        data = [json.loads(l) for l in f.readlines()]
-    src = [x['gec']['raw'] for x in data]
-    return src
 
 
-def read_data(path):
-    with open(path) as f:
-        return [x.strip() for x in f.readlines()]
-
-
-def postprocess(src_path, preds_path, output_path, verbose=False, gamma=100):
-    src = read_data_json(src_path)
-    preds = read_data(preds_path)
+def postprocess(src_sents, preds_sents, verbose=False, gamma=100):
 
     # pnx tokenize predictions
-    preds = pnx_tokenize(preds)
+    preds_sents = pnx_tokenize(preds_sents)
 
-
-    assert len(src) == len(preds)
-
+    assert len(src_sents) == len(preds_sents)
 
     post_process_out = []
     skipped_sents = []
 
-    with open(output_path, mode='w', encoding='utf8') as f:
-        for i in range(len(src)):
-            src_sent = src[i]
-            pred_sent = preds[i]
-            dist = editdistance.distance(src_sent, pred_sent)
-            if dist >= gamma:
-                post_process_out.append(src_sent)
-                f.write(src_sent)
-                skipped_sents.append((i, src_sent))
-            else:
-                post_process_out.append(pred_sent)
-                f.write(pred_sent)
-            f.write('\n')
+    pp_sens = []
+    for i in range(len(src_sents)):
+        src_sent = src_sents[i]
+        pred_sent = preds_sents[i]
 
-        print(f'{len(skipped_sents)} sentences were skipped')
-        if verbose:
-            for idx, sent in skipped_sents:
-                print(f'{idx} :')
-                print(f'SRC: {sent}')
-                print(f'PRED: {preds[idx]}')
-                print()
+        dist = editdistance.distance(src_sent, pred_sent)
+        if dist >= gamma:
+            post_process_out.append(src_sent)
+            pp_sens.append(src_sent)
+            skipped_sents.append((i, src_sent))
+        else:
+            post_process_out.append(pred_sent)
+
+    print(f'{len(skipped_sents)} sentences were skipped')
+    if verbose:
+        for idx, sent in skipped_sents:
+            print(f'{idx} :')
+            print(f'SRC: {sent}')
+            print(f'PRED: {preds_sents[idx]}')
+            print()
+
+    return post_process_out
 
 
 def pnx_tokenize(data):

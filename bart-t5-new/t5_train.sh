@@ -13,10 +13,13 @@
 
 
 MODEL=/scratch/ba63/BERT_models/AraT5-base
-OUTPUT_DIR=/scratch/ba63/gec/models/gec/qalb14/t5_w_camelira_ged
+OUTPUT_DIR=/scratch/ba63/gec/models/gec/qalb14_updated/t5_w_camelira_ged_pred_worst_merge_fix
+TRAIN_FILE=/scratch/ba63/gec/data/bart-t5/qalb14/w_camelira/train_preds_worst.json
 STEPS=1500 #5000 for MIX / 1500 for qalb14/qalb15/zaebuc
 BATCH_SIZE=16 #8 for MIX/qalb15/zaebuc / 16 for qalb14
 
+    # --ged_tags /scratch/ba63/gec/data/ged/qalb14/wo_camelira/labels.txt \
+    # --preprocess_merges \
 
 python run_gec.py \
     --model_name_or_path $MODEL \
@@ -24,8 +27,9 @@ python run_gec.py \
     --optim adamw_torch \
     --source_lang raw \
     --target_lang cor \
-    --ged_tags /scratch/ba63/gec/data/ged/qalb14/w_camelira/labels.txt \
-    --train_file  /scratch/ba63/gec/data/bart-t5/qalb14/w_camelira/train.json \
+    --train_file  $TRAIN_FILE \
+    --ged_tags /scratch/ba63/gec/data/ged/qalb14/wo_camelira/labels.txt \
+    --preprocess_merges \
     --save_steps $STEPS \
     --num_train_epochs 30 \
     --output_dir $OUTPUT_DIR \

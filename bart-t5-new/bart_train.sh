@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #SBATCH -p nvidia
-#SBATCH -q nlp
+# SBATCH -q nlp
 # use gpus
 #SBATCH --gres=gpu:1
 # memory
@@ -13,9 +13,13 @@
 
 
 MODEL=/scratch/ba63/BERT_models/AraBART
-OUTPUT_DIR=/scratch/ba63/gec/models/gec/qalb14/bart_w_camelira_ged
+OUTPUT_DIR=/scratch/ba63/gec/models/gec/qalb14_updated/bart_w_camelira_ged_pred_worst_merge_fix_check
+TRAIN_FILE=/scratch/ba63/gec/data/bart-t5/qalb14/w_camelira/train_preds_worst.json
 STEPS=500 #1500 for MIX / 500 default
 BATCH_SIZE=32 #16 for MIX/qalb15/zaebuc / 32 qalb14
+
+    # --ged_tags /scratch/ba63/gec/data/ged/qalb14/wo_camelira/labels.txt \
+    # --preprocess_merges \
 
 python run_gec.py \
     --model_name_or_path $MODEL \
@@ -23,8 +27,9 @@ python run_gec.py \
     --optim adamw_torch \
     --source_lang raw \
     --target_lang cor \
-    --ged_tags /scratch/ba63/gec/data/ged/qalb14/w_camelira/labels.txt \
-    --train_file /scratch/ba63/gec/data/bart-t5/qalb14/w_camelira/train.json \
+    --ged_tags /scratch/ba63/gec/data/ged/qalb14/wo_camelira/labels.txt \
+    --preprocess_merges \
+    --train_file $TRAIN_FILE \
     --save_steps $STEPS \
     --num_train_epochs 10 \
     --output_dir $OUTPUT_DIR \
