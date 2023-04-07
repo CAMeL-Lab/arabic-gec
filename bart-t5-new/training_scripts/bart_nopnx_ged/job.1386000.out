@@ -1,0 +1,84 @@
+{'loss': 0.5602, 'learning_rate': 4.5881383855024714e-05, 'epoch': 0.82}
+{'loss': 0.4016, 'learning_rate': 4.1762767710049426e-05, 'epoch': 1.65}
+{'loss': 0.3532, 'learning_rate': 3.764415156507414e-05, 'epoch': 2.47}
+{'loss': 0.3196, 'learning_rate': 3.352553542009885e-05, 'epoch': 3.29}
+{'loss': 0.2939, 'learning_rate': 2.9406919275123562e-05, 'epoch': 4.12}
+{'loss': 0.2704, 'learning_rate': 2.528830313014827e-05, 'epoch': 4.94}
+{'loss': 0.2511, 'learning_rate': 2.1169686985172982e-05, 'epoch': 5.77}
+{'loss': 0.24, 'learning_rate': 1.7051070840197694e-05, 'epoch': 6.59}
+{'loss': 0.2308, 'learning_rate': 1.2932454695222406e-05, 'epoch': 7.41}
+{'loss': 0.2194, 'learning_rate': 8.813838550247118e-06, 'epoch': 8.24}
+{'loss': 0.2131, 'learning_rate': 4.695222405271829e-06, 'epoch': 9.06}
+{'loss': 0.2088, 'learning_rate': 5.766062602965404e-07, 'epoch': 9.88}
+{'train_runtime': 2107.2717, 'train_samples_per_second': 92.114, 'train_steps_per_second': 2.881, 'train_loss': 0.29575730988378385, 'epoch': 10.0}
+***** train metrics *****
+  epoch                    =       10.0
+  train_loss               =     0.2958
+  train_runtime            = 0:35:07.27
+  train_samples_per_second =     92.114
+  train_steps_per_second   =      2.881
+04/04/2023 17:16:13 - INFO - __main__ - Loading dataset from /scratch/ba63/gec/data/bart-t5/qalb14-nopnx-ged/w_camelira/tune_preds.json
+04/04/2023 17:16:13 - INFO - __main__ - Loading model from /scratch/ba63/gec/models/gec/qalb14-nopnx-ged/bart_w_camelira_ged_pred_worst
+04/04/2023 17:16:19 - INFO - __main__ - *** Predict ***
+04/04/2023 17:16:19 - INFO - __main__ - Running prediction on /scratch/ba63/gec/data/bart-t5/qalb14-nopnx-ged/w_camelira/tune_preds.json
+0 sentences were skipped
+04/04/2023 17:17:43 - INFO - __main__ - Loading dataset from /scratch/ba63/gec/data/bart-t5/qalb14-nopnx-ged/w_camelira/tune_preds.json
+04/04/2023 17:17:43 - INFO - __main__ - Loading model from /scratch/ba63/gec/models/gec/qalb14-nopnx-ged/bart_w_camelira_ged_pred_worst/checkpoint-1000
+04/04/2023 17:17:48 - INFO - __main__ - *** Predict ***
+04/04/2023 17:17:48 - INFO - __main__ - Running prediction on /scratch/ba63/gec/data/bart-t5/qalb14-nopnx-ged/w_camelira/tune_preds.json
+0 sentences were skipped
+04/04/2023 17:19:10 - INFO - __main__ - Loading dataset from /scratch/ba63/gec/data/bart-t5/qalb14-nopnx-ged/w_camelira/tune_preds.json
+04/04/2023 17:19:10 - INFO - __main__ - Loading model from /scratch/ba63/gec/models/gec/qalb14-nopnx-ged/bart_w_camelira_ged_pred_worst/checkpoint-1500
+04/04/2023 17:19:18 - INFO - __main__ - *** Predict ***
+04/04/2023 17:19:18 - INFO - __main__ - Running prediction on /scratch/ba63/gec/data/bart-t5/qalb14-nopnx-ged/w_camelira/tune_preds.json
+0 sentences were skipped
+04/04/2023 17:20:53 - INFO - __main__ - Loading dataset from /scratch/ba63/gec/data/bart-t5/qalb14-nopnx-ged/w_camelira/tune_preds.json
+04/04/2023 17:20:53 - INFO - __main__ - Loading model from /scratch/ba63/gec/models/gec/qalb14-nopnx-ged/bart_w_camelira_ged_pred_worst/checkpoint-2000
+04/04/2023 17:21:00 - INFO - __main__ - *** Predict ***
+04/04/2023 17:21:00 - INFO - __main__ - Running prediction on /scratch/ba63/gec/data/bart-t5/qalb14-nopnx-ged/w_camelira/tune_preds.json
+0 sentences were skipped
+04/04/2023 17:22:23 - INFO - __main__ - Loading dataset from /scratch/ba63/gec/data/bart-t5/qalb14-nopnx-ged/w_camelira/tune_preds.json
+04/04/2023 17:22:23 - INFO - __main__ - Loading model from /scratch/ba63/gec/models/gec/qalb14-nopnx-ged/bart_w_camelira_ged_pred_worst/checkpoint-2500
+04/04/2023 17:22:28 - INFO - __main__ - *** Predict ***
+04/04/2023 17:22:28 - INFO - __main__ - Running prediction on /scratch/ba63/gec/data/bart-t5/qalb14-nopnx-ged/w_camelira/tune_preds.json
+0 sentences were skipped
+04/04/2023 17:23:50 - INFO - __main__ - Loading dataset from /scratch/ba63/gec/data/bart-t5/qalb14-nopnx-ged/w_camelira/tune_preds.json
+04/04/2023 17:23:50 - INFO - __main__ - Loading model from /scratch/ba63/gec/models/gec/qalb14-nopnx-ged/bart_w_camelira_ged_pred_worst/checkpoint-3000
+04/04/2023 17:23:55 - INFO - __main__ - *** Predict ***
+04/04/2023 17:23:55 - INFO - __main__ - Running prediction on /scratch/ba63/gec/data/bart-t5/qalb14-nopnx-ged/w_camelira/tune_preds.json
+0 sentences were skipped
+04/04/2023 17:25:17 - INFO - __main__ - Loading dataset from /scratch/ba63/gec/data/bart-t5/qalb14-nopnx-ged/w_camelira/tune_preds.json
+04/04/2023 17:25:17 - INFO - __main__ - Loading model from /scratch/ba63/gec/models/gec/qalb14-nopnx-ged/bart_w_camelira_ged_pred_worst/checkpoint-3500
+04/04/2023 17:25:22 - INFO - __main__ - *** Predict ***
+04/04/2023 17:25:22 - INFO - __main__ - Running prediction on /scratch/ba63/gec/data/bart-t5/qalb14-nopnx-ged/w_camelira/tune_preds.json
+1 sentences were skipped
+04/04/2023 17:26:47 - INFO - __main__ - Loading dataset from /scratch/ba63/gec/data/bart-t5/qalb14-nopnx-ged/w_camelira/tune_preds.json
+04/04/2023 17:26:47 - INFO - __main__ - Loading model from /scratch/ba63/gec/models/gec/qalb14-nopnx-ged/bart_w_camelira_ged_pred_worst/checkpoint-4000
+04/04/2023 17:26:52 - INFO - __main__ - *** Predict ***
+04/04/2023 17:26:52 - INFO - __main__ - Running prediction on /scratch/ba63/gec/data/bart-t5/qalb14-nopnx-ged/w_camelira/tune_preds.json
+0 sentences were skipped
+04/04/2023 17:28:56 - INFO - __main__ - Loading dataset from /scratch/ba63/gec/data/bart-t5/qalb14-nopnx-ged/w_camelira/tune_preds.json
+04/04/2023 17:28:56 - INFO - __main__ - Loading model from /scratch/ba63/gec/models/gec/qalb14-nopnx-ged/bart_w_camelira_ged_pred_worst/checkpoint-4500
+04/04/2023 17:29:02 - INFO - __main__ - *** Predict ***
+04/04/2023 17:29:02 - INFO - __main__ - Running prediction on /scratch/ba63/gec/data/bart-t5/qalb14-nopnx-ged/w_camelira/tune_preds.json
+0 sentences were skipped
+04/04/2023 17:30:24 - INFO - __main__ - Loading dataset from /scratch/ba63/gec/data/bart-t5/qalb14-nopnx-ged/w_camelira/tune_preds.json
+04/04/2023 17:30:24 - INFO - __main__ - Loading model from /scratch/ba63/gec/models/gec/qalb14-nopnx-ged/bart_w_camelira_ged_pred_worst/checkpoint-500
+04/04/2023 17:30:29 - INFO - __main__ - *** Predict ***
+04/04/2023 17:30:29 - INFO - __main__ - Running prediction on /scratch/ba63/gec/data/bart-t5/qalb14-nopnx-ged/w_camelira/tune_preds.json
+0 sentences were skipped
+04/04/2023 17:31:51 - INFO - __main__ - Loading dataset from /scratch/ba63/gec/data/bart-t5/qalb14-nopnx-ged/w_camelira/tune_preds.json
+04/04/2023 17:31:51 - INFO - __main__ - Loading model from /scratch/ba63/gec/models/gec/qalb14-nopnx-ged/bart_w_camelira_ged_pred_worst/checkpoint-5000
+04/04/2023 17:31:58 - INFO - __main__ - *** Predict ***
+04/04/2023 17:31:58 - INFO - __main__ - Running prediction on /scratch/ba63/gec/data/bart-t5/qalb14-nopnx-ged/w_camelira/tune_preds.json
+0 sentences were skipped
+04/04/2023 17:33:20 - INFO - __main__ - Loading dataset from /scratch/ba63/gec/data/bart-t5/qalb14-nopnx-ged/w_camelira/tune_preds.json
+04/04/2023 17:33:20 - INFO - __main__ - Loading model from /scratch/ba63/gec/models/gec/qalb14-nopnx-ged/bart_w_camelira_ged_pred_worst/checkpoint-5500
+04/04/2023 17:33:25 - INFO - __main__ - *** Predict ***
+04/04/2023 17:33:25 - INFO - __main__ - Running prediction on /scratch/ba63/gec/data/bart-t5/qalb14-nopnx-ged/w_camelira/tune_preds.json
+0 sentences were skipped
+04/04/2023 17:34:47 - INFO - __main__ - Loading dataset from /scratch/ba63/gec/data/bart-t5/qalb14-nopnx-ged/w_camelira/tune_preds.json
+04/04/2023 17:34:47 - INFO - __main__ - Loading model from /scratch/ba63/gec/models/gec/qalb14-nopnx-ged/bart_w_camelira_ged_pred_worst/checkpoint-6000
+04/04/2023 17:34:52 - INFO - __main__ - *** Predict ***
+04/04/2023 17:34:52 - INFO - __main__ - Running prediction on /scratch/ba63/gec/data/bart-t5/qalb14-nopnx-ged/w_camelira/tune_preds.json
+0 sentences were skipped
