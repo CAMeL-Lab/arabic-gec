@@ -26,8 +26,9 @@ from typing import Optional
 
 import datasets
 import numpy as np
-from datasets import load_dataset
+from datasets import disable_caching, Dataset
 import torch
+from torch.utils.data import DataLoader
 from torch.optim import AdamW
 
 
@@ -38,14 +39,12 @@ from transformers import (
     AutoModelForSeq2SeqLM,
     AutoTokenizer,
     DataCollatorForSeq2SeqGEC,
-    MBartForConditionalGenerationGED,
     HfArgumentParser,
     M2M100Tokenizer,
     MBart50Tokenizer,
     MBart50TokenizerFast,
     MBartTokenizer,
     MBartTokenizerFast,
-    Seq2SeqTrainer,
     Seq2SeqTrainingArguments,
     default_data_collator,
     set_seed
@@ -55,11 +54,11 @@ from transformers.utils import check_min_version, send_example_telemetry
 from transformers.utils.versions import require_version
 
 from utils.postprocess import postprocess
+from aligner.aligner import align
+import re
+import json
 
-# Will error if the minimal version of Transformers is not installed. Remove at your own risks.
-# check_min_version("4.23.0.dev0")
 
-require_version("datasets>=1.8.0", "To fix: pip install -r examples/pytorch/translation/requirements.txt")
 
 logger = logging.getLogger(__name__)
 
@@ -67,6 +66,8 @@ logger = logging.getLogger(__name__)
 MULTILINGUAL_TOKENIZERS = [MBartTokenizer, MBartTokenizerFast, MBart50Tokenizer, MBart50TokenizerFast, M2M100Tokenizer]
 
 torch.cuda.empty_cache()
+datasets.disable_caching()
+
 
 @dataclass
 class ModelArguments:
@@ -91,19 +92,6 @@ class ModelArguments:
         default=True,
         metadata={"help": "Whether to use one of the fast tokenizer (backed by the tokenizers library) or not."},
     )
-    model_revision: str = field(
-        default="main",
-        metadata={"help": "The specific model version to use (can be a branch name, tag name or commit id)."},
-    )
-    use_auth_token: bool = field(
-        default=False,
-        metadata={
-            "help": (
-                "Will use the token generated when running `huggingface-cli login` (necessary to use this script "
-                "with private models)."
-            )
-        },
-    )
 
 
 @dataclass
@@ -114,20 +102,14 @@ class DataTrainingArguments:
 
     source_lang: str = field(default=None, metadata={"help": "Source language id for translation."})
     target_lang: str = field(default=None, metadata={"help": "Target language id for translation."})
-    ged_tags: str = field(default=None, metadata={"help": "List of ged error tags labels."})
+    use_ged_tags: bool = field(default=None, metadata={"help": "To use ged tags or not."})
+    preprocess_merges: bool = field(default=None, metadata={"help": "To preprocess Merges before inference."})
 
     dataset_name: Optional[str] = field(
         default=None, metadata={"help": "The name of the dataset to use (via the datasets library)."}
     )
     dataset_config_name: Optional[str] = field(
         default=None, metadata={"help": "The configuration name of the dataset to use (via the datasets library)."}
-    )
-    train_file: Optional[str] = field(default=None, metadata={"help": "The input training data file (a jsonlines)."})
-    validation_file: Optional[str] = field(
-        default=None,
-        metadata={
-            "help": "An optional input evaluation data file to evaluate the metrics (sacrebleu) on a jsonlines file."
-        },
     )
     test_file: Optional[str] = field(
         default=None,
@@ -136,9 +118,6 @@ class DataTrainingArguments:
     prediction_file: Optional[str] = field(
         default=None,
         metadata={"help": "An optional file to write the predictions to."},
-    )
-    overwrite_cache: bool = field(
-        default=False, metadata={"help": "Overwrite the cached training and evaluation sets"}
     )
     preprocessing_num_workers: Optional[int] = field(
         default=None,
@@ -183,33 +162,6 @@ class DataTrainingArguments:
             )
         },
     )
-    max_train_samples: Optional[int] = field(
-        default=None,
-        metadata={
-            "help": (
-                "For debugging purposes or quicker training, truncate the number of training examples to this "
-                "value if set."
-            )
-        },
-    )
-    max_eval_samples: Optional[int] = field(
-        default=None,
-        metadata={
-            "help": (
-                "For debugging purposes or quicker training, truncate the number of evaluation examples to this "
-                "value if set."
-            )
-        },
-    )
-    max_predict_samples: Optional[int] = field(
-        default=None,
-        metadata={
-            "help": (
-                "For debugging purposes or quicker training, truncate the number of prediction examples to this "
-                "value if set."
-            )
-        },
-    )
     num_beams: Optional[int] = field(
         default=None,
         metadata={
@@ -249,21 +201,6 @@ class DataTrainingArguments:
     )
 
     def __post_init__(self):
-        # if self.dataset_name is None and self.train_file is None:
-        #     raise ValueError("Need either a dataset name or a training file.")
-        if self.source_lang is None or self.target_lang is None:
-            raise ValueError("Need to specify the source language and the target language.")
-
-        # accepting both json and jsonl file extensions, as
-        # many jsonlines files actually have a .json extension
-        valid_extensions = ["json", "jsonl"]
-
-        if self.train_file is not None:
-            extension = self.train_file.split(".")[-1]
-            assert extension in valid_extensions, "`train_file` should be a jsonlines file."
-        if self.validation_file is not None:
-            extension = self.validation_file.split(".")[-1]
-            assert extension in valid_extensions, "`validation_file` should be a jsonlines file."
         if self.val_max_target_length is None:
             self.val_max_target_length = self.max_target_length
 
@@ -274,12 +211,8 @@ def main():
     # We now keep distinct sets of args, for a cleaner separation of concerns.
 
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, Seq2SeqTrainingArguments))
-    if len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
-        # If we pass only one argument to the script and it's the path to a json file,
-        # let's parse it to get our arguments.
-        model_args, data_args, training_args = parser.parse_json_file(json_file=os.path.abspath(sys.argv[1]))
-    else:
-        model_args, data_args, training_args = parser.parse_args_into_dataclasses()
+
+    model_args, data_args, training_args = parser.parse_args_into_dataclasses()
 
     # Sending telemetry. Tracking the example usage helps us better allocate resources to maintain them. The
     # information sent is the one passed as arguments along with your Python/PyTorch versions.
@@ -294,88 +227,68 @@ def main():
 
     log_level = training_args.get_process_log_level()
     logger.setLevel(log_level)
-    datasets.utils.logging.set_verbosity(log_level)
-    transformers.utils.logging.set_verbosity(log_level)
-    transformers.utils.logging.enable_default_handler()
-    transformers.utils.logging.enable_explicit_format()
-
-    # Log on each process the small summary:
-    logger.warning(
-        f"Process rank: {training_args.local_rank}, device: {training_args.device}, n_gpu: {training_args.n_gpu}"
-        + f"distributed training: {bool(training_args.local_rank != -1)}, 16-bits training: {training_args.fp16}"
-    )
-    # logger.info(f"Training/evaluation parameters {training_args}")
-    
-
-    if data_args.source_prefix is None and model_args.model_name_or_path in [
-        "t5-small",
-        "t5-base",
-        "t5-large",
-        "t5-3b",
-        "t5-11b",
-    ]:
-        logger.warning(
-            "You're running a t5 model but didn't provide a source prefix, which is expected, e.g. with "
-            "`--source_prefix 'translate English to German: ' `"
-        )
 
 
     # Set seed before initializing model.
     set_seed(training_args.seed)
 
-    # preparing ged tags if the are provided
-    if data_args.ged_tags:
-        ged_labels = ['<pad>'] + get_labels(data_args.ged_tags)
-        ged_label_map : Dict[int, str] = {i: label for i, label in
-                                            enumerate(ged_labels)}
-        ged_id2label_map : Dict[str, int] = {label: i for i, label in
-                                            enumerate(ged_labels)}
-        num_labels = len(ged_labels)
+    logger.info(f'Loading dataset from {data_args.test_file}')
+
+    with open(data_args.test_file) as f:
+        raw_data = [json.loads(l) for l in f.readlines()]
+
+    dataset_dict = {'gec': []}
+    for ex in raw_data:
+        if 'ged_tags' in ex['gec']:
+            dataset_dict['gec'].append(
+                                        {
+                                        'raw': ex['gec']['raw'],
+                                        'cor':  ex['gec']['cor'],
+                                        'ged_tags':  ex['gec']['ged_tags']
+                                        }
+                                    )
+        else:
+            dataset_dict['gec'].append(
+                                        {
+                                        'raw': ex['gec']['raw'],
+                                        'cor':  ex['gec']['cor']
+                                        }
+                                    )
 
 
+    predict_dataset = Dataset.from_dict(dataset_dict)
+    column_names = predict_dataset.column_names
 
-    data_files = {}
-    data_files["test"] = data_args.test_file
-    extension = data_args.test_file.split(".")[-1]
+    raw_predict_dataset = Dataset.from_dict(dataset_dict)
 
-    raw_datasets = load_dataset(
-        extension,
-        data_files=data_files,
-        cache_dir=model_args.cache_dir,
-        use_auth_token=True if model_args.use_auth_token else None,
-    )
+    logger.info(f'Loading model from {model_args.model_name_or_path}')
 
     config = AutoConfig.from_pretrained(
         model_args.config_name if model_args.config_name else model_args.model_name_or_path,
-        cache_dir=model_args.cache_dir,
-        revision=model_args.model_revision,
-        use_auth_token=True if model_args.use_auth_token else None,
+        cache_dir=None
     )
-
-    # Adding ged tags to config if they are provided
-    if data_args.ged_tags:
-        config.update({'ged_id2label': ged_label_map,
-                       'ged_label2id': ged_id2label_map,
-                       'ged_num_labels': num_labels
-                       })
 
     tokenizer = AutoTokenizer.from_pretrained(
         model_args.tokenizer_name if model_args.tokenizer_name else model_args.model_name_or_path,
-        cache_dir=model_args.cache_dir,
-        use_fast=model_args.use_fast_tokenizer,
-        revision=model_args.model_revision,
-        use_auth_token=True if model_args.use_auth_token else None,
+        cache_dir=None,
+        use_fast=model_args.use_fast_tokenizer
     )
+
     model = AutoModelForSeq2SeqLM.from_pretrained(
         model_args.model_name_or_path,
         from_tf=bool(".ckpt" in model_args.model_name_or_path),
         config=config,
-        cache_dir=model_args.cache_dir,
-        revision=model_args.model_revision,
-        use_auth_token=True if model_args.use_auth_token else None,
+        cache_dir=None
     )
 
     model.resize_token_embeddings(len(tokenizer))
+
+    # preparing ged tags if the are provided
+    if data_args.use_ged_tags:
+        ged_label2id_map = config.ged_label2id
+        ged_id2label_map  = config.ged_id2label
+        num_labels = config.ged_num_labels
+
 
     # Set decoder_start_token_id
     if model.config.decoder_start_token_id is None and isinstance(tokenizer, (MBartTokenizer, MBartTokenizerFast)):
@@ -388,9 +301,6 @@ def main():
         raise ValueError("Make sure that `config.decoder_start_token_id` is correctly defined")
 
     prefix = data_args.source_prefix if data_args.source_prefix is not None else ""
-
-    # Preprocessing the dataset.
-    column_names = raw_datasets["test"].column_names
 
 
     # For translation we set the codes of our source and target languages (only useful for mBART, the others will
@@ -421,7 +331,7 @@ def main():
 
 
     def preprocess_function(examples):
-        
+
         inputs, ged_tags = [], []
 
         for ex in examples['gec']:
@@ -430,55 +340,57 @@ def main():
             if 'ged_tags' in ex:
                 ged_tags.append(prefix + ex['ged_tags'])
 
+
         model_inputs = tokenizer(inputs, max_length=data_args.max_source_length, padding=padding, truncation=True)
 
 
         # Converting the ged labels to ids if tags were provided
-        if data_args.ged_tags:
-            features = featurize_ged(tokenizer, inputs, ged_tags, ged_id2label_map,
-                                     is_t5='t5' in model_args.model_name_or_path.lower())
+        if data_args.use_ged_tags:
 
-            # sanity checking if the featurization was done correctly
-            gold_ids = [model_inputs['input_ids'][i] for i in range(len(model_inputs['input_ids']))]
-            gold_ids_check = [features[i]['input_ids'] for i in range(len(features))]
+            features = featurize_ged(tokenizer, inputs, ged_tags, ged_label2id_map,
+                                     is_t5='t5' in model_args.model_name_or_path.lower(),
+                                     do_preprocess=data_args.preprocess_merges)
 
-            assert gold_ids_check == gold_ids
+
+            if data_args.preprocess_merges:
+                input_ids = [features[i]['input_ids'] for i in range(len(features))]
+                attention_mask = [features[i]['attention_mask'] for i in range(len(features))]
+
+                model_inputs["input_ids"] = input_ids
+                model_inputs["attention_mask"] = attention_mask
+
+            else:
+
+                # sanity checking if the featurization was done correctly
+                gold_ids = [model_inputs['input_ids'][i] for i in range(len(model_inputs['input_ids']))]
+                gold_ids_check = [features[i]['input_ids'] for i in range(len(features))]
+
+                attention_mask = [model_inputs['attention_mask'][i] for i in range(len(model_inputs['attention_mask']))]
+                attention_mask_check = [features[i]['attention_mask'] for i in range(len(features))]
+
+                assert gold_ids_check == gold_ids
+                assert attention_mask == attention_mask_check
+
 
             model_inputs["ged_tags"] = [features[i]['ged_labels_ids']
                                           for i in range(len(features))]
 
-
-        # If we are padding here, replace all tokenizer.pad_token_id in the labels by -100 when we want to ignore
-        # padding in the loss.
-        if padding == "max_length" and data_args.ignore_pad_token_for_loss:
-            labels["input_ids"] = [
-                [(l if l != tokenizer.pad_token_id else -100) for l in label] for label in labels["input_ids"]
-            ]
 
         return model_inputs
 
 
     max_target_length = data_args.val_max_target_length
 
-    if "test" not in raw_datasets:
-        raise ValueError("--do_predict requires a test dataset")
-
-    predict_dataset = raw_datasets["test"]
-
-    if data_args.max_predict_samples is not None:
-        max_predict_samples = min(len(predict_dataset), data_args.max_predict_samples)
-        predict_dataset = predict_dataset.select(range(max_predict_samples))
 
     with training_args.main_process_first(desc="prediction dataset map pre-processing"):
         predict_dataset = predict_dataset.map(
             preprocess_function,
             batched=True,
-            num_proc=data_args.preprocessing_num_workers,
             remove_columns=column_names,
-            load_from_cache_file=not data_args.overwrite_cache,
+            num_proc=data_args.preprocessing_num_workers,
+            load_from_cache_file=False,
             desc="Running tokenizer on prediction dataset",
         )
-
 
     # Data collator
     label_pad_token_id = -100 if data_args.ignore_pad_token_for_loss else tokenizer.pad_token_id
@@ -494,22 +406,6 @@ def main():
         )
 
 
-    def postprocess_text(preds, labels):
-        preds = [pred.strip() for pred in preds]
-        labels = [[label.strip()] for label in labels]
-
-        return preds, labels
-
-    # Initialize our Trainer
-    trainer = Seq2SeqTrainer(
-        model=model,
-        # optim=optim,
-        args=training_args,
-        tokenizer=tokenizer,
-        data_collator=data_collator
-    )
-
-
     max_length = (
         training_args.generation_max_length
         if training_args.generation_max_length is not None
@@ -519,121 +415,135 @@ def main():
     num_beams = data_args.num_beams if data_args.num_beams is not None else training_args.generation_num_beams
     num_return_sequences = data_args.num_return_sequences
 
-    _gen_kwargs = {'num_beams': num_beams, 'max_length': max_length,
-                   'num_return_sequences': num_return_sequences}
-    
-    trainer._gen_kwargs = _gen_kwargs
-
+    gen_kwargs = {'num_beams': num_beams, 'max_length': max_length,
+                  'num_return_sequences': num_return_sequences,
+                  'no_repeat_ngram_size': 0, 'early_stopping': False
+                  }
 
     logger.info("*** Predict ***")
-    dataloader = trainer.get_test_dataloader(predict_dataset)
+    logger.info(f"Running prediction on {data_args.test_file}")
+
+    # dataloader = trainer.get_test_dataloader(predict_dataset)
+    dataloader = DataLoader(predict_dataset,
+                            batch_size=training_args.per_device_eval_batch_size,
+                            collate_fn=data_collator)
+
+    device = ('cuda' if torch.cuda.is_available() else 'cpu')
+
+    model = model.to(device)
     model.eval()
 
-    preds = None
+
+    generated_dataset = []
 
 
-    for batch in dataloader:
-        batch = trainer._prepare_inputs(batch)
+    with torch.no_grad():
+        for batch in dataloader:
+            batch = {k: v.to(device) for k, v in batch.items() if v is not None}
 
-        gen_kwargs = _gen_kwargs.copy()
+            if "attention_mask" in batch:
+                gen_kwargs["attention_mask"] = batch.get("attention_mask", None)
 
-        if gen_kwargs.get("max_length") is None and gen_kwargs.get("max_new_tokens") is None:
-            gen_kwargs["max_length"] = model.config.max_length
-    
-        gen_kwargs["num_beams"] = (
-            gen_kwargs["num_beams"] if gen_kwargs.get("num_beams") is not None else model.config.num_beams
-        )
-        default_synced_gpus = False
-        gen_kwargs["synced_gpus"] = (
-            gen_kwargs["synced_gpus"] if gen_kwargs.get("synced_gpus") is not None else default_synced_gpus
-        )
+            # providing ged tags to generation utils
+            if "ged_tags" in batch:
+                gen_kwargs["ged_tags"] = batch["ged_tags"]
 
-        if "attention_mask" in batch:
-            gen_kwargs["attention_mask"] = batch.get("attention_mask", None)
-        if "global_attention_mask" in batch:
-            gen_kwargs["global_attention_mask"] = batch.get("global_attention_mask", None)
+            predictions = model.generate(
+                batch['input_ids'],
+                **gen_kwargs,
+            )
 
-        # some encoder-decoder models can have varying encoder's and thus
-        # varying model input names
-        if hasattr(model, "encoder") and model.encoder.main_input_name != model.main_input_name:
-            generation_inputs = batch[model.encoder.main_input_name]
-        else:
-            generation_inputs = batch[model.main_input_name]
+            generated_tokens = tokenizer.batch_decode(
+                    predictions, skip_special_tokens=True, clean_up_tokenization_spaces=False
+                )
+            generated_dataset.extend(generated_tokens)
 
-        # providing ged tags to generation utils
-        if "ged_tags" in batch:
-            gen_kwargs["ged_tags"] = batch["ged_tags"]
-
-        generated_tokens = model.generate(
-            generation_inputs,
-            **gen_kwargs,
-        )
-
-        # in case the batch is shorter than max length, the output should be padded
-        if gen_kwargs.get("max_length") is not None and generated_tokens.shape[-1] < gen_kwargs["max_length"]:
-            generated_tokens = trainer._pad_tensors_to_max_len(generated_tokens, gen_kwargs["max_length"])
-    
-        elif gen_kwargs.get("max_new_tokens") is not None and generated_tokens.shape[-1] < (
-            gen_kwargs["max_new_tokens"] + 1
-        ):
-            generated_tokens = trainer._pad_tensors_to_max_len(generated_tokens, gen_kwargs["max_new_tokens"] + 1)
-
-        preds = generated_tokens if preds is None else torch.cat((preds, generated_tokens),
-                                                                    dim=0)
 
     if num_return_sequences == 1:
-        if trainer.is_world_process_zero():
-            predictions = tokenizer.batch_decode(
-                preds, skip_special_tokens=True, clean_up_tokenization_spaces=False
-            )
+        generated_dataset = [pred.strip() for pred in generated_dataset]
 
-            predictions = [pred.strip() for pred in predictions]
+        output_prediction_file = os.path.join(training_args.output_dir,
+                                                data_args.prediction_file+f'.txt')
 
-            output_prediction_file = os.path.join(training_args.output_dir, data_args.prediction_file)
+        with open(output_prediction_file, "w", encoding="utf-8") as writer:
+            writer.write("\n".join(generated_dataset))
+            writer.write("\n")
 
-            with open(output_prediction_file, "w", encoding="utf-8") as writer:
-                writer.write("\n".join(predictions))
-                writer.write("\n")
+        # last steps for post_processing: pnx tokenization and m2 optim
+        post_processed_sents = postprocess(src_sents=[ex['gec']['raw'] for ex in raw_predict_dataset],
+                                            preds_sents=generated_dataset)
 
-            # last steps for post_processing: pnx tokenization and m2 optim
-            postprocess(data_args.test_file, output_prediction_file,
-                output_prediction_file+'.pp')
+        with open(output_prediction_file+'.pp', "w", encoding="utf-8") as writer:
+            writer.write("\n".join(post_processed_sents))
+            writer.write("\n")
 
     else:
-        preds = preds.cpu().numpy()
-
-        generated_sequences = [[] for _ in range(num_return_sequences)]
+        generated_nbest = [[] for _ in range(num_return_sequences)]
 
         for seq in range(num_return_sequences):
-            gen_seq = [preds[seq + i] for i in range(0, preds.shape[0], num_return_sequences)]
-            generated_sequences[seq] = np.asarray(gen_seq)
+            gen_n = [generated_dataset[seq + i] for i in range(0, len(generated_dataset), num_return_sequences)]
+            generated_nbest[seq] = gen_n
 
-        for i, pred_seq in enumerate(generated_sequences):
-            predictions = tokenizer.batch_decode(
-                pred_seq, skip_special_tokens=True, clean_up_tokenization_spaces=False
-            )
-
+        for i, gen_n in enumerate(generated_nbest):
             output_prediction_file = os.path.join(training_args.output_dir,
                                                   data_args.prediction_file+f'.{i+1}.txt')
 
             with open(output_prediction_file, "w", encoding="utf-8") as writer:
-                writer.write("\n".join(predictions))
+                writer.write("\n".join(gen_n))
                 writer.write("\n")
 
             # last steps for post_processing: pnx tokenization and m2 optim
-            postprocess(data_args.test_file, output_prediction_file,
-                output_prediction_file+'.pp')
+            post_processed_sents = postprocess(src_sents=[ex['gec']['raw'] for ex in raw_predict_dataset],
+                                            preds_sents=gen_n)
+
+
+            with open(output_prediction_file+'.pp', "w", encoding="utf-8") as writer:
+                writer.write("\n".join(post_processed_sents))
+                writer.write("\n")
 
 
 
-def get_labels(labels_path):
-    with open(labels_path, mode='r', encoding='utf8') as f:
-        labels = [l.strip() for l in f.readlines()]
-    if 'UNK' in labels:
-        labels.remove('UNK')
-    return labels
+def preprocess(words, labels):
+    """
+    Process words by solving merge errors
+    """
 
-def featurize_ged(tokenizer, inputs, labels, label_map, is_t5=False):
+    new_words = []
+    new_labels = []
+
+    i = 0
+    while i < len(words):
+        word = words[i]
+        label = labels[i]
+
+        # TODO: Sometimes we might see a single Merge-B label
+        # that is not followed by Merge-I. We should handle those 
+        # cases better
+
+        if label == 'MERGE-B':
+            new_word = []
+            new_word.append(word)
+            i += 1
+
+            while  i < len(labels) and 'MERGE-I' in labels[i]:
+                new_word.append(words[i])
+                i += 1
+
+            new_word = ''.join(new_word)
+            new_words.append(new_word)
+            new_labels.append('UC')
+
+        else:
+            new_words.append(word)
+            new_labels.append(label)
+            i += 1
+
+    assert len(new_words) == len(new_labels)
+
+    return new_words, new_labels
+
+
+def featurize_ged(tokenizer, inputs, labels, label_map, is_t5=False, do_preprocess=False):
     """
     Featurizes ged labels. Each subword that belongs to the same word
     gets the same ged label (i.e., each input sentence will have
@@ -641,13 +551,18 @@ def featurize_ged(tokenizer, inputs, labels, label_map, is_t5=False):
     """
 
     features = []
+
     for i, (seq, seq_labels) in enumerate(zip(inputs, labels)):
         labels = []
         tokens = []
 
-        assert len(seq.split()) == len(seq_labels.split())
+        words, ged_labels = seq.split(), seq_labels.split()
+        assert len(words) == len(ged_labels)
 
-        for word, label in zip(seq.split(), seq_labels.split()):
+        if do_preprocess:
+            words, ged_labels = preprocess(words, ged_labels)
+
+        for word, label in zip(words, ged_labels):
             word_tokens = tokenizer.tokenize(word)
 
             if len(word_tokens) > 0:
@@ -670,8 +585,11 @@ def featurize_ged(tokenizer, inputs, labels, label_map, is_t5=False):
 
         assert len(label_ids) == len(input_ids)
 
+        attention_mask = [1 for _ in range(len(input_ids))]
+
         features.append({'input_ids': input_ids,
-                         'ged_labels_ids': label_ids}
+                         'ged_labels_ids': label_ids,
+                         'attention_mask': attention_mask}
                         )
 
     return features
