@@ -464,14 +464,26 @@ def main():
 
     def preprocess_function(examples):
         inputs, targets, areta_tags = [], [], []
-        for ex in examples['gec']:
-            inputs.append(ex[source_lang])
-            targets.append(ex[target_lang])
-            if 'areta_tags' in ex:
-                areta_tags.append(ex['areta_tags'])
+        lang_prof, prefixes = [], []
 
-        inputs = [prefix + inp for inp in inputs]
-        areta_tags = [prefix + tags for tags in areta_tags]
+        for ex in examples['gec']:
+            if 'lang_prof' in ex:
+                lang_prof.append(ex['lang_prof'])
+
+            if prefix and 'lang_prof' in ex:
+                prefix_ = prefix.strip().replace(':','')+f" <{ex['lang_prof']}>: "
+                inputs.append(prefix_ + ex[source_lang])
+                if 'areta_tags' in ex:
+                    areta_tags.append(prefix_ + ex['areta_tags'])
+                prefixes.append(prefix_)
+
+            else:
+                inputs.append(prefix + ex[source_lang])
+                if 'areta_tags' in ex:
+                    areta_tags.append(prefix + ex['areta_tags'])
+                prefixes.append(prefix)
+
+            targets.append(ex[target_lang])
 
         model_inputs = tokenizer(inputs, max_length=data_args.max_source_length, padding=padding, truncation=True)
 
@@ -482,7 +494,7 @@ def main():
         if areta_tags:
             features = convert_labels_to_ids(tokenizer, inputs, areta_tags, areta_id2label_map,
                                               t5='t5' in model_args.model_name_or_path.lower(),
-                                              prefix=prefix)
+                                              prefixes=prefixes)
 
             # sanity checking if the featurization was done correctly
             gold_ids = [model_inputs['input_ids'][i] for i in range(len(model_inputs['input_ids']))]
@@ -556,6 +568,7 @@ def main():
                 load_from_cache_file=not data_args.overwrite_cache,
                 desc="Running tokenizer on prediction dataset",
             )
+
 
     # Data collator
     label_pad_token_id = -100 if data_args.ignore_pad_token_for_loss else tokenizer.pad_token_id
@@ -666,7 +679,7 @@ def main():
         if trainer.is_world_process_zero():
             if training_args.predict_with_generate:
                 predictions = tokenizer.batch_decode(
-                    predict_results.predictions, skip_special_tokens=True, clean_up_tokenization_spaces=True
+                    predict_results.predictions, skip_special_tokens=True, clean_up_tokenization_spaces=False
                 )
                 predictions = [pred.strip() for pred in predictions]
                 output_prediction_file = os.path.join(training_args.output_dir, data_args.prediction_file)
@@ -705,7 +718,7 @@ def get_labels(labels_path):
 
 
 def convert_labels_to_ids(tokenizer, inputs, labels, label_map,
-                          t5=False, prefix=None):
+                          t5=False, prefixes=None):
     """
     Featurizes areta labels. Each subword that belongs to the same word
     gets the same areta label (i.e., each input sentence will have
@@ -713,9 +726,10 @@ def convert_labels_to_ids(tokenizer, inputs, labels, label_map,
     """
 
     features = []
-    for seq, seq_labels in zip(inputs, labels):
+    for i, (seq, seq_labels) in enumerate(zip(inputs, labels)):
         label_ids = []
         tokens = []
+        prefix = prefixes[i]
         for word, label in zip(seq.split(), seq_labels.split()):
             word_tokens = tokenizer.tokenize(word)
             if len(word_tokens) > 0:
@@ -727,13 +741,12 @@ def convert_labels_to_ids(tokenizer, inputs, labels, label_map,
                     else: # if unk isn't part of the labels (i.e., simple areta case) then we're safe
                         label_ids.extend([label_map[label]] * len(word_tokens))
 
-
         input_ids = tokenizer.convert_tokens_to_ids(tokens)
         if t5:
-            input_ids = input_ids + [tokenizer.eos_token_id]
-            if prefix:
+            input_ids = input_ids + [tokenizer.eos_token_id] # T5 tokenizer doesnt use <s>, only </s>
+            if prefix: # tokens in prefix will get a <pad> areta label
                 prefix_tokens = tokenizer(prefix.strip())['input_ids'][:-1] # taking out the space and the eos token
-                label_ids = [label_map['<pad>']]* len(prefix_tokens) + label_ids + [label_map['<pad>']]
+                label_ids = [label_map['<pad>']] * len(prefix_tokens) + label_ids + [label_map['<pad>']]
             else:
                 label_ids = label_ids + [label_map['<pad>']]
         else:

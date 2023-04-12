@@ -11,49 +11,17 @@
 #SBATCH -o job.%J.out
 #SBATCH -e job.%J.err
 
+train_file=/scratch/ba63/gec/data/
+output_path=outputs/CBR/w_camelira/qalb14_dev.preds.txt
 
-# output_path=outputs/CBR/cbr.oracle.txt
-# --ged_model /scratch/ba63/gec/models/ged/qalb14/wo_camelira/checkpoint-1500 \
-
-# python rewriter.py \
-#     --train_file /scratch/ba63/gec/data/alignment/modeling_areta_tags_improved/qalb14/qalb14_train.areta+.nopnx.txt \
-#     --test_file  /scratch/ba63/gec/data/alignment/modeling_areta_tags_improved/qalb14/qalb14_tune.areta+.txt \
-#     --cbr_ngrams 2 \
-#     --output_path $output_path
-
-
-
-
-# output_path=outputs/CBR+T5/cbr+t5.oracle.txt
-# --ged_model /scratch/ba63/gec/models/ged/qalb14/wo_camelira/checkpoint-1500 \
-# python rewriter.py \
-#     --train_file /scratch/ba63/gec/data/alignment/modeling_areta_tags_improved/qalb14/qalb14_train.areta+.nopnx.txt \
-#     --test_file  /scratch/ba63/gec/data/alignment/modeling_areta_tags_improved/qalb14/qalb14_tune.areta+.txt \
-#     --cbr_ngrams 2 \
-#     --seq2seq_model /scratch/ba63/gec/models/gec/qalb14/t5 \
-#     --output_path $output_path \
-#     --do_error_ana
-
-
-# output_path=outputs/CBR/cbr_w_camelira.txt
-# --ged_model /scratch/ba63/gec/models/ged/qalb14/w_camelira/checkpoint-1500 \
-
-# python rewriter.py \
-#     --train_file /scratch/ba63/gec/data/gec_camelira/areta_tags/qalb14_train.areta+.txt.nopnx \
-#     --test_file  /scratch/ba63/gec/data/gec_camelira/areta_tags/qalb14_tune.areta+.txt \
-#     --cbr_ngrams 2 \
-#     --ged_model /scratch/ba63/gec/models/ged/qalb14/w_camelira/checkpoint-1500 \
-#     --output_path $output_path
-
-
-output_path=outputs/CBR+T5/cbr+t5_w_camelira.txt
-# --ged_model /scratch/ba63/gec/models/ged/qalb14/w_camelira/checkpoint-1500 \
+# --ged_model /scratch/ba63/gec/models/ged++/qalb14/wo_camelira/checkpoint-1500 \
+# --train_file /scratch/ba63/gec/data/alignment/modeling_areta_tags_improved/qalb14/qalb14_train.areta+.nopnx.txt \
+# --test_file  /scratch/ba63/gec/data/alignment/modeling_areta_tags_improved/qalb14/qalb14_dev.areta+.txt \
 
 python rewriter.py \
-    --train_file /scratch/ba63/gec/data/gec_camelira/areta_tags/qalb14_train.areta+.txt.nopnx \
-    --test_file  /scratch/ba63/gec/data/gec_camelira/areta_tags/qalb14_tune.areta+.txt \
-    --cbr_ngrams 2 \
-    --ged_model /scratch/ba63/gec/models/ged/qalb14/w_camelira/checkpoint-1500 \
-    --seq2seq_model /scratch/ba63/gec/models/gec/qalb14/t5_w_camelira \
-    --output_path $output_path \
-    --do_error_ana
+        --train_file /scratch/ba63/gec/data/gec_camelira/areta_tags/qalb14/qalb14_train.areta+.nopnx.txt \
+        --test_file /scratch/ba63/gec/data/gec_camelira/areta_tags/qalb14/qalb14_dev.areta+.txt \
+        --ged_model /scratch/ba63/gec/models/ged++/qalb14/w_camelira/checkpoint-1500 \
+        --cbr_ngrams 2 \
+        --output_path $output_path \
+        --do_error_ana

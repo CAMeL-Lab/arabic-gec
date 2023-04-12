@@ -21,7 +21,7 @@ def read_data(path):
     with open(path) as f:
         return [x.strip() for x in f.readlines()]
 
-def postprocess(src, preds, output_path, verbose=False, gamma=100):
+def postprocess(src, preds, output_path, verbose=False, gamma=200):
     puncs = string.punctuation + ''.join(list(UNICODE_PUNCT_SYMBOL_CHARSET))
     assert len(src) == len(preds)
     post_process_out = []
@@ -75,4 +75,4 @@ if __name__ == '__main__':
     src, tgt = read_data_json(args.input)
     preds = read_data(args.pred)
 
-    postprocess(src, preds, args.output)
+    postprocess(src, preds, args.output, verbose=False)

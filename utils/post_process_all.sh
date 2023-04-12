@@ -3,18 +3,18 @@
 # are greater than a certain thershold, then we just pass the source to
 # the output. This is used to get around the M2 scorer efficiency issue.
 
-experiment=qalb14
+experiment=mix
 split=tune
-INPUT_FILE=/scratch/ba63/gec/data/bart-t5/$experiment/wo_camelira/$split.json
-OUTPUT_DIR=/scratch/ba63/gec/models/gec/${experiment}/bart_w_ged/ranking
+INPUT_FILE=/scratch/ba63/gec/data/bart-t5/$experiment/w_camelira/$split.json
+OUTPUT_DIR=/scratch/ba63/gec/models/gec/mix/bart_w_camelira_ged/checkpoint-1000
 
 for f in ${OUTPUT_DIR} # ${OUTPUT_DIR}/checkpoint*
     do
         printf "Postprocessing $f\n"
         python postprocess.py \
             --input $INPUT_FILE \
-            --pred $f/qalb14_${split}.preds.ranked.txt \
-            --output here # $f/qalb14_${split}.preds.pp.txt
+            --pred $f/mix_${split}.preds.merge_fix.txt \
+            --output here
         printf "\n\n"
     done
 

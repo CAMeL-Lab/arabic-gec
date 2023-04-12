@@ -215,6 +215,7 @@ if __name__ == '__main__':
     parser.add_argument('--gold')
     parser.add_argument('--labels')
     parser.add_argument('--output')
+    parser.add_argument('--include_uc', action='store_true')
     parser.add_argument('--mode')
 
     args = parser.parse_args()
@@ -247,7 +248,7 @@ if __name__ == '__main__':
             df.to_csv(f, sep="\t")
 
     else:
-        results = eval(gold_tags, pred_tags, labels, include_uc=False)
+        results = eval(gold_tags, pred_tags, labels, include_uc=args.include_uc)
         with open(args.output, "w") as f:
             for metric in ['f0.5', 'f1', 'precision', 'recall']:
                 f.write("%s = %s\n" % (metric, results[metric]))

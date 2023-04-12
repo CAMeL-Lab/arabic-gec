@@ -53,11 +53,11 @@ from transformers.trainer_utils import get_last_checkpoint
 from transformers.utils import check_min_version, send_example_telemetry
 from transformers.utils.versions import require_version
 
-from utils.postprocess import postprocess
+from utils.postprocess import remove_pnx
+from utils.m2scorer import m2scorer
 from aligner.aligner import align
 import re
 import json
-
 
 
 logger = logging.getLogger(__name__)
@@ -104,6 +104,9 @@ class DataTrainingArguments:
     target_lang: str = field(default=None, metadata={"help": "Target language id for translation."})
     use_ged_tags: bool = field(default=None, metadata={"help": "To use ged tags or not."})
     preprocess_merges: bool = field(default=None, metadata={"help": "To preprocess Merges before inference."})
+    m2_edits: str = field(default=None, metadata={"help": "Path to gold m2 edits for evaluation."})
+    m2_edits_nopnx: str = field(default=None, metadata={"help": "Path to gold m2 edits without pnx for evaluation."})
+
 
     dataset_name: Optional[str] = field(
         default=None, metadata={"help": "The name of the dataset to use (via the datasets library)."}
@@ -237,23 +240,26 @@ def main():
     with open(data_args.test_file) as f:
         raw_data = [json.loads(l) for l in f.readlines()]
 
-    dataset_dict = {'gec': []}
-    for ex in raw_data:
-        if 'ged_tags' in ex['gec']:
-            dataset_dict['gec'].append(
-                                        {
-                                        'raw': ex['gec']['raw'],
-                                        'cor':  ex['gec']['cor'],
-                                        'ged_tags':  ex['gec']['ged_tags']
-                                        }
-                                    )
-        else:
-            dataset_dict['gec'].append(
-                                        {
-                                        'raw': ex['gec']['raw'],
-                                        'cor':  ex['gec']['cor']
-                                        }
-                                    )
+    dataset_dict = {'raw': [ex['raw'] for ex in raw_data],
+                    'cor':  [ex['cor'] for ex in raw_data],
+                    'ged_tags':  [ex['ged_tags'] for ex in raw_data]
+                    }
+    # for ex in raw_data:
+    #     if 'ged_tags' in ex:
+    #         dataset_dict.append(
+    #                             {
+    #                             'raw': ex['raw'],
+    #                             'cor':  ex['gec']['cor'],
+    #                             'ged_tags':  ex['gec']['ged_tags']
+    #                             }
+    #                         )
+    #     else:
+    #         dataset_dict.append(
+    #                             {
+    #                             'raw': ex['gec']['raw'],
+    #                             'cor':  ex['gec']['cor']
+    #                             }
+    #                         )
 
 
     predict_dataset = Dataset.from_dict(dataset_dict)
@@ -332,13 +338,8 @@ def main():
 
     def preprocess_function(examples):
 
-        inputs, ged_tags = [], []
-
-        for ex in examples['gec']:
-            inputs.append(prefix + ex[source_lang])
-
-            if 'ged_tags' in ex:
-                ged_tags.append(prefix + ex['ged_tags'])
+        inputs = examples['raw']
+        ged_tags = examples['ged_tags'] if 'ged_tags' in examples else None
 
 
         model_inputs = tokenizer(inputs, max_length=data_args.max_source_length, padding=padding, truncation=True)
@@ -465,17 +466,74 @@ def main():
         output_prediction_file = os.path.join(training_args.output_dir,
                                                 data_args.prediction_file+f'.txt')
 
+
         with open(output_prediction_file, "w", encoding="utf-8") as writer:
             writer.write("\n".join(generated_dataset))
             writer.write("\n")
 
-        # last steps for post_processing: pnx tokenization and m2 optim
-        post_processed_sents = postprocess(src_sents=[ex['gec']['raw'] for ex in raw_predict_dataset],
-                                            preds_sents=generated_dataset)
+        # removing the pnx from the generated outputs
+        generated_dataset_nopnx = remove_pnx(generated_dataset)
 
-        with open(output_prediction_file+'.pp', "w", encoding="utf-8") as writer:
-            writer.write("\n".join(post_processed_sents))
+        with open(output_prediction_file+'.nopnx', "w", encoding="utf-8") as writer:
+            writer.write("\n".join(generated_dataset_nopnx))
             writer.write("\n")
+
+        # running the m2 evaluation
+        logger.info("*** Running M2 Evaluation ***")
+        m2scorer.evaluate(output_prediction_file, data_args.m2_edits, timeout=30)
+
+        # running the m2 evaluation without pnx 
+        logger.info("*** Running M2 Evaluation (No Pnx) ***")
+        m2scorer.evaluate(output_prediction_file+'.nopnx', data_args.m2_edits_nopnx, timeout=30)
+
+
+        # running the m2 evaluation without pnx
+
+        # # last steps for post_processing: pnx tokenization and m2 optim
+        # post_processed_sents = postprocess(src_sents=[ex['raw'] for ex in raw_predict_dataset],
+        #                                     preds_sents=generated_dataset)
+
+        # with open(output_prediction_file+'.pp', "w", encoding="utf-8") as writer:
+        #     writer.write("\n".join(post_processed_sents))
+        #     writer.write("\n")
+
+        # # running the m2 evaluation
+        # logger.info("*** Running M2 Evaluation ***")
+
+        # # running eval on pp files
+        # m2score = m2scorer.evaluate(output_prediction_file+'.pp', data_args.m2_edits)
+
+        # with open(output_prediction_file+'.pp.eval.check', "w", encoding="utf-8") as writer:
+        #     writer.write(f"Precision   : {m2score['Precision']}\n")
+        #     writer.write(f"Recall      : {m2score['Recall']}\n")
+        #     writer.write(f"F_1.0       : {m2score['F1']}\n")
+        #     writer.write(f"F_0.5       : {m2score['F0.5']}\n")
+
+
+        # # running eval on originally generated files with timeout
+        # m2score_timeout = m2scorer.evaluate(output_prediction_file, data_args.m2_edits,
+        #                                     timeout=30)
+
+        # # skipping sents if needed
+        # m2_skipped_sents = m2score_timeout['Skipped']
+
+        # m2_pp_sents = []
+        # for i in range(len(generated_dataset)):
+        #     if i in m2_skipped_sents:
+        #         m2_pp_sents.append(raw_predict_dataset[i]['raw'])
+        #     else:
+        #         m2_pp_sents.append(generated_dataset[i])
+
+        # with open(output_prediction_file+'.m2.pp', "w", encoding="utf-8") as writer:
+        #     writer.write("\n".join(m2_pp_sents))
+        #     writer.write("\n")
+
+        # with open(output_prediction_file+'.m2.pp.eval.check', "w", encoding="utf-8") as writer:
+        #     writer.write(f"Precision   : {m2score_timeout['Precision']}\n")
+        #     writer.write(f"Recall      : {m2score_timeout['Recall']}\n")
+        #     writer.write(f"F_1.0       : {m2score_timeout['F1']}\n")
+        #     writer.write(f"F_0.5       : {m2score_timeout['F0.5']}\n")
+
 
     else:
         generated_nbest = [[] for _ in range(num_return_sequences)]
@@ -493,7 +551,7 @@ def main():
                 writer.write("\n")
 
             # last steps for post_processing: pnx tokenization and m2 optim
-            post_processed_sents = postprocess(src_sents=[ex['gec']['raw'] for ex in raw_predict_dataset],
+            post_processed_sents = postprocess(src_sents=[ex['raw'] for ex in raw_predict_dataset],
                                             preds_sents=gen_n)
 
 
@@ -532,6 +590,10 @@ def preprocess(words, labels):
             new_word = ''.join(new_word)
             new_words.append(new_word)
             new_labels.append('UC')
+
+        elif label == 'DELETE':
+            i += 1
+            continue
 
         else:
             new_words.append(word)

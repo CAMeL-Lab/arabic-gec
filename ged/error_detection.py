@@ -222,50 +222,21 @@ def main():
                           label_ids: np.ndarray) -> Tuple[List[int], List[int]]:
         import torch
         preds = np.argmax(predictions, axis=2)
-        # top4_val, top4_preds = torch.topk(torch.tensor(predictions), k=4)
+        # top6_val, top6_preds = torch.topk(torch.tensor(predictions), k=6)
 
         batch_size, seq_len = preds.shape
         preds_list = [[] for _ in range(batch_size)]
-        # preds_list_top4 = [[] for _ in range(batch_size)]
+        # preds_list_top6 = [[] for _ in range(batch_size)]
 
 
         for i in range(batch_size):
             for j in range(seq_len):
                 if label_ids[i, j] != nn.CrossEntropyLoss().ignore_index:
                     preds_list[i].append(label_map[preds[i][j]])
-                    # preds_list_top4[i].append([label_map[x.item()] for x in top4_preds[i][j]])
+                    # preds_list_top6[i].append([label_map[x.item()] for x in top6_preds[i][j]])
 
-        # return preds_list, preds_list_top4
+        # return preds_list, preds_list_top6
         return preds_list
-
-    # def compute_metrics(p: EvalPrediction) -> Dict:
-    #     preds_list, out_label_list = align_predictions(p.predictions,
-    #                                                    p.label_ids)
-
-    #     # Flatten the preds_list and out_label_list
-    #     preds_list = [p for sublist in preds_list for p in sublist]
-    #     out_label_list = [p for sublist in out_label_list for p in sublist]
-
-    #     metrics = {
-    #         "accuracy": accuracy_score(out_label_list, preds_list),
-    #         "precision_micro": precision_score(out_label_list, preds_list,
-    #                                             average="micro"),
-    #         "recall_micro": recall_score(out_label_list, preds_list,
-    #                                         average="micro"),
-    #         "f1_micro": f1_score(out_label_list, preds_list,
-    #                                 average="micro"),
-    #         "precision_macro": precision_score(out_label_list, preds_list,
-    #                                             average="macro"),
-    #         "recall_macro": recall_score(out_label_list, preds_list,
-    #                                         average="macro"),
-    #         "f1_macro": f1_score(out_label_list, preds_list,
-    #                                 average="macro"),
-    #     }
-    #     report =    classification_report(preds_list,
-    #                                       out_label_list,
-    #                                       output_dict=True)
-
-    #     return {'metrics': metrics, 'report': report}
 
 
     # Initialize our Trainer
@@ -332,17 +303,8 @@ def main():
         predictions, label_ids, _ = trainer.predict(test_dataset)
 
         preds_list = align_predictions(predictions, label_ids)
-        # preds_list, preds_list_top4 = align_predictions(predictions, label_ids)
-        # top1_preds, top2_preds, top3_preds, top4_preds = [], [], [], []
-
-        # for ex in preds_list_top4:
-        #     top1_preds.append([labels[0] for labels in ex])
-        #     top2_preds.append([labels[1] for labels in ex])
-        #     top3_preds.append([labels[2] for labels in ex])
-        #     top4_preds.append([labels[3] for labels in ex])
-
-        # assert preds_list == top1_preds
-
+        # preds_list, preds_list_top6 = align_predictions(predictions, label_ids)
+        # robust_preds = create_robust_data(preds_list, preds_list_top6)
 
         # Save predictions
         if data_args.pred_output_file:
@@ -360,31 +322,12 @@ def main():
                         writer.write('\n')
                     writer.write('\n')
 
-        # output_test_predictions_file = os.path.join(training_args.output_dir,
-        #                                     data_args.pred_output_file+'.top2')
-        # if trainer.is_world_process_zero():
-        #     with open(output_test_predictions_file, "w") as writer:
-        #         for example in top2_preds:
-        #             for label in example:
-        #                 writer.write(label)
-        #                 writer.write('\n')
-        #             writer.write('\n')
+        # output_robust_predictions_file = os.path.join(training_args.output_dir,
+        #                                               data_args.pred_output_file+'.robust')
 
-        # output_test_predictions_file = os.path.join(training_args.output_dir,
-        #                                     data_args.pred_output_file+'.top3')
         # if trainer.is_world_process_zero():
-        #     with open(output_test_predictions_file, "w") as writer:
-        #         for example in top3_preds:
-        #             for label in example:
-        #                 writer.write(label)
-        #                 writer.write('\n')
-        #             writer.write('\n')
-
-        # output_test_predictions_file = os.path.join(training_args.output_dir,
-        #                                     data_args.pred_output_file+'.top4')
-        # if trainer.is_world_process_zero():
-        #     with open(output_test_predictions_file, "w") as writer:
-        #         for example in top4_preds:
+        #     with open(output_robust_predictions_file, "w") as writer:
+        #         for example in robust_preds:
         #             for label in example:
         #                 writer.write(label)
         #                 writer.write('\n')
@@ -393,6 +336,46 @@ def main():
 
 
     return results
+
+
+def create_robust_data(preds_list, preds_list_top6):
+    top_preds = [[] for _ in range(6)]
+
+    for ex in preds_list_top6:
+        for i in range(len(top_preds)):
+            top_preds[i].append([labels[i] for labels in ex])
+
+    assert preds_list == top_preds[0]
+
+    set_seed(42)
+
+    robust_tags = []
+
+    for i, tags in enumerate(preds_list):
+        num_errors = int(np.round(np.random.normal(0.10, 0.15) * len(tags)))
+        num_errors = min(max(0, num_errors), len(tags))  # num_errors \in [0; len(tags)]
+
+        if num_errors == 0:
+            robust_tags.append(tags)
+
+        else:
+            tags_ids_to_modify = np.random.choice(len(tags), num_errors, replace=False)
+
+            tags_ = []
+
+            for idx in range(len(tags)):
+                if idx not in tags_ids_to_modify:
+                    tags_.append(tags[idx])
+                else:
+                    top_5_tags = [top_preds[k][i][idx] for k in range(1, 6)]
+                    random_tag = np.random.choice(top_5_tags)
+                    tags_.append(random_tag)
+
+            assert len(tags_) == len(tags)
+
+            robust_tags.append(tags_)
+
+    return robust_tags
 
 
 if __name__ == "__main__":

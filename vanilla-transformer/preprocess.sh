@@ -15,14 +15,12 @@
 
 BPEROOT=/home/ba63/gec/subword-nmt/subword_nmt
 DATA_DIR=/scratch/ba63/gec/data/QALB-0.9.1-Dec03-2021-SharedTasks/data/2014
-FAIRSEQ_DATA_DIR=/scratch/ba63/gec/fairseq-data/QALB-2014_new
-# DATA_DIR=/scratch/ba63/arabic-gec-new/data/QALB-0.9.1-Dec03-2021-SharedTasks/data/2014
-# DATA_DIR=/scratch/ba63/arabic-gec-new/data/QALB-0.9.1-Dec03-2021-SharedTasks/data/2014
-BPE_TOKENS=50000
-BPE_TOKENS_STR=50000
+FAIRSEQ_DATA_DIR=/scratch/ba63/gec/fairseq-data/qalb14
+BPE_TOKENS=500
+BPE_TOKENS_STR=500
 
-src=sent.no_ids.clean
-tgt=cor.no_ids
+src=sent.no_ids.clean.dediac
+tgt=cor.no_ids.dediac
 TRAIN=$FAIRSEQ_DATA_DIR/train.cor-sent
 
 for l in $src $tgt; do
@@ -52,10 +50,11 @@ else
     # Binarizing the data
     fairseq-preprocess --source-lang $src --target-lang $tgt \
     --trainpref $FAIRSEQ_DATA_DIR/bpe-${BPE_TOKENS_STR}/train \
-    --validpref $FAIRSEQ_DATA_DIR/bpe-${BPE_TOKENS_STR}/dev,$FAIRSEQ_DATA_DIR/bpe-${BPE_TOKENS_STR}/tune \   #This will create two valid files. valid for dev and valid1 for tune
+    --validpref $FAIRSEQ_DATA_DIR/bpe-${BPE_TOKENS_STR}/dev,$FAIRSEQ_DATA_DIR/bpe-${BPE_TOKENS_STR}/tune \
     --testpref $FAIRSEQ_DATA_DIR/bpe-${BPE_TOKENS_STR}/test \
     --destdir $FAIRSEQ_DATA_DIR/data-bin/${BPE_TOKENS_STR}_joined \
     --workers 20 \
     --joined-dictionary
 
 fi
+

@@ -4,16 +4,16 @@ MODEL=/scratch/ba63/BERT_models/AraBART
 # --source_prefix "convert raw to cor: " \
 # --validation_file /scratch/ba63/gec/bart-t5-data/ZAEBUC/dev.json
 
-OUTPUT_DIR=/scratch/ba63/gec/models/QALB-2014/bart-test
+OUTPUT_DIR=/scratch/ba63/gec/models/QALB-2015/bart_test_one_hot
 
-python run_gec.py \
+python run_gec_dev.py \
     --model_name_or_path $MODEL \
     --do_train \
     --source_lang raw \
     --target_lang cor \
     --save_steps 500 \
-    --train_file /scratch/ba63/gec/bart-t5-data/QALB-2014/train.areta.binary.json \
-    --areta_tags  /scratch/ba63/gec/bart-t5-data/QALB-2014/areta.labels.binary.txt \
+    --train_file /scratch/ba63/gec/bart-t5-data/QALB-2015/train.areta.coarse.json \
+    --areta_tags  /scratch/ba63/gec/bart-t5-data/QALB-2015/areta.labels.coarse.txt \
     --remove_unused_columns False \
     --num_train_epochs 10 \
     --output_dir $OUTPUT_DIR \

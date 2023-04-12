@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -q nlp
+# SBATCH -q nlp
 #SBATCH -p nvidia
 # use gpus
 #SBATCH --gres=gpu:1
@@ -18,17 +18,17 @@ module purge
 ####################################
 # ERROR DETECTION FINE-TUNING SCRIPT
 ####################################
-export DATA_DIR=/scratch/ba63/gec/data/ged/qalb14/wo_camelira_binary
+
+export DATA_DIR=/scratch/ba63/gec/data/ged-nopnx/qalb14/w_camelira
 export MAX_LENGTH=256 # 256 for QALB-2014 and 512 for QALB-2015 and ZAEBUC and MIX
 export BERT_MODEL=/scratch/ba63/BERT_models/bert-base-arabic-camelbert-msa
 # export BERT_MODEL=/scratch/ba63/BERT_models/AraBART
-export OUTPUT_DIR=/scratch/ba63/gec/models/ged/qalb14/wo_camelira_binary
+export OUTPUT_DIR=/scratch/ba63/gec/models/ged-nopnx/qalb14/w_camelira
 export BATCH_SIZE=32
 export NUM_EPOCHS=10 # 10
 export SAVE_STEPS=500
 export SEED=42
 
-# --add_class_weights
 
 python error_detection.py \
     --data_dir $DATA_DIR \

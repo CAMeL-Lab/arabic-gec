@@ -229,7 +229,6 @@ if __name__ == '__main__':
     rewriter = Rewriter(cbr_model=cbr_model,
                         error_identifier=ged_model,
                         gec_tagger=None,
-                        neural_rewriter=None,
                         lm_rewriter=lm_rewriter)
 
 

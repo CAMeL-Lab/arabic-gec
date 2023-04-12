@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 #SBATCH -p nvidia
-#SBATCH -q nlp
 # use gpus
 #SBATCH --gres=gpu:1
 # memory
@@ -12,13 +11,15 @@
 #SBATCH -e job.%J.err
 
 
-FAIRSEQ_DATA_DIR=/scratch/ba63/gec/fairseq-data/QALB-2014
+FAIRSEQ_DATA_DIR=/scratch/ba63/gec/fairseq-data/qalb14
 FAIRSEQ_DIR=/home/ba63/fairseq/fairseq_cli
 
 CUDA_VISIBLE_DEVICES=0 python -u $FAIRSEQ_DIR/train.py \
-    $FAIRSEQ_DATA_DIR/data-bin/500_joined/ \
-    --source-lang sent.no_ids.clean \
-    --target-lang cor.no_ids \
+    $FAIRSEQ_DATA_DIR/data-bin/50000_joined/ \
+    --source-lang sent.no_ids.clean.dediac \
+    --target-lang cor.no_ids.dediac \
+    --valid-subset valid1 \
+    --ignore-unused-valid-subsets \
     --log-format simple \
     --max-epoch 50 \
     --arch transformer \
@@ -38,4 +39,4 @@ CUDA_VISIBLE_DEVICES=0 python -u $FAIRSEQ_DIR/train.py \
     --no-epoch-checkpoints \
     --share-all-embeddings \
     --seed 42 \
-    --save-dir /scratch/ba63/gec/models/vanilla-transformers/500_bpe
+    --save-dir /scratch/ba63/gec/models/qalb14/vanilla-transformers/50k_bpe

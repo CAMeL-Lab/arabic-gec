@@ -12,10 +12,20 @@
 
 
 MODEL=/scratch/ba63/BERT_models/AraBART
-OUTPUT_DIR=/scratch/ba63/gec/models/gec/qalb14_fixes/bart_w_camelira_ged
+
+OUTPUT_DIR=/scratch/ba63/gec/models/gec/qalb14/bart_w_camelira_ged
 TRAIN_FILE=/scratch/ba63/gec/data/bart-t5/qalb14/w_camelira/train.json
-STEPS=500
-BATCH_SIZE=32
+LABELS=/scratch/ba63/gec/data/ged++/qalb14/w_camelira/labels.txt
+
+
+# OUTPUT_DIR=/scratch/ba63/gec/models/gec/mix/bart_w_camelira_ged
+# TRAIN_FILE=/scratch/ba63/gec/data/bart-t5/mix/w_camelira/train.json
+# LABELS=/scratch/ba63/gec/data/ged++/mix/w_camelira/labels.txt
+
+
+STEPS=500 # 500 for qalb14 and 1000 for mix
+BATCH_SIZE=32 # 32 for qalb14 and 16 for mix
+
 
 
 python /home/ba63/gec/bart-t5-new/run_gec.py \
@@ -25,7 +35,7 @@ python /home/ba63/gec/bart-t5-new/run_gec.py \
     --source_lang raw \
     --target_lang cor \
     --train_file $TRAIN_FILE \
-    --ged_tags /scratch/ba63/gec/data/ged/qalb14/wo_camelira/labels.txt \
+    --ged_tags  $LABELS \
     --save_steps $STEPS \
     --num_train_epochs 10 \
     --output_dir $OUTPUT_DIR \
@@ -37,24 +47,25 @@ python /home/ba63/gec/bart-t5-new/run_gec.py \
     --overwrite_output_dir
 
 
-test_file=/scratch/ba63/gec/data/bart-t5/qalb14/w_camelira/tune_preds.json
+# test_file=/scratch/ba63/gec/data/bart-t5/qalb14/w_camelira/tune_preds.json
+# test_file=/scratch/ba63/gec/data/bart-t5/zaebuc/w_camelira/dev_preds.json
+# PRED_FILE=zaebuc_dev.preds.merge_fix
+# for checkpoint in ${OUTPUT_DIR} ${OUTPUT_DIR}/checkpoint-*
 
-for checkpoint in ${OUTPUT_DIR} ${OUTPUT_DIR}/checkpoint-*
+# do
 
-do
-
-        python /home/ba63/gec/bart-t5-new/generate.py \
-                --model_name_or_path $checkpoint \
-                --source_lang raw \
-                --target_lang cor \
-                --test_file $test_file \
-                --use_ged \
-                --preprocess_merges \
-                --per_device_eval_batch_size 32 \
-                --output_dir $checkpoint \
-                --num_beams 5 \
-                --num_return_sequences 1 \
-                --max_target_length 1024 \
-                --predict_with_generate \
-                --prediction_file qalb14_tune.preds.merge_fix
-done
+#         python /home/ba63/gec/bart-t5-new/generate.py \
+#                 --model_name_or_path $checkpoint \
+#                 --source_lang raw \
+#                 --target_lang cor \
+#                 --test_file $test_file \
+#                 --use_ged \
+#                 --preprocess_merges \
+#                 --per_device_eval_batch_size 32 \
+#                 --output_dir $checkpoint \
+#                 --num_beams 5 \
+#                 --num_return_sequences 1 \
+#                 --max_target_length 1024 \
+#                 --predict_with_generate \
+#                 --prediction_file $PRED_FILE
+# done

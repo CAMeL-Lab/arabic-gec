@@ -342,15 +342,9 @@ def main():
         )
 
     def preprocess_function(examples):
-
-        inputs, targets, ged_tags = [], [], []
-
-        for ex in examples['gec']:
-            inputs.append(prefix + ex[source_lang])
-            targets.append(ex[target_lang])
-
-            if 'ged_tags' in ex:
-                ged_tags.append(prefix + ex['ged_tags'])
+        inputs = examples['raw']
+        targets = examples['cor']
+        ged_tags = examples['ged_tags']
 
         model_inputs = tokenizer(inputs, max_length=data_args.max_source_length, padding=padding, truncation=True)
 
@@ -405,14 +399,9 @@ def main():
         with open(data_args.train_file) as f:
             raw_data = [json.loads(l) for l in f.readlines()]
 
-        dataset_dict = {'gec': [
-                                {
-                                'raw': ex['gec']['raw'],
-                                'cor':  ex['gec']['cor'],
-                                'ged_tags':  ex['gec']['ged_tags']
-                                }
-                                for ex in raw_data
-                                ]
+        dataset_dict = {'raw': [ex['raw'] for ex in raw_data],
+                        'cor':  [ex['cor'] for ex in raw_data],
+                        'ged_tags':  [ex['ged_tags'] for ex in raw_data]
                         }
 
         train_dataset = Dataset.from_dict(dataset_dict)
@@ -434,20 +423,14 @@ def main():
         with open(data_args.test_file) as f:
             raw_data = [json.loads(l) for l in f.readlines()]
 
-        dataset_dict = {'gec': [
-                                {
-                                'raw': ex['gec']['raw'],
-                                'cor':  ex['gec']['cor'],
-                                'ged_tags':  ex['gec']['ged_tags']
-                                }
-                                for ex in raw_data
-                                ]
+        dataset_dict = {'raw': [ex['raw'] for ex in raw_data],
+                        'cor':  [ex['cor'] for ex in raw_data],
+                        'ged_tags':  [ex['ged_tags'] for ex in raw_data]
                         }
 
         predict_dataset = Dataset.from_dict(dataset_dict)
         raw_predict_dataset = Dataset.from_dict(dataset_dict)
-
-        column_names = predict_dataset.column_names
+        column_names = train_dataset.column_names
 
         with training_args.main_process_first(desc="prediction dataset map pre-processing"):
             predict_dataset = predict_dataset.map(
@@ -541,7 +524,7 @@ def main():
 
 
                 # last steps for post_processing: pnx tokenization and m2 optim
-                post_processed_sents = postprocess(src_sents=[ex['gec']['raw'] for ex in raw_predict_dataset],
+                post_processed_sents = postprocess(src_sents=[ex['raw'] for ex in raw_predict_dataset],
                                                 preds_sents=predictions)
 
 
@@ -582,6 +565,10 @@ def preprocess(words, labels):
             new_word = ''.join(new_word)
             new_words.append(new_word)
             new_labels.append('UC')
+
+        elif label == 'DELETE':
+            i += 1
+            continue
 
         else:
             new_words.append(word)

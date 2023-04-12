@@ -122,7 +122,7 @@ def is_model_tag(tag):
         'REPLACE_OD+REPLACE_OM'
         ]
 
-    if tag == 'UC' or tag == 'MERGE' or tag == 'UNK':
+    if tag == 'UC' or tag == 'MERGE' or tag == 'UNK' == 'DELETE':
         return False
 
     if '+' in tag and tag not in tag_combs:

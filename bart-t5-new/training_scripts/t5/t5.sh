@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 #SBATCH -p nvidia
+#SBATCH -q nlp
 # use gpus
 #SBATCH --gres=gpu:v100:1
 # memory
@@ -13,10 +14,14 @@
 nvidia-smi
 
 MODEL=/scratch/ba63/BERT_models/AraT5-base
-OUTPUT_DIR=/scratch/ba63/gec/models/gec/qalb14_fixes/t5
+OUTPUT_DIR=/scratch/ba63/gec/models/gec/qalb14/t5
 TRAIN_FILE=/scratch/ba63/gec/data/bart-t5/qalb14/wo_camelira/train.json
-STEPS=1500
-BATCH_SIZE=16
+
+# OUTPUT_DIR=/scratch/ba63/gec/models/gec/mix/t5
+# TRAIN_FILE=/scratch/ba63/gec/data/bart-t5/mix/wo_camelira/train.json
+
+STEPS=1500 # 1500 for qalb14 3000 for mix
+BATCH_SIZE=16 # 16 for qalb14 8 for mix
 
 
 python /home/ba63/gec/bart-t5-new/run_gec.py \
@@ -39,24 +44,46 @@ python /home/ba63/gec/bart-t5-new/run_gec.py \
 
 
 
-test_file=/scratch/ba63/gec/data/bart-t5/qalb14/wo_camelira/tune_preds.json
+# test_file=/scratch/ba63/gec/data/bart-t5/qalb14/wo_camelira/tune_preds.json
+# test_file=/scratch/ba63/gec/data/bart-t5/qalb15/wo_camelira/dev_preds.json
+# PRED_FILE=mix_tune.preds
+# for checkpoint in ${OUTPUT_DIR} ${OUTPUT_DIR}/checkpoint-*
 
-for checkpoint in ${OUTPUT_DIR} ${OUTPUT_DIR}/checkpoint-*
+# do
 
-do
+#         python /home/ba63/gec/bart-t5-new/generate.py \
+#                 --model_name_or_path $checkpoint \
+#                 --source_lang raw \
+#                 --target_lang cor \
+#                 --test_file $test_file \
+#                 --per_device_eval_batch_size 16 \
+#                 --output_dir $checkpoint \
+#                 --num_beams 5 \
+#                 --num_return_sequences 1 \
+#                 --max_target_length 1024 \
+#                 --predict_with_generate \
+#                 --prediction_file $PRED_FILE
+# done
 
-        python /home/ba63/gec/bart-t5-new/generate.py \
-                --model_name_or_path $checkpoint \
-                --source_lang raw \
-                --target_lang cor \
-                --test_file $test_file \
-                --per_device_eval_batch_size 16 \
-                --output_dir $checkpoint \
-                --num_beams 5 \
-                --num_return_sequences 1 \
-                --max_target_length 1024 \
-                --predict_with_generate \
-                --prediction_file qalb14_tune.preds
-done
+
+# test_file=/scratch/ba63/gec/data/bart-t5/mix/wo_camelira/tune.json
+
+# for checkpoint in ${OUTPUT_DIR} ${OUTPUT_DIR}/checkpoint-*
+
+# do
+
+#         python /home/ba63/gec/bart-t5-new/generate.py \
+#                 --model_name_or_path $checkpoint \
+#                 --source_lang raw \
+#                 --target_lang cor \
+#                 --test_file $test_file \
+#                 --per_device_eval_batch_size 16 \
+#                 --output_dir $checkpoint \
+#                 --num_beams 5 \
+#                 --num_return_sequences 1 \
+#                 --max_target_length 1024 \
+#                 --predict_with_generate \
+#                 --prediction_file $PRED_FILE
+# done
 
 

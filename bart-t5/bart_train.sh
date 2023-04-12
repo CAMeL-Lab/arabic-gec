@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
+# SBATCH --reservation=nlp
 #SBATCH -p nvidia
+# SBATCH -q nlp
 # use gpus
 #SBATCH --gres=gpu:1
 # memory
-#SBATCH --mem=200GB
+#SBATCH --mem=300GB
 # Walltime format hh:mm:ss
 #SBATCH --time=40:00:00
 # Output and error files
@@ -12,24 +14,20 @@
 
 
 MODEL=/scratch/ba63/BERT_models/AraBART
-# MODEL=/scratch/ba63/BERT_models/AraT5-base
-# MODEL=/scratch/ba63/BERT_models/AraT5-msa-base
-# --source_prefix "convert raw to cor: " \
-# --validation_file /scratch/ba63/gec/bart-t5-data/ZAEBUC/dev.json
 
-OUTPUT_DIR=/scratch/ba63/gec/models/ZAEBUC/bart_with_binary_areta
-STEPS=500 #1500 for MIX
-BATCH_SIZE=32 #16 for MIX
+OUTPUT_DIR=/scratch/ba63/gec/models/MIX/bart_with_full_areta_encoder_50
+STEPS=500 #1500 for MIX / 500 default
+BATCH_SIZE=32 #16 for MIX / 32 default
 
-python run_gec.py \
+python run_gec_dev.py \
     --model_name_or_path $MODEL \
     --do_train \
     --source_lang raw \
     --target_lang cor \
-    --train_file /scratch/ba63/gec/bart-t5-data/ZAEBUC/train.areta.binary.json \
-    --areta_tags  /scratch/ba63/gec/bart-t5-data/ZAEBUC/areta.labels.binary.txt \
+    --train_file /scratch/ba63/gec/bart-t5-data/MIX/train.areta.json \
+    --areta_tags /scratch/ba63/gec/bart-t5-data/MIX/areta.labels.txt \
     --save_steps $STEPS \
-    --num_train_epochs 10 \
+    --num_train_epochs 50 \
     --output_dir $OUTPUT_DIR \
     --per_device_train_batch_size $BATCH_SIZE \
     --per_device_eval_batch_size $BATCH_SIZE \

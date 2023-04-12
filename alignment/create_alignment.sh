@@ -9,6 +9,7 @@
 #SBATCH -e job.%J.err
 
 # CREATE THE ALIGNMENT WE NEED FOR M2 Files
+
 if [ "$1" = "m2" ]; then
     python aligner.py --src /scratch/ba63/gec/data/QALB-0.9.1-Dec03-2021-SharedTasks/data/2014/tune/QALB-2014-L1-Tune.sent.no_ids.clean \
                       --tgt /scratch/ba63/gec/data/QALB-0.9.1-Dec03-2021-SharedTasks/data/2014/tune/QALB-2014-L1-Tune.cor.no_ids \
