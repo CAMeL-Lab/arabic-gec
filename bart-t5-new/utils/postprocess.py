@@ -5,16 +5,14 @@ import string
 import re
 
 
-"""A simple script post process the output for GEC.
-   1) compare the src to the prediction and ignore predictions
-      that have a big edit distance compared to src.
-      this deals with the issue of the M2 scorer being slow"""
-
-puncs = string.punctuation + ''.join(list(UNICODE_PUNCT_SYMBOL_CHARSET))
-
-
+puncs = string.punctuation + ''.join(list(UNICODE_PUNCT_SYMBOL_CHARSET)) + '&amp;'
 
 def postprocess(src_sents, preds_sents, verbose=False, gamma=100):
+
+    """
+    Compares the src to the prediction and ignore predictions
+    that have a big edit distance compared to src.
+    """
 
     # pnx tokenize predictions
     preds_sents = pnx_tokenize(preds_sents)
@@ -61,3 +59,19 @@ def pnx_tokenize(data):
         pnx_tokenized.append(line)
 
     return pnx_tokenized
+
+def remove_pnx(data):
+    pnx_re = re.compile(r'([' + re.escape(puncs) + '])')
+    space_re = re.compile(' +')
+
+    nopnx_data = []
+    for line in data:
+        line = line.strip()
+        line = pnx_re.sub(r'', line)
+        line = space_re.sub(' ', line)
+        line = line.strip()
+        nopnx_data.append(line)
+
+    return nopnx_data
+
+
