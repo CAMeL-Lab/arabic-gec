@@ -19,15 +19,17 @@ from transformers import (
     AutoConfig,
     AutoModelForTokenClassification,
     AutoTokenizer,
-    EvalPrediction,
+    DataCollatorForTokenClassification,
     HfArgumentParser,
     Trainer,
     TrainingArguments,
     set_seed,
 )
-from utils import TokenClassificationDataSet, Split, get_labels
+from datasets import Dataset
+from utils import Split, get_labels, process, read_examples_from_file
 from model import BertForTokenClassificationSingleLabel
-from model_mbart import MBartForSequenceClassification, MBartEncoderForSequenceClassification
+import functools
+
 
 logger = logging.getLogger(__name__)
 
@@ -84,14 +86,6 @@ class DataTrainingArguments:
         default=None,
         metadata={"help": "Path to a file containing all labels."},
     )
-    max_seq_length: int = field(
-        default=128,
-        metadata={
-            "help": "The maximum total input sequence length after "
-            "tokenization. Sequences longer than this will be truncated, "
-            "sequences shorter will be padded."
-        },
-    )
     pred_mode: Optional[str] = field(
         default=None, metadata={"help": "Prediction mode to get the actual "
                                         "token predictions on dev or test."}
@@ -147,18 +141,13 @@ def main():
     )
     logger.info("Training/evaluation parameters %s", training_args)
 
-    # Set seed
+
     set_seed(training_args.seed)
 
-    # Prepare task
     labels = get_labels(data_args.labels)
     label_map: Dict[int, str] = {i: label for i, label in enumerate(labels)}
     num_labels = len(labels)
-    # Load pretrained model and tokenizer
-    #
-    # Distributed training:
-    # The .from_pretrained methods guarantee that only one local process can
-    # concurrently download model & vocab.
+
 
     config = AutoConfig.from_pretrained(
         (model_args.config_name if model_args.config_name
@@ -172,43 +161,18 @@ def main():
         (model_args.tokenizer_name if model_args.tokenizer_name
             else model_args.model_name_or_path),
         cache_dir=model_args.cache_dir,
-        use_fast=model_args.use_fast,
+        use_fast=True,
+        model_max_length=512
     )
 
-    # Get datasets
-    train_dataset = (
-        TokenClassificationDataSet(
-            data_dir=data_args.data_dir,
-            tokenizer=tokenizer,
-            labels=labels,
-            model_type=config.model_type,
-            max_seq_length=data_args.max_seq_length,
-            mode=Split.train
-        )
-        if training_args.do_train
-        else None
-    )
-
-    eval_dataset = (
-        TokenClassificationDataSet(
-            data_dir=data_args.data_dir,
-            tokenizer=tokenizer,
-            labels=labels,
-            model_type=config.model_type,
-            max_seq_length=data_args.max_seq_length,
-            mode=Split.dev
-        )
-        if training_args.do_eval
-        else None
-    )
-
-    # model = BertForTokenClassificationSingleLabel.from_pretrained(
-    #     model_args.model_name_or_path,
-    #     from_tf=bool(".ckpt" in model_args.model_name_or_path),
-    #     config=config,
-    #     cache_dir=model_args.cache_dir,
-    #     class_weights=train_dataset.class_weights if model_args.add_class_weights else None
-    # )
+    if training_args.do_train:
+        train_dataset = read_examples_from_file(data_dir=data_args.data_dir, mode=Split.train)
+        train_dataset = train_dataset.map(process,
+                    fn_kwargs={"label_list": labels, "tokenizer": tokenizer},
+                    batched=True,
+                    desc="Running tokenizer on train dataset"
+                    )
+    
 
     model = BertForTokenClassificationSingleLabel.from_pretrained(
         model_args.model_name_or_path,
@@ -220,31 +184,28 @@ def main():
 
     def align_predictions(predictions: np.ndarray,
                           label_ids: np.ndarray) -> Tuple[List[int], List[int]]:
-        import torch
         preds = np.argmax(predictions, axis=2)
-        # top6_val, top6_preds = torch.topk(torch.tensor(predictions), k=6)
 
         batch_size, seq_len = preds.shape
         preds_list = [[] for _ in range(batch_size)]
-        # preds_list_top6 = [[] for _ in range(batch_size)]
-
 
         for i in range(batch_size):
             for j in range(seq_len):
                 if label_ids[i, j] != nn.CrossEntropyLoss().ignore_index:
                     preds_list[i].append(label_map[preds[i][j]])
-                    # preds_list_top6[i].append([label_map[x.item()] for x in top6_preds[i][j]])
 
-        # return preds_list, preds_list_top6
+
         return preds_list
 
+
+    data_collator = DataCollatorForTokenClassification(tokenizer=tokenizer, padding=True)
 
     # Initialize our Trainer
     trainer = Trainer(
         model=model,
         args=training_args,
-        train_dataset=train_dataset,
-        eval_dataset=eval_dataset
+        train_dataset=train_dataset if training_args.do_train else None,
+        data_collator=data_collator
     )
 
     # Training
@@ -260,23 +221,6 @@ def main():
         if trainer.is_world_process_zero():
             tokenizer.save_pretrained(training_args.output_dir)
 
-    # Evaluation
-    results = {}
-    if training_args.do_eval:
-        logger.info("*** Evaluate ***")
-
-        result = trainer.evaluate()
-
-        output_eval_file = os.path.join(training_args.output_dir,
-                                        "eval_results.txt")
-        if trainer.is_world_process_zero():
-            with open(output_eval_file, "w") as writer:
-                logger.info("***** Eval results *****")
-                for key, value in result.items():
-                    logger.info("  %s = %s", key, value)
-                    writer.write("%s = %s\n" % (key, value))
-
-            results.update(result)
 
     # Predict
     if training_args.do_predict:
@@ -291,22 +235,20 @@ def main():
         elif pred_mode == "tune":
             pred_data = Split.tune
 
-        test_dataset = TokenClassificationDataSet(
-            data_dir=data_args.data_dir,
-            tokenizer=tokenizer,
-            labels=labels,
-            model_type=config.model_type,
-            max_seq_length=data_args.max_seq_length,
-            mode=pred_data
-        )
+        test_dataset =  read_examples_from_file(data_dir=data_args.data_dir, mode=pred_data)
+
+        test_dataset = test_dataset.map(process,
+                    fn_kwargs={"label_list": labels, "tokenizer": tokenizer},
+                    batched=True,
+                    desc="Running tokenizer on test dataset"
+                    )
+
 
         predictions, label_ids, _ = trainer.predict(test_dataset)
 
         preds_list = align_predictions(predictions, label_ids)
-        # preds_list, preds_list_top6 = align_predictions(predictions, label_ids)
-        # robust_preds = create_robust_data(preds_list, preds_list_top6)
 
-        # Save predictions
+
         if data_args.pred_output_file:
             output_test_predictions_file = os.path.join(training_args.output_dir,
                                                         data_args.pred_output_file)
@@ -322,60 +264,6 @@ def main():
                         writer.write('\n')
                     writer.write('\n')
 
-        # output_robust_predictions_file = os.path.join(training_args.output_dir,
-        #                                               data_args.pred_output_file+'.robust')
-
-        # if trainer.is_world_process_zero():
-        #     with open(output_robust_predictions_file, "w") as writer:
-        #         for example in robust_preds:
-        #             for label in example:
-        #                 writer.write(label)
-        #                 writer.write('\n')
-        #             writer.write('\n')
-
-
-
-    return results
-
-
-def create_robust_data(preds_list, preds_list_top6):
-    top_preds = [[] for _ in range(6)]
-
-    for ex in preds_list_top6:
-        for i in range(len(top_preds)):
-            top_preds[i].append([labels[i] for labels in ex])
-
-    assert preds_list == top_preds[0]
-
-    set_seed(42)
-
-    robust_tags = []
-
-    for i, tags in enumerate(preds_list):
-        num_errors = int(np.round(np.random.normal(0.10, 0.15) * len(tags)))
-        num_errors = min(max(0, num_errors), len(tags))  # num_errors \in [0; len(tags)]
-
-        if num_errors == 0:
-            robust_tags.append(tags)
-
-        else:
-            tags_ids_to_modify = np.random.choice(len(tags), num_errors, replace=False)
-
-            tags_ = []
-
-            for idx in range(len(tags)):
-                if idx not in tags_ids_to_modify:
-                    tags_.append(tags[idx])
-                else:
-                    top_5_tags = [top_preds[k][i][idx] for k in range(1, 6)]
-                    random_tag = np.random.choice(top_5_tags)
-                    tags_.append(random_tag)
-
-            assert len(tags_) == len(tags)
-
-            robust_tags.append(tags_)
-
-    return robust_tags
 
 
 if __name__ == "__main__":
