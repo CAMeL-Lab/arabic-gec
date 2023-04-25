@@ -15,7 +15,7 @@ def aggregate_score(scores):
 
     p = correct / proposed
     r = correct / gold
-    f1 = p * r / (p + r)
+    f1 = 2.0 * p * r / (p + r)
     f05 = (1.0 + 0.5 * 0.5) * p * r / (0.5 * 0.5 * p + r)
 
     return {'p': p, 'r': r, 'f1': f1, 'f05': f05}
