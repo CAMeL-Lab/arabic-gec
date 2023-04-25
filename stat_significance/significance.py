@@ -9,6 +9,18 @@ def load_scores(path):
 
 
 def aggregate_score(scores):
+    """
+    Aggregates the m2scorer metrics by looking at the overall correct,
+    proposed, and gold edits. This is the same as running the m2scorer over
+    the entire output.
+
+    Args:
+        scores (`list` of `dict`): list of dicts of m2 metrics.
+
+    Returns:
+        dict: The aggregated metrics.
+    """
+
     correct = sum([score['correct'] for score in scores])
     proposed = sum([score['proposed'] for score in scores])
     gold = sum([score['gold'] for score in scores])
@@ -24,17 +36,29 @@ def aggregate_score(scores):
 def paired_ar_test(system1_scores, system2_scores, n_trials=10000, seed=12345):
     """
     A paired two-sided approximate randomization test.
-
     Allows performing a paired two-sided approximate randomization
     test to assess the statistical significance of the difference in
     performance between two systems which are run and measured on the same
     corpus.
 
+    https://aclanthology.org/W14-3333.pdf
+    https://aclanthology.org/W05-0908.pdf
+    https://aclanthology.org/P18-1128.pdf
+
+    Args:
+        system1_scores (list of dict): system1 m2 scores.
+        system2_scores (list of dict): system1 m2 scores.
+        n_trials (int, optional): number of shuffles. Defaults to 10000.
+        seed (int, optional): Defaults to 12345.
+
+    Returns:
+        p_value: the p_value of the test
     """
     random.seed(seed)
 
-    # original test statistic: absolute difference between system 1 and the system 2
-    diff = abs(aggregate_score(system1_scores)['f05'] - aggregate_score(system2_scores)['f05'])
+    # absolute difference between system 1 and the system 2
+    diff = abs(aggregate_score(system1_scores)['f05'] -
+               aggregate_score(system2_scores)['f05'])
     c = 0
 
     # get shuffled pseudo systems
@@ -51,7 +75,8 @@ def paired_ar_test(system1_scores, system2_scores, n_trials=10000, seed=12345):
                 pseudo_system2_scores.append(score1)
 
         # aggregating scores
-        pseudo_diff = abs(aggregate_score(pseudo_system1_scores)['f05'] - aggregate_score(pseudo_system2_scores)['f05'])
+        pseudo_diff = abs(aggregate_score(pseudo_system1_scores)['f05'] -
+                          aggregate_score(pseudo_system2_scores)['f05'])
 
         if pseudo_diff >= diff:
             c += 1
@@ -72,5 +97,4 @@ if __name__ == '__main__':
     system2_scores = load_scores(args.system2_scores)
 
     p_value = paired_ar_test(system1_scores, system2_scores)
-    print(p_value)
-
+    print(f'p-value: {p_value:.5f}')
