@@ -6,18 +6,11 @@ from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 
-from sklearn.metrics import (
-    accuracy_score,
-    f1_score,
-    precision_score,
-    recall_score,
-    classification_report
-)
-
+import torch
 from torch import nn
+from torch.utils.data import DataLoader
 from transformers import (
     AutoConfig,
-    AutoModelForTokenClassification,
     AutoTokenizer,
     DataCollatorForTokenClassification,
     HfArgumentParser,
@@ -25,10 +18,8 @@ from transformers import (
     TrainingArguments,
     set_seed,
 )
-from datasets import Dataset
-from utils import Split, get_labels, process, read_examples_from_file
+from utils import Split, get_labels, process, TokenClassificationDataset, read_examples_from_file
 from model import BertForTokenClassificationSingleLabel
-import functools
 
 
 logger = logging.getLogger(__name__)
@@ -181,23 +172,6 @@ def main():
         cache_dir=model_args.cache_dir
     )
 
-
-    def align_predictions(predictions: np.ndarray,
-                          label_ids: np.ndarray) -> Tuple[List[int], List[int]]:
-        preds = np.argmax(predictions, axis=2)
-
-        batch_size, seq_len = preds.shape
-        preds_list = [[] for _ in range(batch_size)]
-
-        for i in range(batch_size):
-            for j in range(seq_len):
-                if label_ids[i, j] != nn.CrossEntropyLoss().ignore_index:
-                    preds_list[i].append(label_map[preds[i][j]])
-
-
-        return preds_list
-
-
     data_collator = DataCollatorForTokenClassification(tokenizer=tokenizer, padding=True)
 
     # Initialize our Trainer
@@ -234,20 +208,20 @@ def main():
             pred_data = Split.train
         elif pred_mode == "tune":
             pred_data = Split.tune
+        elif pred_mode == "test_L1":
+            pred_data = Split.test_L1
+        elif pred_mode == "test_L2":
+            pred_data = Split.test_L2
 
         test_dataset =  read_examples_from_file(data_dir=data_args.data_dir, mode=pred_data)
+        test_dataset = TokenClassificationDataset(examples=test_dataset,
+                                                  labels=labels,
+                                                  tokenizer=tokenizer)
 
-        test_dataset = test_dataset.map(process,
-                    fn_kwargs={"label_list": labels, "tokenizer": tokenizer},
-                    batched=True,
-                    desc="Running tokenizer on test dataset"
-                    )
-
-
-        predictions, label_ids, _ = trainer.predict(test_dataset)
-
-        preds_list = align_predictions(predictions, label_ids)
-
+        preds_list = predict(model=model, test_dataset=test_dataset,
+                             collate_fn=data_collator,
+                             label_map=label_map,
+                             batch_size=training_args.per_device_eval_batch_size)
 
         if data_args.pred_output_file:
             output_test_predictions_file = os.path.join(training_args.output_dir,
@@ -265,6 +239,72 @@ def main():
                     writer.write('\n')
 
 
+def predict(model, test_dataset, collate_fn, label_map, batch_size=32):
+    logger.info(f"***** Running Prediction *****")
+    logger.info(f"  Num examples = {len(test_dataset)}")
+    logger.info(f"  Batch size = {batch_size}")
+
+    data_loader = DataLoader(test_dataset, batch_size=batch_size,
+                             shuffle=False, drop_last=False, collate_fn=collate_fn)
+
+    sent_ids = None
+    device = ('cuda' if torch.cuda.is_available() else 'cpu')
+    model.eval()
+
+    preds = []
+
+    with torch.no_grad():
+        for batch in data_loader:
+            batch = {k: v.to(device) for k, v in batch.items()}
+
+            inputs = {'input_ids': batch['input_ids'],
+                      'token_type_ids': batch['token_type_ids'],
+                      'attention_mask': batch['attention_mask']}
+
+            label_ids = batch['labels']
+            sent_ids = (batch['sent_id'] if sent_ids is None
+                        else torch.cat((sent_ids, batch['sent_id'])))
+
+            logits = model(**inputs)[0]
+
+            predictions = _align_predictions(logits.cpu().numpy(),
+                                             label_ids.cpu().numpy(),
+                                             label_map)
+
+            preds.extend(predictions)
+
+    # Collating the predicted labels based on the sentence ids
+    sent_ids = sent_ids.cpu().numpy()
+    final_preds_list = [[] for _ in range(len(set(sent_ids)))]
+    for i, id in enumerate(sent_ids):
+        final_preds_list[id].extend(preds[i])
+
+    return final_preds_list
+
+
+def _align_predictions(predictions, label_ids, label_map):
+    """Aligns the predictions of the model with the inputs and it takes
+    care of getting rid of the padding token.
+    Args:
+        predictions (:obj:`np.ndarray`): The predictions of the model
+        label_ids (:obj:`np.ndarray`): The label ids of the inputs.
+            They will always be the ids of Os since we're dealing with a
+            test dataset. Note that label_ids are also padded.
+    Returns:
+        :obj:`list` of :obj:`list` of :obj:`str`: The predicted labels for
+        all the sentences in the batch
+    """
+
+    preds = np.argmax(predictions, axis=2)
+    batch_size, seq_len = preds.shape
+    preds_list = [[] for _ in range(batch_size)]
+    for i in range(batch_size):
+        for j in range(seq_len):
+            if label_ids[i, j] != nn.CrossEntropyLoss().ignore_index:
+                preds_list[i].append(label_map[preds[i][j]])
+
+
+    return preds_list
 
 if __name__ == "__main__":
     main()
