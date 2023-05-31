@@ -4,19 +4,15 @@ import glob
 
 
 def get_best_checkpoint_gec(model_path):
-    checkpoints = os.listdir(model_path)
+    checkpoints = glob.glob(os.path.join(model_path, 'checkpoint-*/'))
+    checkpoints += [model_path]
     checkpoint_scores = []
 
     for checkpoint in checkpoints:
-        checkpoints = glob.glob(os.path.join(model_path, 'checkpoint-*'))
-        # checkpoints += [f'{model_path}']
-        checkpoint_scores = []
-
-        for checkpoint in checkpoints:
-            for eval_file in glob.glob(os.path.join(checkpoint, 'qalb14_dev.preds.txt.nopnx.m2')):
-                with open(eval_file) as f:
-                    f_score = f.readlines()[3].strip().split()[-1]
-                    checkpoint_scores.append((eval_file, f_score))
+        for eval_file in glob.glob(os.path.join(checkpoint, 'qalb14_dev.preds.txt.m2')):
+            with open(eval_file) as f:
+                f_score = f.readlines()[3].strip().split()[-1]
+                checkpoint_scores.append((eval_file, f_score))
 
     return max(checkpoint_scores, key=lambda x: x[1])
 
