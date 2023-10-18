@@ -1,0 +1,256 @@
+hideCode,Result,Description
+U+0600,؀,Number Sign
+U+0601,؁,Sign Sanah
+U+0602,؂,Footnote Marker
+U+0603,؃,Sign Safha
+U+0604,؄,Sign Samvat
+U+0605,؅,Number Mark Above
+U+0606,؆,Arabic-Indic Cube Root
+U+0607,؇,Arabic-Indic Fourth Root
+U+0608,؈,Ray
+U+0609,؉,Arabic-Indic Per Mille Sign
+U+060A,؊,Arabic-Indic Per Ten Thousand Sign
+U+060B,؋,Afghani Sign
+U+060C,،,Comma
+U+060D,؍,Date Separator
+U+060E,؎,Poetic Verse Sign
+U+060F,؏,Sign Misra
+U+0610,ؐ,Sign Sallallahou Alayhe Wassallam
+U+0611,ؑ,Sign Alayhe Assallam
+U+0612,ؒ,Sign Rahmatullah Alayhe
+U+0613,ؓ,Sign Radi Allahou Anhu
+U+0614,ؔ,Sign Takhallus
+U+0615,ؕ,Small High Tah
+U+0616,ؖ,Small High Ligature Alef With Lam With Yeh
+U+0617,ؗ,Small High Zain
+U+0618,ؘ,Small Fatha
+U+0619,ؙ,Small Damma
+U+061A,ؚ,Small Kasra
+U+061B,؛,Semicolon
+U+061C,؜,Mark
+U+061E,؞,Triple Dot Punctuation Mark
+U+061F,؟,Question Mark
+U+0620,ؠ,Kashmiri Yeh
+U+0621,ء,Hamza
+U+0622,آ,Alef With Madda Above
+U+0623,أ,Alef With Hamza Above
+U+0624,ؤ,Waw With Hamza Above
+U+0625,إ,Alef With Hamza Below
+U+0626,ئ,Yeh With Hamza Above
+U+0627,ا,Alef
+U+0628,ب,Beh
+U+0629,ة,Teh Marbuta
+U+062A,ت,Teh
+U+062B,ث,Theh
+U+062C,ج,Jeem
+U+062D,ح,Hah
+U+062E,خ,Khah
+U+062F,د,Dal
+U+0630,ذ,Thal
+U+0631,ر,Reh
+U+0632,ز,Zain
+U+0633,س,Seen
+U+0634,ش,Sheen
+U+0635,ص,Sad
+U+0636,ض,Dad
+U+0637,ط,Tah
+U+0638,ظ,Zah
+U+0639,ع,Ain
+U+063A,غ,Ghain
+U+063B,ػ,Keheh With Two Dots Above
+U+063C,ؼ,Keheh With Three Dots Below
+U+063D,ؽ,Farsi Yeh With Inverted V
+U+063E,ؾ,Farsi Yeh With Two Dots Above
+U+063F,ؿ,Farsi Yeh With Three Dots Above
+U+0640,ـ,Tatweel
+U+0641,ف,Feh
+U+0642,ق,Qaf
+U+0643,ك,Kaf
+U+0644,ل,Lam
+U+0645,م,Meem
+U+0646,ن,Noon
+U+0647,ه,Heh
+U+0648,و,Waw
+U+0649,ى,Alef Maksura
+U+064A,ي,Yeh
+U+064B,ً,Fathatan
+U+064C,ٌ,Dammatan
+U+064D,ٍ,Kasratan
+U+064E,َ,Fatha
+U+064F,ُ,Damma
+U+0650,ِ,Kasra
+U+0651,ّ,Shadda
+U+0652,ْ,Sukun
+U+0653,ٓ,Maddah Above
+U+0654,ٔ,Hamza Above
+U+0655,ٕ,Hamza Below
+U+0656,ٖ,Subscript Alef
+U+0657,ٗ,Inverted Damma
+U+0658,٘,Mark Noon Ghunna
+U+0659,ٙ,Zwarakay
+U+065A,ٚ,Vowel Sign Small V Above
+U+065B,ٛ,Vowel Sign Inverted Small V Above
+U+065C,ٜ,Vowel Sign Dot Below
+U+065D,ٝ,Reversed Damma
+U+065E,ٞ,Fatha With Two Dots
+U+065F,ٟ,Wavy Hamza Below
+U+0660,٠,Arabic-Indic Digit Zero
+U+0661,١,Arabic-Indic Digit One
+U+0662,٢,Arabic-Indic Digit Two
+U+0663,٣,Arabic-Indic Digit Three
+U+0664,٤,Arabic-Indic Digit Four
+U+0665,٥,Arabic-Indic Digit Five
+U+0666,٦,Arabic-Indic Digit Six
+U+0667,٧,Arabic-Indic Digit Seven
+U+0668,٨,Arabic-Indic Digit Eight
+U+0669,٩,Arabic-Indic Digit Nine
+U+066A,٪,Percent Sign
+U+066B,٫,Decimal Separator
+U+066C,٬,Thousands Separator
+U+066D,٭,Five Pointed Star
+U+066E,ٮ,Dotless Beh
+U+066F,ٯ,Dotless Qaf
+U+0670,ٰ,Superscript Alef
+U+0671,ٱ,Alef Wasla
+U+0672,ٲ,Alef With Wavy Hamza Above
+U+0673,ٳ,Alef With Wavy Hamza Below (deprecated)[6]
+U+0674,ٴ,High Hamza
+U+0675,ٵ,High Hamza Alef
+U+0676,ٶ,High Hamza Waw
+U+0677,ٷ,U With Hamza Above
+U+0678,ٸ,High Hamza Yeh
+U+0679,ٹ,Tteh
+U+067A,ٺ,Tteheh
+U+067B,ٻ,Beeh
+U+067C,ټ,Teh With Ring
+U+067D,ٽ,Teh With Three Dots Above Downwards
+U+067E,پ,Peh
+U+067F,ٿ,Teheh
+U+0680,ڀ,Beheh
+U+0681,ځ,Hah With Hamza Above
+U+0682,ڂ,Hah With Two Dots Vertical Above
+U+0683,ڃ,Nyeh
+U+0684,ڄ,Dyeh
+U+0685,څ,Hah With Three Dots Above
+U+0686,چ,Tcheh
+U+0687,ڇ,Tcheheh
+U+0688,ڈ,Ddal
+U+0689,ډ,Dal With Ring
+U+068A,ڊ,Dal With Dot Below
+U+068B,ڋ,Dal With Dot Below And Small Tah
+U+068C,ڌ,Dahal
+U+068D,ڍ,Ddahal
+U+068E,ڎ,Dul
+U+068F,ڏ,Dal With Three Dots Above Downwards
+U+0690,ڐ,Dal With Four Dots Above
+U+0691,ڑ,Rreh
+U+0692,ڒ,Reh With Small V
+U+0693,ړ,Reh With Ring
+U+0694,ڔ,Reh With Dot Below
+U+0695,ڕ,Reh With Small V Below
+U+0696,ږ,Reh With Dot Below And Dot Above
+U+0697,ڗ,Reh With Two Dots Above
+U+0698,ژ,Jeh
+U+0699,ڙ,Reh With Four Dots Above
+U+069A,ښ,Seen With Dot Below And Dot Above
+U+069B,ڛ,Seen With Three Dots Below
+U+069C,ڜ,Seen With Three Dots Below And Three Dots Above
+U+069D,ڝ,Sad With Two Dots Below
+U+069E,ڞ,Sad With Three Dots Above
+U+069F,ڟ,Tah With Three Dots Above
+U+06A0,ڠ,Ain With Three Dots Above
+U+06A1,ڡ,Dotless Feh
+U+06A2,ڢ,Feh With Dot Moved Below
+U+06A3,ڣ,Feh With Dot Below
+U+06A4,ڤ,Veh
+U+06A5,ڥ,Feh With Three Dots Below
+U+06A6,ڦ,Peheh
+U+06A7,ڧ,Qaf With Dot Above
+U+06A8,ڨ,Qaf With Three Dots Above
+U+06A9,ک,Keheh
+U+06AA,ڪ,Swash Kaf
+U+06AB,ګ,Kaf With Ring
+U+06AC,ڬ,Kaf With Dot Above
+U+06AD,ڭ,Ng
+U+06AE,ڮ,Kaf With Three Dots Below
+U+06AF,گ,Gaf
+U+06B0,ڰ,Gaf With Ring
+U+06B1,ڱ,Ngoeh
+U+06B2,ڲ,Gaf With Two Dots Below
+U+06B3,ڳ,Gueh
+U+06B4,ڴ,Gaf With Three Dots Above
+U+06B5,ڵ,Lam With Small V
+U+06B6,ڶ,Lam With Dot Above
+U+06B7,ڷ,Lam With Three Dots Above
+U+06B8,ڸ,Lam With Three Dots Below
+U+06B9,ڹ,Noon With Dot Below
+U+06BA,ں,Noon Ghunna
+U+06BB,ڻ,Rnoon
+U+06BC,ڼ,Noon With Ring
+U+06BD,ڽ,Noon With Three Dots Above
+U+06BE,ھ,Heh Doachashmee
+U+06BF,ڿ,Tcheh With Dot Above
+U+06C0,ۀ,Heh With Yeh Above
+U+06C1,ہ,Heh Goal
+U+06C2,ۂ,Heh Goal With Hamza Above
+U+06C3,ۃ,Teh Marbuta Goal
+U+06C4,ۄ,Waw With Ring
+U+06C5,ۅ,Kirghiz Oe
+U+06C6,ۆ,Oe
+U+06C7,ۇ,U
+U+06C8,ۈ,Yu
+U+06C9,ۉ,Kirghiz Yu
+U+06CA,ۊ,Waw With Two Dots Above
+U+06CB,ۋ,Ve
+U+06CC,ی,Farsi Yeh
+U+06CD,ۍ,Yeh With Tail
+U+06CE,ێ,Yeh With Small V
+U+06CF,ۏ,Waw With Dot Above
+U+06D0,ې,E
+U+06D1,ۑ,Yeh With Three Dots Below
+U+06D2,ے,Yeh Barree
+U+06D3,ۓ,Yeh Barree With Hamza Above
+U+06D4,۔,Full Stop
+U+06D5,ە,Ae
+U+06D6,ۖ,Small High Ligature Sad With Lam With Alef Maksura
+U+06D7,ۗ,Small High Ligature Qaf With Lam With Alef Maksura
+U+06D8,ۘ,Small High Meem Initial Form
+U+06D9,ۙ,Small High Lam Alef
+U+06DA,ۚ,Small High Jeem
+U+06DB,ۛ,Small High Three Dots
+U+06DC,ۜ,Small High Seen
+U+06DD,۝,End of Ayah
+U+06DE,۞,Star of Rub El Hizb
+U+06DF,۟,Small High Rounded Zero
+U+06E0,۠,Small High Upright Rectangular Zero
+U+06E1,ۡ,Small High Dotless Head Of Khah
+U+06E2,ۢ,Small High Meem Isolated Form
+U+06E3,ۣ,Small Low Seen
+U+06E4,ۤ,Small High Madda
+U+06E5,ۥ,Small Waw
+U+06E6,ۦ,Small Yeh
+U+06E7,ۧ,Small High Yeh
+U+06E8,ۨ,Small High Noon
+U+06E9,۩,Place Of Sajdah
+U+06EA,۪,Empty Centre Low Stop
+U+06EB,۫,Empty Centre High Stop
+U+06EC,۬,Rounded High Stop With Filled Centre
+U+06ED,ۭ,Small Low Meem
+U+06EE,ۮ,Dal With Inverted V
+U+06EF,ۯ,Reh With Inverted V
+U+06F0,۰,Extended Arabic-Indic Digit Zero
+U+06F1,۱,Extended Arabic-Indic Digit One
+U+06F2,۲,Extended Arabic-Indic Digit Two
+U+06F3,۳,Extended Arabic-Indic Digit Three
+U+06F4,۴,Extended Arabic-Indic Digit Four
+U+06F5,۵,Extended Arabic-Indic Digit Five
+U+06F6,۶,Extended Arabic-Indic Digit Six
+U+06F7,۷,Extended Arabic-Indic Digit Seven
+U+06F8,۸,Extended Arabic-Indic Digit Eight
+U+06F9,۹,Extended Arabic-Indic Digit Nine
+U+06FA,ۺ,Sheen With Dot Below
+U+06FB,ۻ,Dad With Dot Below
+U+06FC,ۼ,Ghain With Dot Below
+U+06FD,۽,Sign Sindhi Ampersand
+U+06FE,۾,Sign Sindhi Postposition Men
+U+06FF,ۿ,Heh With Inverted V

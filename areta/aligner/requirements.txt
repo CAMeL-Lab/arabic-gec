@@ -1,0 +1,2 @@
+docopt==0.6.2
+editdistance==0.5.3
