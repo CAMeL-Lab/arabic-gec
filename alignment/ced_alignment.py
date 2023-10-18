@@ -1,16 +1,6 @@
-import sys
-import math
 from collections import deque
 import editdistance
 from utils import norm_pnx_nums
-
-
-def _print_table(tbl, m, n):
-    for i in range(0, m + 1):
-        for j in range(0, n + 1):
-            sys.stdout.write("%s/%s" % tbl[(i, j)])
-            sys.stdout.write('\t')
-        sys.stdout.write('\n')
 
 
 def _edit_distance(tokens1, tokens2, weight_fns):

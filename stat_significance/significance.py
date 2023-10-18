@@ -58,7 +58,10 @@ def paired_ar_test(system1_scores, system2_scores, n_trials=10000, seed=12345):
 
     # absolute difference between system 1 and the system 2
     diff = abs(aggregate_score(system1_scores)['f05'] -
-               aggregate_score(system2_scores)['f05'])
+              aggregate_score(system2_scores)['f05'])
+
+    # diff = abs(aggregate_score(system1_scores)['r'] -
+    #            aggregate_score(system2_scores)['r'])
     c = 0
 
     # get shuffled pseudo systems
@@ -78,6 +81,8 @@ def paired_ar_test(system1_scores, system2_scores, n_trials=10000, seed=12345):
         pseudo_diff = abs(aggregate_score(pseudo_system1_scores)['f05'] -
                           aggregate_score(pseudo_system2_scores)['f05'])
 
+        # pseudo_diff = abs(aggregate_score(pseudo_system1_scores)['r'] -
+        #                   aggregate_score(pseudo_system2_scores)['r'])
         if pseudo_diff >= diff:
             c += 1
 

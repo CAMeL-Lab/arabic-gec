@@ -25,15 +25,11 @@ from dataclasses import dataclass, field
 from typing import Optional
 
 import datasets
-import numpy as np
-from datasets import disable_caching, Dataset
+from datasets import Dataset
 import torch
 from torch.utils.data import DataLoader
-from torch.optim import AdamW
 
 
-import evaluate
-import transformers
 from transformers import (
     AutoConfig,
     AutoModelForSeq2SeqLM,
@@ -49,14 +45,10 @@ from transformers import (
     default_data_collator,
     set_seed
 )
-from transformers.trainer_utils import get_last_checkpoint
-from transformers.utils import check_min_version, send_example_telemetry
-from transformers.utils.versions import require_version
+from transformers.utils import send_example_telemetry
 
-from utils.postprocess import remove_pnx
+from utils.postprocess import remove_pnx, pnx_tokenize
 from utils.m2scorer import m2scorer
-from aligner.aligner import align
-import re
 import json
 
 
@@ -462,7 +454,8 @@ def main():
 
     if num_return_sequences == 1:
         generated_dataset = [pred.strip() for pred in generated_dataset]
-
+        # Clean generated output by separating pnx and extra white space
+        generated_dataset = pnx_tokenize(generated_dataset)
         output_prediction_file = os.path.join(training_args.output_dir,
                                                 data_args.prediction_file+f'.txt')
 
@@ -482,57 +475,9 @@ def main():
         logger.info("*** Running M2 Evaluation ***")
         m2scorer.evaluate(output_prediction_file, data_args.m2_edits, timeout=30)
 
-        # running the m2 evaluation without pnx 
+        # running the m2 evaluation without pnx
         logger.info("*** Running M2 Evaluation (No Pnx) ***")
         m2scorer.evaluate(output_prediction_file+'.nopnx', data_args.m2_edits_nopnx, timeout=30)
-
-
-        # running the m2 evaluation without pnx
-
-        # # last steps for post_processing: pnx tokenization and m2 optim
-        # post_processed_sents = postprocess(src_sents=[ex['raw'] for ex in raw_predict_dataset],
-        #                                     preds_sents=generated_dataset)
-
-        # with open(output_prediction_file+'.pp', "w", encoding="utf-8") as writer:
-        #     writer.write("\n".join(post_processed_sents))
-        #     writer.write("\n")
-
-        # # running the m2 evaluation
-        # logger.info("*** Running M2 Evaluation ***")
-
-        # # running eval on pp files
-        # m2score = m2scorer.evaluate(output_prediction_file+'.pp', data_args.m2_edits)
-
-        # with open(output_prediction_file+'.pp.eval.check', "w", encoding="utf-8") as writer:
-        #     writer.write(f"Precision   : {m2score['Precision']}\n")
-        #     writer.write(f"Recall      : {m2score['Recall']}\n")
-        #     writer.write(f"F_1.0       : {m2score['F1']}\n")
-        #     writer.write(f"F_0.5       : {m2score['F0.5']}\n")
-
-
-        # # running eval on originally generated files with timeout
-        # m2score_timeout = m2scorer.evaluate(output_prediction_file, data_args.m2_edits,
-        #                                     timeout=30)
-
-        # # skipping sents if needed
-        # m2_skipped_sents = m2score_timeout['Skipped']
-
-        # m2_pp_sents = []
-        # for i in range(len(generated_dataset)):
-        #     if i in m2_skipped_sents:
-        #         m2_pp_sents.append(raw_predict_dataset[i]['raw'])
-        #     else:
-        #         m2_pp_sents.append(generated_dataset[i])
-
-        # with open(output_prediction_file+'.m2.pp', "w", encoding="utf-8") as writer:
-        #     writer.write("\n".join(m2_pp_sents))
-        #     writer.write("\n")
-
-        # with open(output_prediction_file+'.m2.pp.eval.check', "w", encoding="utf-8") as writer:
-        #     writer.write(f"Precision   : {m2score_timeout['Precision']}\n")
-        #     writer.write(f"Recall      : {m2score_timeout['Recall']}\n")
-        #     writer.write(f"F_1.0       : {m2score_timeout['F1']}\n")
-        #     writer.write(f"F_0.5       : {m2score_timeout['F0.5']}\n")
 
 
     else:

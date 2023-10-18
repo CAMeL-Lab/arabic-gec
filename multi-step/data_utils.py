@@ -73,6 +73,12 @@ class Dataset:
 
 
 def postprocess_src_ged(src_tokens, ged_tags):
+    """
+    1) Replaces out-of-set tag combinations with UNK.
+    2) Projects a tag on a span of tokens.
+    This is important because we need to deal with a single source
+    token at a time.
+    """
     tag_combs = [
             'REPLACE_OH+REPLACE_OM',
             'REPLACE_OH+REPLACE_OT',

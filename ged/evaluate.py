@@ -55,17 +55,17 @@ def eval(gold_labels, preds_labels, labels, mode=None):
     flatten_pred = [label for sublist in preds_labels for label in sublist]
 
     if mode == 'verbose':
-        flatten_gold_simple = [label for i, label in enumerate(flatten_gold_)
-                               if '+' not in flatten_gold_[i]]
-        flatten_pred_simple = [label for i, label in enumerate(flatten_pred_)
-                               if '+' not in flatten_gold_[i]]
+        flatten_gold_simple = [label for i, label in enumerate(flatten_gold)
+                               if '+' not in flatten_gold[i]]
+        flatten_pred_simple = [label for i, label in enumerate(flatten_pred)
+                               if '+' not in flatten_gold[i]]
 
         simple_metrics = eval_simple(flatten_gold_simple, flatten_pred_simple)
 
-        flatten_gold_comb = [label for i, label in enumerate(flatten_gold_)
-                              if '+' in flatten_gold_[i]]
-        flatten_pred_comb = [label for i, label in enumerate(flatten_pred_)
-                              if '+' in flatten_gold_[i]]
+        flatten_gold_comb = [label for i, label in enumerate(flatten_gold)
+                              if '+' in flatten_gold[i]]
+        flatten_pred_comb = [label for i, label in enumerate(flatten_pred)
+                              if '+' in flatten_gold[i]]
 
         vectorized_gold = [vectorize_labels(labels_map, label) for label in flatten_gold_comb]
         vectorized_pred = [vectorize_labels(labels_map, label) for label in flatten_pred_comb]
@@ -274,16 +274,16 @@ if __name__ == '__main__':
 
     else:
         full_eval, non_uc_bin_eval = eval(gold_tags, pred_tags, labels)
-        with open(args.output+'.txt', "w") as f:
-            for metric in ['f0.5', 'f1', 'precision', 'recall']:
-                f.write("%s = %s\n" % (metric, full_eval[metric]))
+        # with open(args.output+'.txt', "w") as f:
+        #     for metric in ['f0.5', 'f1', 'precision', 'recall']:
+        #         f.write("%s = %s\n" % (metric, full_eval[metric]))
 
         with open(args.output+'.bin.txt', "w") as f:
             for metric in ['f0.5', 'precision', 'recall']:
                 f.write("%s = %s\n" % (metric, non_uc_bin_eval[metric]))
 
-        df = pd.DataFrame(full_eval['report']).transpose()
-        df.iloc[:,[0,1,2,4,3]]
+        # df = pd.DataFrame(full_eval['report']).transpose()
+        # df.iloc[:,[0,1,2,4,3]]
 
-        # changing the order of the df
-        df.iloc[:,[0,1,2,4,3]].to_csv(args.output+'.txt', mode='a', sep="\t")
+        # # changing the order of the df
+        # df.iloc[:,[0,1,2,4,3]].to_csv(args.output+'.txt', mode='a', sep="\t")

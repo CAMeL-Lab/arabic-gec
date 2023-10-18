@@ -207,7 +207,7 @@ def annotate_data_with_rules(dataset, tokenizer, rules):
 
 
         assert len(src_tokens) == len(tgt_tokens)
-        
+
         for src, tgt in zip(src_tokens, tgt_tokens):
             src_tokenized = tokenizer._postprocess_bert_like(tokenizer.tokenize(src))
 

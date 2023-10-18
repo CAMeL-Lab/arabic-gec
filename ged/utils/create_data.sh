@@ -1,16 +1,30 @@
+# ############# MIX UP SAMPLE ################
+OUTPUT_DIR=/scratch/ba63/gec/data/ged++/mix_up/wo_camelira
+ALIGN_DIR=/scratch/ba63/gec/data/alignment/modeling_areta_tags_improved/mix_up
+
+python create_ged_data.py \
+    --input $ALIGN_DIR/train.areta+.txt \
+    --output $OUTPUT_DIR/train.txt
+
+
+########## QALB-2014-2015 UP SAMPLE #############
+OUTPUT_DIR=/scratch/ba63/gec/data/ged++/qalb14-15_up/wo_camelira
+ALIGN_DIR=/scratch/ba63/gec/data/alignment/modeling_areta_tags_improved/qalb14-15_up
+
+python create_ged_data.py \
+     --input $ALIGN_DIR/train.areta+.txt \
+     --output $OUTPUT_DIR/train.txt
+
+
 ################ MIX ################
 
 OUTPUT_DIR=/scratch/ba63/gec/data/ged++/mix/wo_camelira
 ALIGN_DIR=/scratch/ba63/gec/data/alignment/modeling_areta_tags_improved/mix
 
 python create_ged_data.py \
-    --input $ALIGN_DIR/mix_train.areta+.txt \
+    --input $ALIGN_DIR/train.areta+.txt \
     --output $OUTPUT_DIR/train.txt
 
-
-python create_ged_data.py \
-    --input $ALIGN_DIR/mix_tune.areta+.txt \
-    --output $OUTPUT_DIR/tune.txt
 
 ############### QALB-2014-2015 #############
 OUTPUT_DIR=/scratch/ba63/gec/data/ged++/qalb14-15/wo_camelira

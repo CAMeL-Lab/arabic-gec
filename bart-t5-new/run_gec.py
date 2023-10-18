@@ -28,10 +28,8 @@ import datasets
 import numpy as np
 from datasets import load_dataset, disable_caching, Dataset
 import torch
-from torch.optim import AdamW
 
 
-import evaluate
 import transformers
 from transformers import (
     AutoConfig,
@@ -462,7 +460,6 @@ def main():
         # optim=optim,
         args=training_args,
         train_dataset=train_dataset if training_args.do_train else None,
-        eval_dataset=eval_dataset if training_args.do_eval else None,
         tokenizer=tokenizer,
         data_collator=data_collator
     )

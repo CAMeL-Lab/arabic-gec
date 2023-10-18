@@ -54,12 +54,18 @@ class BuggyRange:
 
 
 def capture_bug(alignment):
-    """
-    Given a character-level edit alignment, capture the sequences of alignments
+    """Given a list of word-level alignments, capture the sequences of alignments
     that includes inserts, deletes, and replaces.
+
+    Args
+        alignment (list of tuples): list of tuples where each tuple represents a
+            word-level alignment.
+
+    Returns:
+        A list of BuggyRange objects.
     """
+
     i = 0
-    found_span = False
     buggy_span = []
 
     while i < len(alignment):
@@ -76,7 +82,6 @@ def capture_bug(alignment):
             i += 1
 
         if len(potential_buggy) > 1:
-
             # save the start and end anchors and the sequence of edits
             buggy_span.append(BuggyRange(start_idx, i, potential_buggy))
 
@@ -88,7 +93,14 @@ def capture_bug(alignment):
 
 def construct_src_tgt(buggy_range):
     """Given a sequence of buggy alignments, construct the source and the
-    target."""
+    target.
+
+    Args:
+        buggy_range (BuggyRange): an instance of a buggy range objects
+
+    Returns:
+        A tuple of lists containing the src and tgt tokens respectively.
+    """
 
     src = []
     tgt = []
@@ -112,6 +124,13 @@ def construct_src_tgt(buggy_range):
 def consruct_clean_src_tgt(align):
     """Given a sequence of clean (i.e., not buggy) alignments, construct the
     source and target.
+
+    Args:
+        align (list of tuple): list of tuples where each tuple represent a
+            word-level alignment.
+
+    Returns:
+        A tuple of lists containing the src and tgt tokens respectively.
     """
 
     src_tokens = []
@@ -135,16 +154,23 @@ def consruct_clean_src_tgt(align):
 
 
 def perfect_align(src, tgt):
+    """Given src and tgt tokens, we try to find the optimal alignment
+    by greedily resolving adjacent merges and splits.
+
+    Args:
+        src (list of str): src tokens.
+        tgt (list of str): tgt tokens.
+
+    Returns:
+        A tuple of lists where the lists contains the optimal aligned
+        src and tgt tokens, respectively.
     """
-    Takes a sequence of src tokens and tgt tokens and tries to
-    find the best alignment.
-    """
+
     assert len(src) == len(tgt)
 
     basic_edit = get_edit(src, tgt) # get the basic edit between src and tgt
     best_edit = {'src': src, 'tgt': tgt, 'edit': basic_edit}
 
-    best_src, best_tgt = src, tgt
     i = 0
 
     while i < len(src):
@@ -173,13 +199,31 @@ def perfect_align(src, tgt):
 
 
 def is_split_merge(src, tgt, i, mode='prepend', src_first=False):
-    """Given src and tgt sequences, we try to find the best alignment
-    by checking for potential splits and merges.
-    We do so by computing the edit distances for each case
-    and pick the operation with the smallest edit distance.
-    If this is not feasible, we return the src and tgt as they are."""
+    """Given src and tgt tokens, we construct new sequences by resolving
+    adjancent merges and splits. In case of a feasbile merge/split, we compute
+    the edit distance between the newly constructed src and tgt sequences.
 
-    plausible = False
+    If the mode is `prepend`, we construct a new tgt sequence such that the
+    latest non-NIL tgt token is prepended to tgt[i].
+    Otherwise, if the mode is `prepend`, we construct a new tgt sequence such
+    that the first non-NIL tgt token is appended to tgt[i].
+
+
+    Args:
+        src (list of str): src tokens.
+        tgt (list of str): tgt tokens.
+        i (int): the index where src[i] == NIL.
+        mode (str): a flag to control the construction of the new tgt sequence.
+        src_first (bool): a flag to indicate which newly sequence should be
+            returned first. If `True`, we return src first. Otherwise, we
+            return tgt first. This is needed so we can use the same function
+            to handle both splits and merges.
+
+    Returns:
+        A dict containing the newly constructed src and tgt sequences along
+        with their edit distance, where src and tgt are represented as list
+        of str.
+    """
 
     if mode == 'prepend':
         j = i - 1
@@ -196,6 +240,7 @@ def is_split_merge(src, tgt, i, mode='prepend', src_first=False):
                 edit_all = get_edit(src_, tgt_)
                 edit_no_space = get_edit(src_, [x.replace(' ','') for x in tgt_])
 
+                # give a small weight to the added spaces
                 edit = edit_no_space + 0.1 * (edit_all - edit_no_space)
 
                 if src_first:
@@ -207,11 +252,10 @@ def is_split_merge(src, tgt, i, mode='prepend', src_first=False):
                     return {'src': tgt_ , 'tgt': src_,
                             'edit': edit}
 
-        if plausible == False:
-            if src_first:
-                return {'src': src, 'tgt': tgt, 'edit': get_edit(src, tgt)}
-            else:
-                return {'src': tgt, 'tgt': src, 'edit': get_edit(src, tgt)}
+        if src_first:
+            return {'src': src, 'tgt': tgt, 'edit': get_edit(src, tgt)}
+        else:
+            return {'src': tgt, 'tgt': src, 'edit': get_edit(src, tgt)}
 
 
     elif mode == 'append': # find the first non-NIL
@@ -230,6 +274,7 @@ def is_split_merge(src, tgt, i, mode='prepend', src_first=False):
                 edit_all = get_edit(src_, tgt_)
                 edit_no_space = get_edit(src_, [x.replace(' ','') for x in tgt_])
 
+                # give a small weight to the added spaces
                 edit = edit_no_space + 0.1 * (edit_all - edit_no_space)
 
                 if src_first:
@@ -241,16 +286,16 @@ def is_split_merge(src, tgt, i, mode='prepend', src_first=False):
                     return {'src': tgt_ , 'tgt': src_,
                             'edit': edit}
 
-        if plausible == False:
-            if src_first:
-                return {'src': src, 'tgt': tgt, 'edit': get_edit(src, tgt)}
-            else:
-                return {'src': tgt, 'tgt': src, 'edit': get_edit(src, tgt)}
+        if src_first:
+            return {'src': src, 'tgt': tgt, 'edit': get_edit(src, tgt)}
+        else:
+            return {'src': tgt, 'tgt': src, 'edit': get_edit(src, tgt)}
 
 
 def get_best_edit(edit1, edit2, edit3):
     """Compares three edit distances together and returns the minimum.
     In case of a tie, always prefer the first edit"""
+
     edits = (edit1, edit2, edit3)
     # in case of a tie, prefer the basic edit
     if edit1['edit'] == edit2['edit'] == edit3['edit']:
@@ -264,7 +309,16 @@ def get_best_edit(edit1, edit2, edit3):
 
 
 def get_edit(src, tgt):
-    """Computes the edit distance betweet src and tgt in a normalized space"""
+    """Computes the edit distance betweet src and tgt in a normalized space
+
+    Args:
+        src (list of str): src tokens.
+        tgt (list of str): tgt tokens.
+
+    Returns:
+        The cumulative edit distance between each pair of words in src and tgt.
+    """
+
     edit = 0
 
     for i in range(len(src)):
@@ -281,7 +335,16 @@ def edits(s1, s2):
 
 def bug_fix(align, seq_bug):
     """Given an alignment and the list of buggy sequences in it,
-    generate aligned source and target sequences."""
+    generate aligned source and target sequences.
+
+    Args:
+        align (list of tuples): list of tuples where each tuple represents a
+            word-level alignment.
+        seq_bug (list of BuggyRange): list of BuggyRange objects.
+
+    Returns:
+        A tuple of lists containing the src and tgt tokens respectively.
+    """
 
     src = []
     tgt = []
@@ -312,8 +375,23 @@ def bug_fix(align, seq_bug):
 
 
 def post_process_alignment(alignment):
-    """Processes character-level edits alignment to generate
-    many-to-one, one-to-many, and many-to-many alignments"""
+    """Processes word-level alignment which were computed using
+    a weighted character-level Levenshtein edit distance to generate
+    many-to-one, one-to-many, and many-to-many alignments.
+
+    Args:
+        alignment:  a list of tuples where each tuple `t`
+            contains the followings:
+            t[0] the src idx or None in case of insertion.
+            t[1] the tgt idx or None in case of deletion.
+            t[2] the src token in normalized space for pnx and nums.
+            t[3] the tgt token in normalized space for pnx and nums.
+            t[4] the edit operation.
+            t[5] the original src token.
+            t[6] the original tgt token.
+            Note: In case of deletion or insertion, the length of each tuple
+            will be 6 instead of 7 since we won't have src or tgt tokens.
+    """
 
     clean_alignment = []
     for i, align in enumerate(alignment):
@@ -321,7 +399,6 @@ def post_process_alignment(alignment):
 
         if len(seq_bug) == 0:
             src, tgt = consruct_clean_src_tgt(align)
-
             clean_alignment.append({'src': src, 'tgt' : tgt})
 
         else:
@@ -336,14 +413,20 @@ def post_process_alignment(alignment):
 
 
 def reduce_inserts_deletions(alignment):
-    """
-    Given a clean alignment, we will reduce the sequences
+    """Given a clean alignment, we will reduce the sequences
     of inserts followed by deletions to replaces.
+
+    Args:
+        alignment (list of dict): a list of dicts where each dict contains
+            the aligned src and tgt tokens.
+
+    Returns:
+        A list of dict containing the reduced alignments.
     """
+
     reduced_alignment = []
 
-    for ex_num, example in enumerate(alignment):
-        # print(ex_num)
+    for example in alignment:
         assert len(example['src']) == len(example['tgt'])
         src, tgt = example['src'], example['tgt']
 
@@ -353,8 +436,8 @@ def reduce_inserts_deletions(alignment):
         i = 0
         s_idx = 0
         d_idx = 0
-        buggy_spans = []
         new_align = []
+
         while i < len(src):
             src_token = src[i]
             tgt_token = tgt[i]
@@ -374,11 +457,7 @@ def reduce_inserts_deletions(alignment):
 
                 if d_idx != s_idx:
                     span = list(zip(src[i:d_idx], tgt[i:d_idx]))
-                    reduced_span = reduce_span(ex_num, span)
-
-                    buggy_spans.append({'s_i': i, 'e_i': s_idx, 's_d': s_idx,
-                                        'e_d': d_idx})
-
+                    reduced_span = reduce_span(span)
                     new_align += reduced_span
                     i = d_idx
 
@@ -395,10 +474,9 @@ def reduce_inserts_deletions(alignment):
 
     return reduced_alignment
 
-def reduce_span(ex_num, span):
-    """
-    Given two sequences of inserts and deletes, attempt
-    to combine them in a replace monotonically.
+def reduce_span(span):
+    """Given a span of aligned src and tgt tokens representing inserts
+    and deletions, attempt to combine them in a replace monotonically.
 
     A replace is valid if one of the following applies:
         1) tgt is a pnx and src is a single char
@@ -406,6 +484,12 @@ def reduce_span(ex_num, span):
         3) tgt is a pnx and src is a pnx
         4) tgt is a word and src is a word
 
+    Args:
+        span (list of tuples): a list of tuples where each tuple contains
+            aligned src and tgt tokens.
+
+    Returns:
+        A list of tuples that represent replacements if a reduction is feasible.
     """
 
     inserts = [x for i, x in enumerate(span) if (x[0] == '' and x[1] != '')]
@@ -422,25 +506,21 @@ def reduce_span(ex_num, span):
         src = delete[0]
 
         if tgt in PUNCS and len(src) == 1:
-            # print(f'Replace: {src} --> {tgt}')
             replaces.append((src, tgt))
             i_idx += 1
             d_idx += 1
 
         elif src in PUNCS and len(tgt) == 1:
-            # print(f'Replace: {src} --> {tgt}')
             replaces.append((src, tgt))
             i_idx += 1
             d_idx += 1
 
         elif tgt not in PUNCS and src not in PUNCS:
-            # print(f'Replace: {src} --> {tgt}')
             replaces.append((src, tgt))
             i_idx += 1
             d_idx += 1
 
         elif src in PUNCS and tgt in PUNCS:
-            # print(f'Replace: {src} --> {tgt}')
             replaces.append((src, tgt))
             i_idx += 1
             d_idx += 1
@@ -482,17 +562,26 @@ def write_data(alignment, path):
 
 
 def verify(src_sents, tgt_sents, alignment):
+    """Verifying that we are able to recover the src and tgt sents from the
+    alignment.
+
+    Args:
+        src_sents (list of str): list of src sentences.
+        tgt_sents (list of str): list of tgt sentences.
+        alignment (list of dict): list of dicts containing the aligned src and
+            tgt tokens.
+    """
+
     assert len(src_sents) == len(tgt_sents) == len(alignment)
     for src, tgt, align in zip(src_sents, tgt_sents, alignment):
         src_ = ' '.join([x.replace('PNX', '').replace('NIL','') for x in align['src']])
         tgt_ = ' '.join([x.replace('PNX', '').replace('NIL','') for x in align['tgt']])
 
-        if re.sub(' +', ' ', src).strip() != re.sub(' +', ' ', src_).strip():
-            import pdb; pdb.set_trace()
+        # if re.sub(' +', ' ', src).strip() != re.sub(' +', ' ', src_).strip():
+        #     import pdb; pdb.set_trace()
 
-        if re.sub(' +', ' ', tgt).strip() != re.sub(' +', ' ', tgt_).strip():
-            import pdb; pdb.set_trace()
-
+        # if re.sub(' +', ' ', tgt).strip() != re.sub(' +', ' ', tgt_).strip():
+        #     import pdb; pdb.set_trace()
         assert re.sub(' +', ' ', src).strip() == re.sub(' +', ' ', src_).strip()
         assert re.sub(' +', ' ', tgt).strip() == re.sub(' +', ' ', tgt_).strip()
 

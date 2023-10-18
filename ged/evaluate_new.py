@@ -98,6 +98,19 @@ def compute_metrics(gold_list, preds_list, labels):
     err_f1 = f1_score(gold_list, preds_list, labels=err_labels, average='macro',
                       zero_division=0)
 
+
+    # getting the macro p, r, f1, f0.5 for each class *inclduing* UC
+    all_p, all_r, all_f05, all_support = precision_recall_fscore_support(gold_list,
+                                                                         preds_list,
+                                                                         labels=labels,
+                                                                         average='macro',
+                                                                         zero_division=0,
+                                                                         beta=0.5)
+
+    all_f1 = f1_score(gold_list, preds_list, labels=labels, average='macro',
+                      zero_division=0)
+
+
     # getting possible p, r, f1, f0.5 for each class *including* UC
     p, r, f05, support = precision_recall_fscore_support(gold_list,
                                                          preds_list,
@@ -137,10 +150,14 @@ def compute_metrics(gold_list, preds_list, labels):
         report[f'{avg} avg']['f0.5-score'] = f05_avgs[avg]
 
 
-    return {'f0.5': err_f05,
-            'f1': err_f1,
-            'precision': err_p,
-            'recall':  err_r,
+    return {'f0.5': all_f05,
+            'f1': all_f1,
+            'precision': all_p,
+            'recall':  all_r,
+            'err_f0.5': err_f05,
+            'err_f1': err_f1,
+            'err_precision': err_p,
+            'err_recall':  err_r,
             'report': report
             }
 
@@ -204,7 +221,8 @@ if __name__ == '__main__':
             f.write(f'{metric} : {non_uc_bin_eval[metric]}\n')
 
     with open(args.output+'.txt', "w") as f:
-        for metric in ['precision', 'recall', 'f1', 'f0.5']:
+        for metric in ['precision', 'recall', 'f1', 'f0.5',
+                       'err_precision', 'err_recall', 'err_f1', 'err_f0.5']:
             f.write(f'{metric} : {full_eval[metric]}\n')
 
     df = pd.DataFrame(full_eval['report']).transpose()

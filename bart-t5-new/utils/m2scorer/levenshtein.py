@@ -153,6 +153,7 @@ def batch_multi_pre_rec_f1(candidates, sources, gold_edits, max_unchanged_words=
         f05 = (1.0+0.5*0.5) * p * r / (0.5*0.5*p+r)
     except ZeroDivisionError:
         f1 = 0.0
+        f05 = 0.0
     if verbose:
         print("CORRECT EDITS  :", int(stat_correct))
         print("PROPOSED EDITS :", int(stat_proposed))

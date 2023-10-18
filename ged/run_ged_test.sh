@@ -1,9 +1,7 @@
 #!/bin/bash
 #SBATCH -p nvidia
 # use gpus
-#SBATCH --gres=gpu:1
-# memory
-#SBATCH --mem=120000
+#SBATCH --gres=gpu:v100:1
 # Walltime format hh:mm:ss
 #SBATCH --time=47:59:00
 # Output and error files
@@ -17,21 +15,35 @@ module purge
 # ERROR DETECTION TEST EVAL SCRIPT
 #################################
 
-export DATA_DIR=/scratch/ba63/gec/data/alignment/modeling_areta_tags/qalb14/modeling_ged
-export MAX_LENGTH=256
-export OUTPUT_DIR=/scratch/ba63/gec/data/alignment/modeling_areta_tags/qalb14/modeling_ged/model_new_latest_fix_reg
+export DATASET=qalb15
+export exp=qalb15
+export DATA_DIR=/scratch/ba63/gec/data/ged++/${exp}/coarse/w_camelira
+export OUTPUT_DIR=/scratch/ba63/gec/models/ged++/qalb14-15/coarse/w_camelira/checkpoint-2000
+export LABELS=/scratch/ba63/gec/data/ged++/qalb14-15/coarse/w_camelira/labels.txt
 export BATCH_SIZE=32
 export SEED=42
+export pred_mode=test_L1
+
 
 
 python error_detection.py \
---data_dir $DATA_DIR \
---labels $DATA_DIR/labels.txt \
---model_name_or_path $OUTPUT_DIR \
---output_dir $OUTPUT_DIR \
---max_seq_length  $MAX_LENGTH \
---per_device_eval_batch_size $BATCH_SIZE \
---seed $SEED \
---do_pred \
---pred_output_file tune_qalb14_predictions.txt \
---pred_mode tune # or dev or test to get the dev or test predictions
+     --data_dir $DATA_DIR \
+     --labels $LABELS \
+     --model_name_or_path $OUTPUT_DIR \
+     --output_dir $OUTPUT_DIR \
+     --per_device_eval_batch_size $BATCH_SIZE \
+     --seed $SEED \
+     --do_pred \
+     --pred_output_file ${exp}_${pred_mode}.preds.txt \
+     --pred_mode $pred_mode # or test to get the test predictions
+
+     # Evaluation
+        paste $DATA_DIR/${pred_mode}.txt $OUTPUT_DIR/${DATASET}_${pred_mode}.preds.txt \
+            > $OUTPUT_DIR/eval_data_${pred_mode}_${DATASET}.txt
+
+        python evaluate_new.py --data $OUTPUT_DIR/eval_data_${pred_mode}_${DATASET}.txt \
+                               --labels $LABELS \
+                               --output $OUTPUT_DIR/${DATASET}_${pred_mode}.results
+
+        rm $OUTPUT_DIR/eval_data_${pred_mode}_${DATASET}.txt
+

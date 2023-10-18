@@ -1,4 +1,4 @@
-S خالد : اممممممممممممممممم اذا بتروحووون العصر الساعه ٢ اوكي ماعندي مانع لاتتأخرون و كلمو احمد
+S خالد : اممممممممممممممممم اذا بتروحووون العصر الساعه ٢ اوكي ماعندي مانع لاتتأخرون و كلمو احمد هالمر ة لوسمحتم
 A 1 2|||Replace|||،|||REQUIRED|||-NONE-|||0
 A 2 3|||Delete||||||REQUIRED|||-NONE-|||0
 A 4 5|||Replace|||بتروحون|||REQUIRED|||-NONE-|||0
@@ -10,4 +10,7 @@ A 11 11|||Insert|||بس|||REQUIRED|||-NONE-|||0
 A 11 12|||Replace|||لا تتأخرون|||REQUIRED|||-NONE-|||0
 A 12 14|||Replace|||وكلمو|||REQUIRED|||-NONE-|||0
 A 14 15|||Replace|||أحمد|||REQUIRED|||-NONE-|||0
+A 15 17|||Replace|||هذه المرة|||REQUIRED|||-NONE-|||0
+A 17 18|||Replace|||لو سمحتم|||REQUIRED|||-NONE-|||0
+A 18 18|||Insert|||.|||REQUIRED|||-NONE-|||0
 

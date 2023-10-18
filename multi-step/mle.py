@@ -34,7 +34,7 @@ class CBR:
 
 
     @classmethod
-    def build_model(cls, dataset, ngrams=1, backoff=True):
+    def build_model(cls, dataset, ngrams=1, backoff=True, mode='full'):
         """
         Args:
             - dataset (Dataset obj)
@@ -67,7 +67,7 @@ class CBR:
                     ged_tag = ged_tags[j]
                     src_ngram = src_tokens_ngrams[j]
 
-                    if is_model_tag(ged_tag):
+                    if is_model_tag(ged_tag, mode=mode):
                         # counts of (t_w, s_w, t_g)
                         model[(src_ngram, ged_tag)][tgt_w] += 1
                         # counts of (s_w, t_g)
@@ -104,25 +104,94 @@ class CBR:
             return pickle.load(f)
 
 
-def is_model_tag(tag):
-    tag_combs = [
-        'REPLACE_OH+REPLACE_OM',
-        'REPLACE_OH+REPLACE_OT',
-        'REPLACE_OD+REPLACE_OR',
-        'REPLACE_OD+REPLACE_OG',
-        'REPLACE_XC+REPLACE_XN',
-        'REPLACE_OA+REPLACE_OH',
-        'REPLACE_OM+REPLACE_OR',
-        'REPLACE_OH+REPLACE_XC',
-        'REPLACE_OD+REPLACE_OH',
-        'REPLACE_XC+REPLACE_XG',
-        'REPLACE_MI+REPLACE_OH',
-        'REPLACE_OA+REPLACE_OR',
-        'REPLACE_OR+REPLACE_OT',
-        'REPLACE_OD+REPLACE_OM'
+class CBR_WO_GED(CBR):
+    def __init__(self, model, ngrams, backoff=True):
+        super().__init__(model, ngrams, backoff)
+
+    @classmethod
+    def build_model(cls, dataset, ngrams=1, backoff=True):
+        """
+        Args:
+            - dataset (Dataset obj)
+            - backoff (bool): backoff to a lower order ngram during lookup.
+            - ngrams (int): number of ngrams
+        Returns:
+            - cbr model (default dict): The cbr model where the
+            keys are source_word and vals
+            are target_word
+        """
+
+        model = defaultdict(lambda: defaultdict(lambda: 0))
+        context = dict()
+
+        for ex in dataset.examples:
+            src_tokens = ex.src_tokens
+            tgt_tokens = ex.tgt_tokens
+
+
+            # getting counts of all ngrams
+            # until ngrams == 1
+            for i in range(ngrams):
+                src_tokens_ngrams = build_ngrams(src_tokens, ngrams=i + 1,
+                                                 pad_left=True)
+
+                assert len(src_tokens) == len(src_tokens_ngrams)
+
+                for j, tgt_w in enumerate(tgt_tokens):
+                    src_ngram = src_tokens_ngrams[j]
+                    # counts of (t_w, s_w)
+                    model[src_ngram][tgt_w] += 1
+                    # counts of (s_w)
+                    context[src_ngram] = 1 + context.get(src_ngram, 0)
+
+        # turning the counts into probs
+        for sw in model:
+            for tgt_w in model[sw]:
+                model[sw][tgt_w] /= float(context[sw])
+
+        return cls(model, ngrams, backoff)
+
+    def __getitem__(self, sw_gt):
+        context = sw_gt
+
+        if self.backoff:
+            # keep backing-off until a context is found
+            for i in range(self.ngrams):
+                if context[i:] in self.model:
+                    return dict(self.model[context[i:]])
+        else:
+            if context in self.model:
+                return dict(self.model[context])
+
+        # worst case, return None
+        return None
+
+
+def is_model_tag(tag, mode='full'):
+    if mode == 'full':
+        tag_combs = [
+            'REPLACE_OH+REPLACE_OM',
+            'REPLACE_OH+REPLACE_OT',
+            'REPLACE_OD+REPLACE_OR',
+            'REPLACE_OD+REPLACE_OG',
+            'REPLACE_XC+REPLACE_XN',
+            'REPLACE_OA+REPLACE_OH',
+            'REPLACE_OM+REPLACE_OR',
+            'REPLACE_OH+REPLACE_XC',
+            'REPLACE_OD+REPLACE_OH',
+            'REPLACE_XC+REPLACE_XG',
+            'REPLACE_MI+REPLACE_OH',
+            'REPLACE_OA+REPLACE_OR',
+            'REPLACE_OR+REPLACE_OT',
+            'REPLACE_OD+REPLACE_OM'
+            ]
+    else:
+        tag_combs  = [
+            'REPLACE_O+REPLACE_X',
+            'REPLACE_M+REPLACE_O'
         ]
 
-    if tag == 'UC' or tag == 'MERGE' or tag == 'UNK' == 'DELETE':
+    if tag == 'UC' or tag == 'MERGE' or tag == 'UNK' or tag == 'DELETE':
         return False
 
     if '+' in tag and tag not in tag_combs:
@@ -132,6 +201,6 @@ def is_model_tag(tag):
 
 if __name__ == '__main__':
     data = Dataset(raw_data_path='/scratch/ba63/gec/data/alignment/modeling_areta_tags_improved/qalb14/qalb14_train.areta+.nopnx.txt')
-    model = CBR.build_model(data, ngrams=2)
+    model = CBR_WO_GED.build_model(data, ngrams=2)
     import pdb; pdb.set_trace()
     x = 10  

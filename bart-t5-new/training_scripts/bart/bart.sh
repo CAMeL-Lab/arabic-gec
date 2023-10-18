@@ -15,15 +15,25 @@ nvidia-smi
 
 MODEL=/scratch/ba63/BERT_models/AraBART
 
-OUTPUT_DIR=/scratch/ba63/gec/models/gec/qalb14/bart
-TRAIN_FILE=/scratch/ba63/gec/data/bart-t5/qalb14/wo_camelira/train.json
+# OUTPUT_DIR=/scratch/ba63/gec/models/gec/qalb14-15/bart
+# TRAIN_FILE=/scratch/ba63/gec/data/bart-t5/qalb14-15/wo_camelira/train.json
 
+# OUTPUT_DIR=/scratch/ba63/gec/models/gec/qalb14/bart
+# TRAIN_FILE=/scratch/ba63/gec/data/bart-t5/qalb14/wo_camelira/train.json
 
 # OUTPUT_DIR=/scratch/ba63/gec/models/gec/mix/bart
 # TRAIN_FILE=/scratch/ba63/gec/data/bart-t5/mix/wo_camelira/train.json
 
-STEPS=500 # 500 for qalb14 and 1000 for mix
-BATCH_SIZE=32 # 32 for qalb14 and 16 for mix
+# OUTPUT_DIR=/scratch/ba63/gec/models/gec/mix_segmented/bart
+# TRAIN_FILE=/scratch/ba63/gec/data/bart-t5/mix_segmented/wo_camelira/train.json
+
+OUTPUT_DIR=/scratch/ba63/gec/models/gec/qalb14-15_up/bart
+TRAIN_FILE=/scratch/ba63/gec/data/bart-t5/qalb14-15_up/wo_camelira/train.json
+
+
+
+STEPS=1000 # 500 for qalb14 and 1000 for mix
+BATCH_SIZE=16 # 32 for qalb14 and 16 for mix
 
 
 python /home/ba63/gec/bart-t5-new/run_gec.py \

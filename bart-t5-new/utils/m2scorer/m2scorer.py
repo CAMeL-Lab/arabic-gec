@@ -120,11 +120,72 @@ def evaluate(system_sentences_file, gold_file, max_unchanged_words=2,
             writer.write(f"F_1.0       : {f1:.4f}\n")
             writer.write(f"F_0.5       : {f05:.4f}\n")
 
-    # return {'Precision': float(f'{p:.4f}'),
-    #         'Recall': float(f'{r:.4f}'),
-    #         'F1': float(f'{f1:.4f}'),
-    #         'F0.5': float(f'{f05:.4f}'),
-    #         'Skipped': skipped
-    #         }
 
+def evaluate_single_sentences(system_sentences_file, gold_file, max_unchanged_words=2,
+                              beta=1.0, ignore_whitespace_casing=False, verbose=False,
+                              very_verbose=False, timeout=None):
+
+    p_scores, r_scores, f1_scores, f05_scores = [], [], [], []
+    correct_all, proposed_all, gold_all = [], [], []
+
+    # load source sentences and gold edits
+    source_sentences, gold_edits = load_annotation(gold_file)
+
+    # loading the system sentences
+    with open(system_sentences_file) as f:
+        system_sentences = [x.strip() for x in f.readlines()]
+
+    i = 0
+    for candidate, source, golds_set in zip(system_sentences, source_sentences, gold_edits):
+        i += 1
+        signal.alarm(timeout)
+        try:
+            correct, proposed, gold = levenshtein.batch_multi_pre_rec_f1_row(candidate, source, golds_set, max_unchanged_words, beta,
+                                                                            ignore_whitespace_casing, verbose, very_verbose, i,
+                                                                            0, 0, 0)
+        except TimeoutError:
+            correct, proposed, gold = levenshtein.batch_multi_pre_rec_f1_row(source, source, golds_set, max_unchanged_words, beta,
+                                                                             ignore_whitespace_casing, verbose, very_verbose, i,
+                                                                             0, 0, 0)
+
+        try:
+            p  = correct / proposed
+        except ZeroDivisionError:
+            p = 1.0
+
+        try:
+            r  = correct / gold
+        except ZeroDivisionError:
+            r = 1.0
+
+        try:
+            f1 = (1.0+beta*beta) * p * r / (beta*beta*p+r)
+            f05 = (1.0+0.5*0.5) * p * r / (0.5*0.5*p+r)
+
+        except ZeroDivisionError:
+            f1 = 0.0
+            f05 = 0.0
+
+        p_scores.append(p)
+        r_scores.append(r)
+        f1_scores.append(f1)
+        f05_scores.append(f05)
+        correct_all.append(correct)
+        proposed_all.append(proposed)
+        gold_all.append(gold)
+
+    assert len(p_scores) == len(r_scores) == len(f1_scores) == len(f05_scores)
+
+    scores = []
+    for p, r, f1, f05, proposed, correct, gold in zip(p_scores, r_scores, f1_scores, f05_scores,
+                                                      proposed_all, correct_all, gold_all):
+        scores.append({'p': p, 'r': r, 'f1': f1, 'f0.5': f05,
+                       'proposed': proposed, 'correct': correct, 'gold': gold})
+
+    import json
+
+    with open(system_sentences_file+'.m2.scores', "w", encoding="utf-8") as writer:
+        for score in scores:
+            json.dump(score, writer, ensure_ascii=False)
+            writer.write('\n')
 

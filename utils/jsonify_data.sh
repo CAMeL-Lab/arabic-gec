@@ -2,20 +2,26 @@
 # areta_tags=""
 
 # DATA_DIR=/scratch/ba63/gec/data/gec/QALB-0.9.1-Dec03-2021-SharedTasks
-# DATA_DIR=/scratch/ba63/gec/data/gec/qalb14-15
 # DATA_DIR=/scratch/ba63/gec/data/gec/mix
+# DATA_DIR=/scratch/ba63/gec/data/gec/mix_up
 DATA_DIR=/scratch/ba63/gec/data/gec/ZAEBUC-v1.0/data/ar
-CAMELIRA_SRC=/scratch/ba63/gec/data/gec_camelira/zaebuc
-# OUTPUT_DIR=/scratch/ba63/gec/data/bart-t5/qalb14/w_camelira
-# OUTPUT_DIR=/scratch/ba63/gec/data/bart-t5/qalb14-15/w_camelira
-# OUTPUT_DIR=/scratch/ba63/gec/data/bart-t5/mix/w_camelira
-# OUTPUT_DIR=/scratch/ba63/gec/data/bart-t5/qalb15/w_camelira
-OUTPUT_DIR=/scratch/ba63/gec/data/bart-t5/zaebuc/wo_camelira
+# DATA_DIR=/scratch/ba63/gec/data/gec/segmented_data/zaebuc/src_tgt
+# DATA_DIR=/scratch/ba63/gec/data/gec/mix_segmented
+# DATA_DIR=/scratch/ba63/gec/data/gec/qalb14-15
 
-python jsonify_data.py  --src $DATA_DIR/dev/dev.sent.raw.pnx.tok.dediac \
-                        --tgt $DATA_DIR/dev/dev.sent.cor.pnx.tok.dediac \
-                        --tags $OUTPUT_DIR/dev_mix_preds.txt \
-                        --output $OUTPUT_DIR/check.json
+CAMELIRA_SRC=/scratch/ba63/gec/data/gec_camelira/zaebuc
+# OUTPUT_DIR=/scratch/ba63/gec/data/bart-t5/zaebuc/wo_camelira
+OUTPUT_DIR=/scratch/ba63/gec/data/bart-t5/zaebuc/coarse/w_camelira
+# OUTPUT_DIR=/scratch/ba63/gec/data/bart-t5/qalb14/full/wo_camelira
+# OUTPUT_DIR=/scratch/ba63/gec/data/bart-t5/zaebuc/wo_camelira
+# OUTPUT_DIR=/scratch/ba63/gec/data/bart-t5/zaebuc/w_camelira
+
+# OUTPUT_DIR=/scratch/ba63/gec/data/bart-t5/mix_segmented/w_camelira
+
+python jsonify_data.py  --src $CAMELIRA_SRC/zaebuc_test.src.txt \
+                        --tgt $DATA_DIR/test/test.sent.cor.pnx.tok.dediac \
+                        --tags $OUTPUT_DIR/test_mix_preds.txt \
+                        --output $OUTPUT_DIR/test_mix_preds.json
 
 
 

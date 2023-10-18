@@ -4,39 +4,6 @@ import torch.nn as nn
 from torch.utils.data import DataLoader, Dataset
 from transformers import BertForTokenClassification, BertTokenizer
 
-GED_LABELS = ['DELETE', 'MERGE-B', 'MERGE-I', 'REPLACE_M', 'REPLACE_MI',
-                'REPLACE_MI+REPLACE_OH', 'REPLACE_MT', 'REPLACE_O', 'REPLACE_OA',
-                'REPLACE_OA+REPLACE_OH',
-                'REPLACE_OA+REPLACE_OR',
-                'REPLACE_OC',
-                'REPLACE_OD',
-                'REPLACE_OD+REPLACE_OG',
-                'REPLACE_OD+REPLACE_OH', 'REPLACE_OD+REPLACE_OM',
-                'REPLACE_OD+REPLACE_OR', 'REPLACE_OH',
-                'REPLACE_OH+REPLACE_OM',
-                'REPLACE_OH+REPLACE_OT',
-                'REPLACE_OH+REPLACE_XC', 'REPLACE_OM',
-                'REPLACE_OM+REPLACE_OR', 'REPLACE_OR',
-                'REPLACE_OR+REPLACE_OT',
-                'REPLACE_OT',
-                'REPLACE_OW',
-                'REPLACE_PC',
-                'REPLACE_PM',
-                'REPLACE_PT',
-                'REPLACE_S',
-                'REPLACE_SF',
-                'REPLACE_SW',
-                'REPLACE_X',
-                'REPLACE_XC',
-                'REPLACE_XC+REPLACE_XG',
-                'REPLACE_XC+REPLACE_XN',
-                'REPLACE_XF',
-                'REPLACE_XG',
-                'REPLACE_XM',
-                'REPLACE_XN',
-                'REPLACE_XT',
-                'SPLIT',
-                'UC']
 
 class _PrepSentence:
     """A single input sentence for token classification.
@@ -294,13 +261,6 @@ class ErrorIdentifier:
         self.model.to(self.device)
         self.model.eval()
 
-    @staticmethod
-    def labels():
-        """Get the list of word-level ged labels returned by predictions.
-        Returns:
-            :obj:`list` of :obj:`str`: List of word-level ged labels.
-        """
-        return GED_LABELS
 
     def _align_predictions(self, predictions, label_ids, sent_ids):
         """Aligns the predictions of the model with the inputs and it takes

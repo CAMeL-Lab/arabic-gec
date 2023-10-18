@@ -199,6 +199,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--train_file')
     parser.add_argument('--test_file')
+    parser.add_argument('--mode')
     parser.add_argument('--cbr_ngrams', type=int)
     parser.add_argument('--ged_model')
     parser.add_argument('--seq2seq_model')
@@ -214,6 +215,7 @@ if __name__ == '__main__':
 
     ged_model = None
     if args.ged_model:
+        logger.info(f'Loading GED model from {args.ged_model}')
         ged_model = ErrorIdentifier(model_path=args.ged_model)
 
     lm_rewriter = None
@@ -223,7 +225,8 @@ if __name__ == '__main__':
 
     logger.info(f'Building the CBR model on {args.train_file}')
 
-    cbr_model = CBR.build_model(train_data, ngrams=args.cbr_ngrams)
+    cbr_model = CBR.build_model(train_data,
+                                ngrams=args.cbr_ngrams, mode=args.mode)
 
 
     rewriter = Rewriter(cbr_model=cbr_model,

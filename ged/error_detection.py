@@ -213,8 +213,8 @@ def main():
         elif pred_mode == "test_L2":
             pred_data = Split.test_L2
 
-        test_dataset =  read_examples_from_file(data_dir=data_args.data_dir, mode=pred_data)
-        test_dataset = TokenClassificationDataset(examples=test_dataset,
+        raw_test_dataset =  read_examples_from_file(data_dir=data_args.data_dir, mode=pred_data)
+        test_dataset = TokenClassificationDataset(examples=raw_test_dataset,
                                                   labels=labels,
                                                   tokenizer=tokenizer)
 

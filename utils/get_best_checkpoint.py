@@ -24,7 +24,7 @@ def get_best_checkpoint_ged(model_path):
     for checkpoint in checkpoints:
         for eval_file in glob.glob(os.path.join(checkpoint, 'qalb14_dev.results.txt')):
             with open(eval_file) as f:
-                metrics = [line.strip().replace(' ','').split('=')
+                metrics = [line.strip().replace(' ','').split(':')
                            for line in f.readlines()[:4]]
                 metrics = {m[0]: m[1] for m in metrics}
                 eval_metrics = metrics['f0.5']
