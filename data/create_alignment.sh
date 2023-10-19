@@ -127,9 +127,9 @@ elif [ "$1" = "modeling" ]; then
     for split in train dev L1-test L2-test
     do
         if [ "$split" = "L1-test" ]; then
-            fname=QALB-2015-L1
-            lang=L1-
-            split="$(cut -d '-' -f2 <<< ${split})"
+                fname=QALB-2015-L1
+                lang=L1-
+                split="$(cut -d '-' -f2 <<< ${split})"
 
         elif [ "$split" = "L2-test" ]; then
                 fname=QALB-2015-L2
