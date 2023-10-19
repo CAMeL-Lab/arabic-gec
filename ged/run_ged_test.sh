@@ -1,4 +1,5 @@
 #!/bin/bash
+#SBATCH --reservation=v100_nlp
 #SBATCH -p nvidia
 # use gpus
 #SBATCH --gres=gpu:v100:1
@@ -15,14 +16,14 @@ module purge
 # ERROR DETECTION TEST EVAL SCRIPT
 #################################
 
-export DATASET=qalb15
-export exp=qalb15
-export DATA_DIR=/scratch/ba63/gec/data/ged++/${exp}/coarse/w_camelira
-export OUTPUT_DIR=/scratch/ba63/gec/models/ged++/qalb14-15/coarse/w_camelira/checkpoint-2000
-export LABELS=/scratch/ba63/gec/data/ged++/qalb14-15/coarse/w_camelira/labels.txt
+export DATASET=qalb14
+export exp=qalb14
+export DATA_DIR=/scratch/ba63/gec/data/ged++/${exp}/binary/wo_camelira
+export OUTPUT_DIR=/scratch/ba63/gec/models/ged++/qalb14/binary/wo_camelira/checkpoint-500
+export LABELS=/scratch/ba63/gec/data/ged++/qalb14/binary/wo_camelira/labels.txt
 export BATCH_SIZE=32
 export SEED=42
-export pred_mode=test_L1
+export pred_mode=dev
 
 
 
@@ -34,16 +35,16 @@ python error_detection.py \
      --per_device_eval_batch_size $BATCH_SIZE \
      --seed $SEED \
      --do_pred \
-     --pred_output_file ${exp}_${pred_mode}.preds.txt \
+     --pred_output_file ${exp}_${pred_mode}.preds.txt.check \
      --pred_mode $pred_mode # or test to get the test predictions
 
      # Evaluation
-        paste $DATA_DIR/${pred_mode}.txt $OUTPUT_DIR/${DATASET}_${pred_mode}.preds.txt \
-            > $OUTPUT_DIR/eval_data_${pred_mode}_${DATASET}.txt
+        paste $DATA_DIR/${pred_mode}.txt $OUTPUT_DIR/${DATASET}_${pred_mode}.preds.txt.check \
+            > $OUTPUT_DIR/eval_data_${pred_mode}_${DATASET}.txt.check
 
-        python evaluate_new.py --data $OUTPUT_DIR/eval_data_${pred_mode}_${DATASET}.txt \
+        python evaluate.py --data $OUTPUT_DIR/eval_data_${pred_mode}_${DATASET}.txt.check \
                                --labels $LABELS \
-                               --output $OUTPUT_DIR/${DATASET}_${pred_mode}.results
+                               --output $OUTPUT_DIR/${DATASET}_${pred_mode}.results.check
 
-        rm $OUTPUT_DIR/eval_data_${pred_mode}_${DATASET}.txt
+        rm $OUTPUT_DIR/eval_data_${pred_mode}_${DATASET}.txt.check
 

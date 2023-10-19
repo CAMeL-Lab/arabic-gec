@@ -16,9 +16,9 @@ module purge
 # ERROR DETECTION FINE-TUNING SCRIPT
 ####################################
 
-export DATA_DIR=/scratch/ba63/gec/data/ged++/mix/binary/w_camelira
+export DATA_DIR=/home/ba63/gec-release/data/ged/mix/wo_camelira/coarse
 export BERT_MODEL=/scratch/ba63/BERT_models/bert-base-arabic-camelbert-msa
-export OUTPUT_DIR=/scratch/ba63/gec/models/ged++/mix/binary/w_camelira
+export OUTPUT_DIR=/scratch/ba63/gec-release/models/ged/mix/wo_camelira/coarse
 export BATCH_SIZE=32
 export NUM_EPOCHS=10
 export SAVE_STEPS=500
