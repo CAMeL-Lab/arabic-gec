@@ -1,0 +1,49 @@
+QALB-2014 Dev Alignment Evaluation:
+Our Alignment:
+Precision:  99.56
+Recall:     99.66
+F1:         99.61
+AER:        0.00
+
+Standard Levenshtein:
+Precision:  86.80
+Recall:     84.27
+F1:         85.51
+AER:        0.14
+
+M2 Alignment:
+Precision:  92.52
+Recall:     87.05
+F1:         89.70
+AER:        0.10
+
+ARETA Alignment:
+Precision:  84.32
+Recall:     82.94
+F1:         83.62
+AER:        0.16
+
+QALB-2015 Dev Alignment Evaluation:
+Our Alignment:
+Precision:  97.67
+Recall:     97.95
+F1:         97.81
+AER:        0.02
+
+Standard Levenshtein:
+Precision:  84.51
+Recall:     84.22
+F1:         84.37
+AER:        0.16
+
+M2 Alignment:
+Precision:  90.75
+Recall:     83.32
+F1:         86.88
+AER:        0.13
+
+ARETA Alignment:
+Precision:  84.05
+Recall:     84.68
+F1:         84.36
+AER:        0.16
