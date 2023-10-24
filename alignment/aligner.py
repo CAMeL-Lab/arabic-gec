@@ -582,6 +582,7 @@ def verify(src_sents, tgt_sents, alignment):
 
         # if re.sub(' +', ' ', tgt).strip() != re.sub(' +', ' ', tgt_).strip():
         #     import pdb; pdb.set_trace()
+
         assert re.sub(' +', ' ', src).strip() == re.sub(' +', ' ', src_).strip()
         assert re.sub(' +', ' ', tgt).strip() == re.sub(' +', ' ', tgt_).strip()
 
