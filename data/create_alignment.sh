@@ -43,7 +43,7 @@ if [ "$1" = "m2" ]; then
     done
 
     #### QALB-2015 ####
-    for split in dev L1-test L2-test
+    for split in train # dev L1-test L2-test
     do
         if [ "$split" = "L1-test" ]; then
             fname=QALB-2015-L1
@@ -73,7 +73,7 @@ if [ "$1" = "m2" ]; then
     done
 
     #### ZAEBUC ####
-    for split in dev test
+    for split in train # dev test
     do
         s="$(tr '[:lower:]' '[:upper:]' <<< ${split:0:1})${split:1}"
 

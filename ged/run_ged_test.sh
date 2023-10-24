@@ -26,7 +26,6 @@ export SEED=42
 export pred_mode=dev
 
 
-
 python error_detection.py \
      --data_dir $DATA_DIR \
      --labels $LABELS \
@@ -42,9 +41,9 @@ python error_detection.py \
         paste $DATA_DIR/${pred_mode}.txt $OUTPUT_DIR/${DATASET}_${pred_mode}.preds.txt.check \
             > $OUTPUT_DIR/eval_data_${pred_mode}_${DATASET}.txt.check
 
-        python evaluate.py --data $OUTPUT_DIR/eval_data_${pred_mode}_${DATASET}.txt.check \
-                               --labels $LABELS \
-                               --output $OUTPUT_DIR/${DATASET}_${pred_mode}.results.check
+        python evaluate.py  --data $OUTPUT_DIR/eval_data_${pred_mode}_${DATASET}.txt.check \
+                            --labels $LABELS \
+                            --output $OUTPUT_DIR/${DATASET}_${pred_mode}.results.check
 
         rm $OUTPUT_DIR/eval_data_${pred_mode}_${DATASET}.txt.check
 

@@ -11,85 +11,43 @@
 #SBATCH -e job.%J.err
 
 
-###QALB-2014 GED MODELS####
-# Qalb-2014:
-# /scratch/ba63/gec/models/ged++/qalb14/full/wo_camelira/checkpoint-4000
-# /scratch/ba63/gec/models/ged++/qalb14/full/w_camelira/checkpoint-4000
-# /scratch/ba63/gec/models/ged++/qalb14/coarse/wo_camelira
-# /scratch/ba63/gec/models/ged++/qalb14/coarse/w_camelira/checkpoint-1500
-# /scratch/ba63/gec/models/ged++/qalb14/binary/wo_camelira/checkpoint-500
-# /scratch/ba63/gec/models/ged++/qalb14/binary/w_camelira/checkpoint-1000
+# train_file=/home/ba63/gec-release/data/ged/areta_tags/qalb14/qalb14_train.areta+.nopnx.txt
+# test_file=/home/ba63/gec-release/data/ged/areta_tags/qalb14/qalb14_dev.areta+.txt
+# ged_model=/scratch/ba63/gec/models/ged++/qalb14/full/wo_camelira/checkpoint-4000
+# output_path=/home/ba63/gec-release/gec/outputs/qalb14/mle/qalb14_dev.preds.txt
+
+# train_file=/home/ba63/gec-release/data/ged/areta_tags/qalb14-15/qalb14-15_train.areta+.nopnx.txt
+# test_file=/home/ba63/gec-release/data/ged/areta_tags/qalb15/qalb15_dev.areta+.txt
+# ged_model=/scratch/ba63/gec/models/ged++/qalb14-15/full/wo_camelira/checkpoint-3000
+# output_path=/home/ba63/gec-release/gec/outputs/qalb15/mle/qalb15_dev.preds.txt
+
+# train_file=/home/ba63/gec-release/data/ged/areta_tags/mix/mix_train.areta+.nopnx.txt
+# test_file=/home/ba63/gec-release/data/ged/areta_tags/zaebuc/zaebuc_dev.areta+.txt
+# ged_model=/scratch/ba63/gec/models/ged++/mix/full/wo_camelira/checkpoint-3000
+# output_path=/home/ba63/gec-release/gec/outputs/zaebuc/mle/zaebuc_dev.preds.txt
 
 
-# Qalb-2014-15:
-# /scratch/ba63/gec/models/ged++/qalb14-15/wo_camelira/checkpoint-3000
-# /scratch/ba63/gec/models/ged++/qalb14-15/w_camelira/checkpoint-1000
+# train_file=/home/ba63/gec-release/data/ged/areta_tags_camelira/qalb14/qalb14_train.areta+.nopnx.txt
+# test_file=/home/ba63/gec-release/data/ged/areta_tags_camelira/qalb14/qalb14_dev.areta+.txt
+# ged_model=/scratch/ba63/gec/models/ged++/qalb14/full/w_camelira/checkpoint-4000
+# output_path=/home/ba63/gec-release/gec/outputs/qalb14/mle+morph/qalb14_dev.preds.txt
+
+# train_file=/home/ba63/gec-release/data/ged/areta_tags_camelira/qalb14-15/qalb14-15_train.areta+.nopnx.txt
+# test_file=/home/ba63/gec-release/data/ged/areta_tags_camelira/qalb15/qalb15_dev.areta+.txt
+# ged_model=/scratch/ba63/gec/models/ged++/qalb14-15/full/w_camelira/checkpoint-4500
+# output_path=/home/ba63/gec-release/gec/outputs/qalb15/mle+morph/qalb15_dev.preds.txt
 
 
-# MIX:
-# /scratch/ba63/gec/models/ged++/mix/wo_camelira/checkpoint-2000
-# /scratch/ba63/gec/models/ged++/mix/w_camelira/checkpoint-2500
-
-
-###QALB-2015 GED MODELS####
-# Qalb-2014:
-# /scratch/ba63/gec/models/ged++/qalb14/full/wo_camelira/checkpoint-5000
-# /scratch/ba63/gec/models/ged++/qalb14/full/w_camelira/checkpoint-2000
-
-
-# Qalb-2014-15:
-# /scratch/ba63/gec/models/ged++/qalb14-15/full/wo_camelira/checkpoint-3000
-# /scratch/ba63/gec/models/ged++/qalb14-15/full/w_camelira/checkpoint-4500
-# /scratch/ba63/gec/models/ged++/qalb14-15/coarse/wo_camelira/checkpoint-3000
-# /scratch/ba63/gec/models/ged++/qalb14-15/coarse/w_camelira/checkpoint-6000
-# /scratch/ba63/gec/models/ged++/qalb14-15/binary/wo_camelira/checkpoint-2000
-# /scratch/ba63/gec/models/ged++/qalb14-15/binary/w_camelira/checkpoint-6000
-
-
-# MIX:
-# /scratch/ba63/gec/models/ged++/mix/wo_camelira/checkpoint-2000
-# /scratch/ba63/gec/models/ged++/mix/w_camelira/checkpoint-5000
-
-
-###ZAEBUC GED MODELS####
-# Qalb-2014:
-# /scratch/ba63/gec/models/ged++/qalb14/full/wo_camelira/checkpoint-3000
-# /scratch/ba63/gec/models/ged++/qalb14/full/w_camelira/checkpoint-2000
-
-
-# Qalb-2014-15:
-# /scratch/ba63/gec/models/ged++/qalb14-15/wo_camelira/checkpoint-2500
-# /scratch/ba63/gec/models/ged++/qalb14-15/w_camelira/checkpoint-1500
-
-
-# MIX:
-# /scratch/ba63/gec/models/ged++/mix/full/wo_camelira/checkpoint-3000
-# /scratch/ba63/gec/models/ged++/mix/full/w_camelira/checkpoint-5500
-# /scratch/ba63/gec/models/ged++/mix/coarse/wo_camelira/checkpoint-3500
-# /scratch/ba63/gec/models/ged++/mix/coarse/w_camelira/checkpoint-4500
-# /scratch/ba63/gec/models/ged++/mix/binary/wo_camelira/checkpoint-4500
-# /scratch/ba63/gec/models/ged++/mix/binary/w_camelira/checkpoint-5000
-
-
-# train_file=/scratch/ba63/gec/data/alignment/modeling_areta_tags_improved/binary/mix/train.areta+.nopnx.txt
-# test_file=/scratch/ba63/gec/data/alignment/modeling_areta_tags_improved/binary/zaebuc/zaebuc_dev.areta+.txt
-
-camelira_train_file=/scratch/ba63/gec/data/gec_camelira/areta_tags/binary/mix/train.areta+.nopnx.txt
-camelira_test_file=/scratch/ba63/gec/data/gec_camelira/areta_tags/binary/zaebuc/zaebuc_dev.areta+.txt
-
-# ged_model=/scratch/ba63/gec/models/ged++/mix/binary/wo_camelira/checkpoint-4500
-# output_path=outputs/CBR/zaebuc/mix/binary/wo_camelira/zaebuc_dev.preds.txt
-
-ged_model=/scratch/ba63/gec/models/ged++/mix/binary/w_camelira/checkpoint-5000
-output_path=outputs/CBR/zaebuc/mix/binary/w_camelira/zaebuc_dev.preds.txt
-
-nvidia-smi
+train_file=/home/ba63/gec-release/data/ged/areta_tags_camelira/mix/mix_train.areta+.nopnx.txt
+test_file=/home/ba63/gec-release/data/ged/areta_tags_camelira/zaebuc/zaebuc_dev.areta+.txt
+ged_model=/scratch/ba63/gec/models/ged++/mix/full/w_camelira/checkpoint-5500
+output_path=/home/ba63/gec-release/gec/outputs/zaebuc/mle+morph/zaebuc_dev.preds.txt
 
 python rewriter.py \
-        --train_file $camelira_train_file \
-        --test_file  $camelira_test_file \
+        --train_file $train_file \
+        --test_file  $test_file \
         --ged_model  $ged_model \
-        --mode coarse \
+        --mode full \
         --cbr_ngrams 2 \
         --output_path $output_path \
         --do_error_ana

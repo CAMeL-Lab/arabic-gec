@@ -8,7 +8,7 @@ def get_best_checkpoint_ged(model_path):
     checkpoint_scores = []
 
     for checkpoint in checkpoints:
-        for eval_file in glob.glob(os.path.join(checkpoint, 'zaebuc_dev.results.txt')):
+        for eval_file in glob.glob(os.path.join(checkpoint, 'qalb14_dev.results.txt')):
             with open(eval_file) as f:
                 metrics = [line.strip().replace(' ','').split(':')
                            for line in f.readlines()[:4]]

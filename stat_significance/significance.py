@@ -58,7 +58,7 @@ def paired_ar_test(system1_scores, system2_scores, n_trials=10000, seed=12345):
 
     # absolute difference between system 1 and the system 2
     diff = abs(aggregate_score(system1_scores)['f05'] -
-              aggregate_score(system2_scores)['f05'])
+               aggregate_score(system2_scores)['f05'])
 
     # diff = abs(aggregate_score(system1_scores)['r'] -
     #            aggregate_score(system2_scores)['r'])

@@ -1,5 +1,7 @@
 #!/bin/bash
 #SBATCH -p nvidia
+#SBATCH -q nlp
+# SBATCH --reservation=v100_nlp
 # use gpus
 #SBATCH --gres=gpu:v100:1
 # Walltime format hh:mm:ss
@@ -16,9 +18,9 @@ module purge
 # ERROR DETECTION FINE-TUNING SCRIPT
 ####################################
 
-export DATA_DIR=/home/ba63/gec-release/data/ged/mix/wo_camelira/coarse
+export DATA_DIR=/home/ba63/gec-release/data/ged/qalb14/w_camelira/binary
 export BERT_MODEL=/scratch/ba63/BERT_models/bert-base-arabic-camelbert-msa
-export OUTPUT_DIR=/scratch/ba63/gec-release/models/ged/mix/wo_camelira/coarse
+export OUTPUT_DIR=/scratch/ba63/gec-release/models/ged/qalb14/w_camelira/binary
 export BATCH_SIZE=32
 export NUM_EPOCHS=10
 export SAVE_STEPS=500

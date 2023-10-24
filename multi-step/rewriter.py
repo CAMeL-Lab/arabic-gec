@@ -1,13 +1,7 @@
 import logging
 from error_identifier import ErrorIdentifier
-from rules_tagger import GECTagger
 from mle import CBR, build_ngrams
 from data_utils import Dataset, postprocess_src_ged
-from rules_tagger.rules_factory.rules import Rule
-from rules_tagger.generate import detokenize
-from neural_rewriter.rewriter import NeuralRewriter
-from lm_rewriter.rewriter import LMRewriter
-from aligner.aligner import align
 from error_analysis import error_analysis, ErrorAnalysisExample
 import re
 import argparse
@@ -18,16 +12,10 @@ logger = logging.getLogger(__name__)
 
 
 class Rewriter:
-    def __init__(self, cbr_model, error_identifier=None, gec_tagger=None,
-                neural_rewriter=None,
-                lm_rewriter=None):
+    def __init__(self, cbr_model, error_identifier=None):
 
         self.cbr_model = cbr_model
         self.error_identifier = error_identifier
-        self.gec_tagger = gec_tagger
-        self.neural_rewriter = neural_rewriter
-        self.lm_rewriter = lm_rewriter
-
 
     def rewrite(self, dataset, output_path, do_error_analysis=False):
         fixed_sents = []
@@ -112,26 +100,12 @@ class Rewriter:
 
                         fixed_oov_indices.append(len(fixed_sent))
                         fixed_gen_src_indices.append(len(gen_source))
-                        if self.lm_rewriter is not None:
-                            fixed_sent.append('OOV')
-                        else:
-                            fixed_sent.append(src_tokens[j])
+
+                        fixed_sent.append(src_tokens[j])
 
                         gen_source.append('OOV')
                         oov_indices.append(j)
                     j += 1
-
-            # fill-in oov words
-            if len(oov_indices) != 0 and self.lm_rewriter is not None:
-                rewritten_sent = self.lm_rewriter.rewrite(' '.join(src_tokens))
-                alignment = align([' '.join(src_tokens)], [rewritten_sent])
-
-                for oov_idx, fixed_oov_idx in zip (oov_indices, fixed_oov_indices):
-                    fixed_sent[fixed_oov_idx] = alignment[oov_idx][1]
-                    logger.info(f'Aligned Token: {alignment[oov_idx][1]}')
-
-                for idx in fixed_gen_src_indices:
-                    gen_source[idx] = 'T5'
 
             logger.info('\n')
             logger.info(f'{i}')
@@ -162,32 +136,6 @@ class Rewriter:
 
         write_data(output_path, fixed_sents)
 
-        # return fixed_sents
-
-
-    def apply_rules(self, tagger_output, word_idx):
-        word_ids = tagger_output['word_ids']
-        subwords_model = [x for i, x in enumerate(tagger_output['subwords_model']) if word_ids[i] == word_idx]
-        subwords = [x for i, x in enumerate(tagger_output['subwords']) if word_ids[i] == word_idx]
-        rules = [x for i, x in enumerate(tagger_output['preds']) if word_ids[i] == word_idx]
-
-        generated = []
-
-        for rule, sw_model, sw in zip(rules, subwords_model, subwords):
-            rule = Rule.from_str(rule)
-
-            if sw_model.startswith('##'):
-                generated.append(f"##{rule.apply(sw)}")
-
-            elif sw.startswith(' '):
-                generated.append(f" {rule.apply(sw)}")
-
-            else:
-                generated.append(rule.apply(sw))
-
-        detokenize_generated = detokenize(generated)
-        return detokenize_generated
-
 
 def write_data(path, data):
     with open(path, mode='w') as f:
@@ -202,7 +150,6 @@ if __name__ == '__main__':
     parser.add_argument('--mode')
     parser.add_argument('--cbr_ngrams', type=int)
     parser.add_argument('--ged_model')
-    parser.add_argument('--seq2seq_model')
     parser.add_argument('--do_error_ana', action="store_true")
     parser.add_argument('--output_path')
 
@@ -218,11 +165,6 @@ if __name__ == '__main__':
         logger.info(f'Loading GED model from {args.ged_model}')
         ged_model = ErrorIdentifier(model_path=args.ged_model)
 
-    lm_rewriter = None
-    if args.seq2seq_model:
-        lm_rewriter = LMRewriter.from_pretrained(args.seq2seq_model, use_gpu=True)
-
-
     logger.info(f'Building the CBR model on {args.train_file}')
 
     cbr_model = CBR.build_model(train_data,
@@ -230,24 +172,9 @@ if __name__ == '__main__':
 
 
     rewriter = Rewriter(cbr_model=cbr_model,
-                        error_identifier=ged_model,
-                        gec_tagger=None,
-                        lm_rewriter=lm_rewriter)
-
+                        error_identifier=ged_model)
 
     rewritten_data = rewriter.rewrite(test_data,
                                       output_path=args.output_path,
                                       do_error_analysis=args.do_error_ana
                                      )
-
-
-    # gec_tagger = GECTagger(model_path='/scratch/ba63/gec/models/rules_tagger/wo_camelira/10/checkpoint-1500')
-
-    # train_data = Dataset(raw_data_path='/scratch/ba63/gec/data/gec_camelira/areta_tags/qalb14_train.areta+.txt')
-    # tune_data = Dataset(raw_data_path='/scratch/ba63/gec/data/gec_camelira/areta_tags/qalb14_tune.areta+.txt')
-    # error_identifier = ErrorIdentifier(model_path='/scratch/ba63/gec/models/ged/qalb14/w_camelira/checkpoint-1500')
-    # gec_tagger = GECTagger(model_path='/scratch/ba63/gec/models/rules_tagger/w_camelira/10/checkpoint-4500')
-
-
-    # neural_rewriter = NeuralRewriter.from_pretrained('neural_rewriter/saved_models', top_n_best=3, use_gpu=True)
-    # lm_rewriter = LMRewriter.from_pretrained('/scratch/ba63/gec/models/gec/qalb14/t5_w_camelira', use_gpu=True)
