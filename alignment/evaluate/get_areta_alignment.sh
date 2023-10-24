@@ -8,8 +8,8 @@ python ced_word_alignment/align_text.py \
     -m basic \
     -o qalb14.ced
 
-python /home/ba63/gec-release/areta/utilities/adjust_align_tool.py qalb14.ced.basic > qalb14_dev.align
-sed -i '1s/^/SOURCE  TARGET\n/' qalb14_dev.align
+python /home/ba63/gec-release/areta/utilities/adjust_align_tool.py qalb14.ced.basic > qalb14_dev.align.areta
+sed -i '1s/^/SOURCE  TARGET\n/' qalb14_dev.align.areta
 rm qalb14.ced.basic
 
 python ced_word_alignment/align_text.py \
@@ -18,6 +18,6 @@ python ced_word_alignment/align_text.py \
     -m basic \
     -o qalb15.ced
 
-python /home/ba63/gec-release/areta/utilities/adjust_align_tool.py qalb15.ced.basic > qalb15_dev.align
-sed -i '1s/^/SOURCE  TARGET\n/' qalb15_dev.align
+python /home/ba63/gec-release/areta/utilities/adjust_align_tool.py qalb15.ced.basic > qalb15_dev.align.areta
+sed -i '1s/^/SOURCE  TARGET\n/' qalb15_dev.align.areta
 rm qalb15.ced.basic
