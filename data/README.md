@@ -8,6 +8,11 @@ We used the [QALB-2014](), [QALB-2015](), and [ZAEBUC]() datasets to train and e
 
 We preprocess the data before using it to train our models. The preprocessing includes removing diacritics for all erroneous and corrected sentence pairs across all datasets. For the erroneous sentences in QALB-2014, we do an additional ad-hoc preprocessing step to fix a few sentences that are character-tokenized by stitching all the characters together. Running `bash preprocess_gec_data.sh` applies all the preprocessing steps we did. 
 
+### Morphological Preprocessing:
+
+We do an additional morphological preprocessing step over the erroneous sentences only. This is done by running the contextual morphological analysis and disambiguation introduced by [Inoue et al., 2022]() and that is publicly available in [CAMeL Tools](). This step is done by running `bash camelira_gec.sh`. The generated output of this preprocessing constitutes the **Morph** system we report on in our paper in Table 4.
+
+### Alignment:
 
 ## Grammatical Error Correction:
 
