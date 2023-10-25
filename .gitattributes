@@ -1,3 +1,5 @@
 data/* linguist-vendored=Python
 alignment/* linguist-vendored=Python
 areta/* linguist-vendored=Python
+transformers/docs/* linguist-vendored=Python
+transformers/examples/* linguist-vendored=Python
