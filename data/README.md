@@ -22,13 +22,17 @@ We describe our alignment algorithm in the paper and provide a general standalon
 
 ### Automatic Error Typing:
 
+Once the alignments have been generated, we pass them to [ARETA](https://github.com/balhafni/arabic-gec/tree/master/areta) to obtain specific error types. The error type annotations for all datasets can be obtained by running `bash create_areta_tags.sh`.
+
+
+## Grammatical Error Detection:
+
+
 
 ## Grammatical Error Correction:
 
 
 
-
-## Grammatical Error Detection:
 
 1) preprocessing
 2) create alignment
