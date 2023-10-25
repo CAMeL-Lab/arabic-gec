@@ -1,7 +1,16 @@
 # Data
 
+We used the [QALB-2014](), [QALB-2015](), and [ZAEBUC]() datasets to train and evaluate our models. For the QALB-2014 and QALB-2015, we use the publicly available train, dev, and test splits. For ZAEBUC, we randomly split the data into train (70%), dev (15%), and test (15%) while keeping a balanced distribution of CEFR levels. 
+
+## Preprocessing, Alignment, and Automatic Error Typing:
+
+### Preprocessing:
+
+We preprocess the data before using it to train our models. The preprocessing includes removing diacritics for all erroneous and corrected sentence pairs across all datasets. For the erroneous sentences in QALB-2014, we do an additional ad-hoc preprocessing step to fix a few sentences that are character-tokenized by stitching all the characters together. Running `bash preprocess_gec_data.sh` applies all the preprocessing steps we did. 
+
+
 ## Grammatical Error Correction:
-1) preprocessing
+
 
 
 
