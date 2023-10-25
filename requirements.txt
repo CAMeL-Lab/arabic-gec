@@ -1,0 +1,4 @@
+torch==1.11.0
+transformers==git+https://github.com/balhafni/arabic-gec.git@bc21aaca789f1a366c05e8b5e111632944886393#egg=transformers
+camel-tools==1.4.1
+datasets==2.5.1
