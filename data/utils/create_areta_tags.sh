@@ -30,8 +30,8 @@ do
     if [ -f "$alignment" ]; then
         printf "Creating ARETA Tags for $alignment \n"
 
-        output=/home/ba63/gec-release/data/ged/areta_tags/${data}/${data}_${split}.areta.txt
-        enriched_output=/home/ba63/gec-release/data/ged/areta_tags/${data}/${data}_${split}.areta+.txt
+        output=/home/ba63/gec-release/data/areta_tags/wo_camelira/${data}/${data}_${split}.areta.txt
+        enriched_output=/home/ba63/gec-release/data/areta_tags/wo_camelira/${data}/${data}_${split}.areta+.txt
 
         python /home/ba63/gec-release/areta/annotate_err_type_ar.py \
             --alignment $alignment \
@@ -50,8 +50,8 @@ do
     if [ -f "$alignment_camelira" ]; then
         printf "Creating ARETA Tags for $alignment_camelira \n"
 
-        output=/home/ba63/gec-release/data/ged/areta_tags_camelira/${data}/${data}_${split}.areta.txt
-        enriched_output=/home/ba63/gec-release/data/ged/areta_tags_camelira/${data}/${data}_${split}.areta+.txt
+        output=/home/ba63/gec-release/data/areta_tags/w_camelira/${data}/${data}_${split}.areta.txt
+        enriched_output=/home/ba63/gec-release/data/areta_tags/w_camelira/${data}/${data}_${split}.areta+.txt
 
         python /home/ba63/gec-release/areta/annotate_err_type_ar.py \
             --alignment $alignment_camelira \
@@ -81,8 +81,8 @@ do
     if [ -f "$alignment_nopnx" ]; then
         printf "Creating ARETA Tags for $alignment_nopnx \n"
 
-        output=/home/ba63/gec-release/data/ged/areta_tags/${data}/${data}_${split}.areta.nopnx.txt
-        enriched_output=/home/ba63/gec-release/data/ged/areta_tags/${data}/${data}_${split}.areta+.nopnx.txt
+        output=/home/ba63/gec-release/data/areta_tags/wo_camelira/${data}/${data}_${split}.areta.nopnx.txt
+        enriched_output=/home/ba63/gec-release/data/areta_tags/wo_camelira/${data}/${data}_${split}.areta+.nopnx.txt
 
         python /home/ba63/gec-release/areta/annotate_err_type_ar.py \
             --alignment $alignment_nopnx \
@@ -101,8 +101,8 @@ do
     if [ -f "$alignment_camelira_nopnx" ]; then
         printf "Creating ARETA Tags for $alignment_camelira_nopnx \n"
 
-        output=/home/ba63/gec-release/data/ged/areta_tags_camelira/${data}/${data}_${split}.areta.nopnx.txt
-        enriched_output=/home/ba63/gec-release/data/ged/areta_tags_camelira/${data}/${data}_${split}.areta+.nopnx.txt
+        output=/home/ba63/gec-release/data/areta_tags/w_camelira/${data}/${data}_${split}.areta.nopnx.txt
+        enriched_output=/home/ba63/gec-release/data/areta_tags/w_camelira/${data}/${data}_${split}.areta+.nopnx.txt
 
         python /home/ba63/gec-release/areta/annotate_err_type_ar.py \
             --alignment $alignment_camelira_nopnx \
