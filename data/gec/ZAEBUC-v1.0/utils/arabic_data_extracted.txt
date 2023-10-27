@@ -1,0 +1,215 @@
+writer_id	course	gender	school_language	school_type	topic	CEFR
+268469	ARA-030	Male	English	Private	Social Media	B1	
+386369	ARA-030	Male	Arabic	Government	Social Media	B2	
+81027	ARA-030	Female	English	Government	Social Media	A2	
+81757	ARA-030	Female	Arabic	Government	Social Media	B2	
+83625	ARA-030	Female	English	Private	Social Media	Unassessable	
+85891	ARA-030	Female	Arabic	Government	Social Media	A2	
+87953	ARA-030	Female	English	Private	Tolerance	B1	
+89249	ARA-030	Female	English	Private	Tolerance	B1	
+89881	ARA-030	Female	English	Private	Social Media	B1	
+90528	ARA-030	Female	English	Government	Social Media	A2	
+92524	ARA-030	Female	Arabic	Government	Tolerance	B1	
+92800	ARA-030	Female	English	Government	Tolerance	B1	
+93360	ARA-030	Female	Arabic	Government	Tolerance	B2	
+96339	ARA-030	Female	English	Private	Social Media	B1	
+96683	ARA-030	Female	English	Government	Social Media	B1	
+97791	ARA-030	Female	English	Government	Development	B1	
+119813	ARA-130	Female	Arabic	Government	Social Media	A2	
+119831	ARA-130	Female	Arabic	Government	Tolerance	Unassessable	
+121991965	ARA-130	Female	Arabic	Government	Social Media	B1	
+165859	ARA-130	Female	Arabic	Government	Social Media	B2	
+165949	ARA-130	Female	Arabic	Government	Tolerance	B1	
+168718	ARA-130	Female	Arabic	Government	Social Media	B2	
+186196	ARA-130	Female	Arabic	Government	Social Media	B1	
+187968	ARA-130	Female	Arabic	Government	Social Media	B1	
+188359	ARA-130	Female	Arabic	Government	Social Media	B1	
+188826	ARA-130	Female	English	Government	Social Media	B2	
+188847	ARA-130	Female	Arabic	Government	Social Media	B1	
+188945	ARA-130	Female	English	Private	Social Media	A2	
+189349	ARA-130	Female	Arabic	Government	Social Media	B2	
+189525	ARA-130	Female	Arabic	Government	Social Media	B1	
+189611	ARA-130	Female	Arabic	Government	Social Media	B1	
+189750	ARA-130	Female	English	Government	Social Media	B1	
+189799	ARA-130	Female	Arabic	Government	Tolerance	B1	
+189921	ARA-130	Female	Arabic	Government	Social Media	B1	
+190122	ARA-130	Female	English	Government	Social Media	B1	
+190307	ARA-130	Female	Arabic	Government	Development	B1	
+190317	ARA-130	Female	English	Private	Social Media	B1	
+190447	ARA-130	Female	Arabic	Government	Social Media	C1	
+190745	ARA-130	Female	English	Government	Tolerance	B1	
+190808	ARA-130	Female	Arabic	Government	Social Media	B1	
+190855	ARA-130	Female	Arabic	Government	Social Media	B2	
+190863	ARA-130	Female	Arabic	Government	Social Media	B1	
+191075	ARA-130	Female	Arabic	Government	Social Media	B1	
+191088	ARA-130	Female	Arabic	Government	Social Media	B1	
+191115	ARA-130	Female	English	Government	Social Media	B1	
+191242	ARA-130	Female	Arabic	Government	Social Media	B2	
+191743	ARA-130	Female	Arabic	Government	Social Media	B1	
+191794	ARA-130	Female	Arabic	Government	Social Media	B2	
+191809	ARA-130	Female	Arabic	Government	Social Media	B1	
+191850	ARA-130	Female	Arabic	Private	Social Media	B1	
+192155	ARA-130	Female	Arabic	Government	Social Media	B1	
+192218	ARA-130	Female	Arabic	Government	Social Media	B1	
+192387	ARA-130	Female	Arabic	Government	Social Media	B1	
+192490	ARA-130	Female	Arabic	Government	Social Media	B2	
+192528	ARA-130	Female	Arabic	Government	Social Media	B1	
+192582	ARA-130	Female	English	Government	Social Media	B1	
+192654	ARA-130	Female	Arabic	Government	Social Media	B2	
+192696	ARA-130	Female	Arabic	Government	Social Media	B1	
+192707	ARA-130	Female	Arabic	Government	Social Media	B2	
+192747	ARA-130	Female	English	Government	Social Media	B1	
+192751	ARA-130	Female	Arabic	Government	Social Media	B1	
+192885	ARA-130	Female	English	Government	Social Media	B1	
+192922	ARA-130	Female	Arabic	Government	Social Media	B1	
+192949	ARA-130	Female	Arabic	Government	Social Media	B1	
+193363	ARA-130	Female	Arabic	Government	Social Media	B1	
+193451	ARA-130	Female	Arabic	Government	Tolerance	B1	
+193838	ARA-130	Female	Arabic	Government	Social Media	B1	
+194708	ARA-130	Female	Arabic	Government	Development	B1	
+194718	ARA-130	Female	Arabic	Government	Development	B2	
+195100	ARA-130	Female	Arabic	Government	Social Media	B1	
+19632	ARA-130	Female	Arabic	Private	Tolerance	B1	
+197835	ARA-130	Female	English	Government	Social Media	B2	
+197898	ARA-130	Female	Arabic	Government	Tolerance	B2	
+198249	ARA-130	Female	Arabic	Government	Development	B2	
+19883	ARA-130	Female	Arabic	Government	Social Media	B1	
+199101	ARA-130	Female	Arabic	Government	Development	B2	
+19921	ARA-130	Female	0	0	Social Media	B1	
+199634	ARA-130	Female	English	Government	Social Media	B2	
+199747	ARA-130	Female	Arabic	Government	Social Media	B2	
+199818	ARA-130	Female	Arabic	Government	Social Media	B1	
+287997	ARA-130	Male	Arabic	Government	Social Media	B1	
+288874	ARA-130	Male	Arabic	Government	Tolerance	B2	
+289073	ARA-130	Male	Arabic	Government	Social Media	B1	
+289115	ARA-130	Male	Arabic	Government	Social Media	A2	
+289903	ARA-130	Male	English	Government	Social Media	B1	
+292703	ARA-130	Male	English	Government	Social Media	Unassessable	
+294255	ARA-130	Female	Arabic	Government	Social Media	B1	
+68830	ARA-130	Female	English	Private	Social Media	B1	
+80566	ARA-130	Female	Arabic	Private	Social Media	B2	
+80816	ARA-130	Female	English	Private	Social Media	B1	
+80823	ARA-130	Female	Arabic	Government	Social Media	B2	
+81303	ARA-130	Female	English	Private	Social Media	B1	
+81425	ARA-130	Female	English	Private	Development	B1	
+81723	ARA-130	Female	English	Private	Social Media	B2	
+81912	ARA-130	Male	English	Private	Social Media	Unassessable	
+81924	ARA-130	Female	Arabic	Government	Social Media	B2	
+81952	ARA-130	Female	English	Private	Social Media	B2	
+81953	ARA-130	Female	English	Private	Social Media	B2	
+82310	ARA-130	Female	Arabic	Government	Tolerance	B1	
+82421	ARA-130	Female	English	Private	Tolerance	B2	
+82659	ARA-130	Female	English	Private	Social Media	B1	
+82673	ARA-130	Female	English	Private	Social Media	B1	
+82789	ARA-130	Female	English	Private	Social Media	B2	
+83139	ARA-130	Female	English	Private	Social Media	B1	
+83165	ARA-130	Female	English	Private	Social Media	B1	
+83576	ARA-130	Male	English	Private	Social Media	B1	
+83847	ARA-130	Female	English	Private	Social Media	Unassessable	
+83934	ARA-130	Female	Arabic	Government	Social Media	B1	
+84014	ARA-130	Female	English	Private	Social Media	B1	
+84446	ARA-130	Female	English	Private	Social Media	B2	
+84488	ARA-130	Female	Arabic	Government	Social Media	B1	
+84627	ARA-130	Female	English	Private	Tolerance	B2	
+84660	ARA-130	Female	English	Private	Social Media	B1	
+84687	ARA-130	Female	English	Private	Social Media	B1	
+84846	ARA-130	Female	English	Private	Social Media	B2	
+85294	ARA-130	Female	English	Government	Social Media	C1	
+85331	ARA-130	Male	English	Private	Development	B2	
+85466	ARA-130	Female	English	Private	Social Media	B1	
+85828	ARA-130	Female	English	Private	Development	B1	
+86032	ARA-130	Female	Arabic	Government	Social Media	B2	
+86741	ARA-130	Female	English	Private	Tolerance	B1	
+86817	ARA-130	Female	Arabic	Government	Social Media	B2	
+87139	ARA-130	Female	English	Private	Social Media	A2	
+87491	ARA-130	Female	English	Private	Social Media	B1	
+87760	ARA-130	Female	English	Private	Social Media	C1	
+88375	ARA-130	Female	Arabic	Government	Social Media	B1	
+88399	ARA-130	Female	English	Private	Social Media	B1	
+88780	ARA-130	Female	English	Private	Social Media	B2	
+89064	ARA-130	Female	English	Private	Social Media	B2	
+89381	ARA-130	Female	Arabic	Government	Social Media	B2	
+89391	ARA-130	Female	Arabic	Private	Social Media	B2	
+89415	ARA-130	Female	Arabic	Government	Social Media	Unassessable	
+89587	ARA-130	Female	English	Private	Social Media	B1	
+89591	ARA-130	Female	Arabic	Government	Social Media	B1	
+89653	ARA-130	Female	English	Semi-Private	Social Media	B1	
+89674	ARA-130	Female	Arabic	Government	Social Media	B1	
+89676	ARA-130	Female	English	Private	Social Media	B2	
+89774	ARA-130	Female	Arabic	Government	Social Media	B2	
+90095	ARA-130	Female	0	0	Tolerance	B1	
+90250	ARA-130	Male	English	Government	Social Media	B2	
+90308	ARA-130	Female	English	Private	Social Media	B1	
+90411	ARA-130	Female	English	Private	Social Media	B2	
+90530	ARA-130	Female	English	Private	Social Media	B2	
+90626	ARA-130	Female	English	Private	Social Media	B1	
+90783	ARA-130	Female	English	Private	Tolerance	B2	
+90813	ARA-130	Female	English	Private	Social Media	B1	
+90873	ARA-130	Female	English	Private	Social Media	B1	
+91028	ARA-130	Female	English	Private	Social Media	B1	
+91113	ARA-130	Female	Arabic	Government	Social Media	B2	
+91241	ARA-130	Female	English	Government	Social Media	B2	
+91256	ARA-130	Female	Arabic	Government	Social Media	B1	
+91347	ARA-130	Female	Arabic	Government	Tolerance	B2	
+91705	ARA-130	Female	Arabic	Government	Development	B2	
+92103	ARA-130	Female	Arabic	Government	Social Media	B1	
+92132	ARA-130	Female	English	Private	Tolerance	B2	
+92245	ARA-130	Female	Arabic	Government	Social Media	B1	
+92581	ARA-130	Female	Arabic	Government	Social Media	B1	
+92771	ARA-130	Female	Arabic	Government	Social Media	B1	
+92844	ARA-130	Female	English	Private	Tolerance	B2	
+92874	ARA-130	Female	Arabic	Government	Social Media	B1	
+92903	ARA-130	Female	Arabic	Government	Social Media	B1	
+92956	ARA-130	Female	English	Private	Social Media	C1	
+92988	ARA-130	Female	0	0	Tolerance	B1	
+93034	ARA-130	Female	0	Secondary Technical School	Development	B1	
+93037	ARA-130	Female	Arabic	Government	Social Media	B2	
+93285	ARA-130	Female	Arabic	Government	Social Media	B1	
+93459	ARA-130	Female	Arabic	Government	Social Media	B1	
+93749	ARA-130	Female	Arabic	Government	Social Media	B2	
+94052	ARA-130	Female	Arabic	Government	Social Media	B1	
+94320	ARA-130	Female	English	Government	Social Media	B2	
+94968	ARA-130	Female	Arabic	Government	Social Media	B1	
+94976	ARA-130	Female	English	Private	Social Media	C1	
+95365	ARA-130	Female	English	Private	Social Media	B2	
+95601	ARA-130	Male	Arabic	Government	Social Media	B2	
+95626	ARA-130	Male	English	Government	Tolerance	C1	
+95796	ARA-130	Female	Arabic	Government	Social Media	C1	
+95921	ARA-130	Female	English	Private	Social Media	B1	
+95973	ARA-130	Female	Arabic	Government	Social Media	B1	
+96120	ARA-130	Female	Arabic	Government	Social Media	C1	
+96463	ARA-130	Female	Arabic	Government	Social Media	B2	
+96479	ARA-130	Female	Arabic	Government	Social Media	C1	
+96682	ARA-130	Female	Arabic	Government	Social Media	B2	
+96735	ARA-130	Female	Arabic	Government	Social Media	B1	
+96882	ARA-130	Female	Arabic	Government	Tolerance	B1	
+96883	ARA-130	Female	English	Private	Social Media	C1	
+97035	ARA-130	Female	Arabic	Government	Social Media	B2	
+97236	ARA-130	Female	Arabic	Government	Social Media	B2	
+97412	ARA-130	Male	0	0	Social Media	B1	
+97455	ARA-130	Male	English	Private	Social Media	B2	
+97525	ARA-130	Female	Arabic	Government	Social Media	B2	
+97652	ARA-130	Female	English	Government	Development	B2	
+97726	ARA-130	Female	English	Private	Social Media	B2	
+97823	ARA-130	Female	Arabic	Government	Tolerance	C1	
+97827	ARA-130	Female	Arabic	Government	Social Media	B2	
+97841	ARA-130	Female	Arabic	Government	Tolerance	B2	
+97908	ARA-130	Female	Arabic	Government	Tolerance	B2	
+97947	ARA-130	Female	Arabic	Government	Social Media	B1	
+97981	ARA-130	Female	English	Private	Social Media	B2	
+98023	ARA-130	Female	English	Private	Social Media	B1	
+98089	ARA-130	Female	Arabic	Government	Social Media	B2	
+98135	ARA-130	Female	Arabic	Government	Social Media	B2	
+98148	ARA-130	Female	Arabic	Government	Tolerance	B2	
+98231	ARA-130	Female	0	0	Tolerance	B2	
+98572	ARA-130	Female	Arabic	Government	Social Media	B2	
+98675	ARA-130	Female	Arabic	Government	Social Media	B2	
+98795	ARA-130	Female	Arabic	Government	Social Media	B2	
+98853	ARA-130	Female	Arabic	Government	Social Media	B2	
+99025	ARA-130	Female	Arabic	Government	Social Media	B2	
+99201	ARA-130	Female	Arabic	Government	Social Media	B1	
+99351	ARA-130	Female	Arabic	Government	Social Media	B2	
+99438	ARA-130	Female	Arabic	Government	Social Media	B2	
+99442	ARA-130	Female	Arabic	Government	Social Media	B2	
+99590	ARA-130	Female	Arabic	Government	Tolerance	B1	
+99787	ARA-130	Female	English	Private	Social Media	B1	

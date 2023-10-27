@@ -1,0 +1,389 @@
+writer_id	course	gender	school_language	school_type	topic	CEFR
+116710	GEN-140	Female	English	Private	Tolerance	B1	
+117417	GEN-140	Female	Arabic	Government	Social Media	A2	
+119150	GEN-140	Female	English	Government	Social Media	A2	
+119813	GEN-140	Female	Arabic	Government	Social Media	A2	
+119831	GEN-140	Female	Arabic	Government	Social Media	A2	
+121991844	GEN-140	Female	Korean	Korean High School 	Social Media	B1	
+121991965	GEN-140	Female	Arabic	Government	Social Media	B1	
+165859	GEN-140	Female	Arabic	Government	Social Media	A2	
+165866	GEN-140	Male	Arabic	Government	Tolerance	B1	
+165904	GEN-140	Female	Arabic	Government	Social Media	B1	
+165949	GEN-140	Female	Arabic	Government	Social Media	B1	
+166095	GEN-140	Male	English	Private	Development	A2	
+166122	GEN-140	Male	English	Private	Social Media	B1	
+168692	GEN-140	Female	Arabic	Government	Social Media	B1	
+168718	GEN-140	Female	Arabic	Government	Social Media	A2	
+168839	GEN-140	Female	English	Private	Social Media	B1	
+186196	GEN-140	Female	Arabic	Government	Social Media	B1	
+186798	GEN-140	Female	English	Private	Development	A2	
+186984	GEN-140	Female	English	Private	Social Media	B1	
+187556	GEN-140	Male	English	Government	Social Media	B2	
+187968	GEN-140	Female	Arabic	Government	Development	A2	
+188826	GEN-140	Female	English	Government	Social Media	A2	
+188847	GEN-140	Female	Arabic	Government	Social Media	A1	
+188945	GEN-140	Female	English	Private	Social Media	A2	
+189349	GEN-140	Female	Arabic	Government	Social Media	A1	
+189441	GEN-140	Female	Arabic	Government	Development	A2	
+189442	GEN-140	Female	Arabic	Government	Social Media	A2	
+189525	GEN-140	Female	Arabic	Government	Social Media	A2	
+189750	GEN-140	Female	English	Government	Social Media	B1	
+189799	GEN-140	Female	Arabic	Government	Social Media	A2	
+189921	GEN-140	Female	Arabic	Government	Social Media	A2	
+190122	GEN-140	Female	English	Government	Social Media	A2	
+190176	GEN-140	Female	English	Private	Social Media	B1	
+190307	GEN-140	Female	Arabic	Government	Development	A2	
+190317	GEN-140	Female	English	Private	Social Media	A2	
+190447	GEN-140	Female	Arabic	Government	Social Media	A2	
+190499	GEN-140	Female	Arabic	Private	Social Media	B1	
+190706	GEN-140	Female	Arabic	Government	Social Media	B1	
+190745	GEN-140	Female	English	Government	Development	A1	
+190808	GEN-140	Female	Arabic	Government	Social Media	B1	
+190855	GEN-140	Female	Arabic	Government	Social Media	A2	
+190863	GEN-140	Female	Arabic	Government	Social Media	A2	
+191006	GEN-140	Female	Arabic	Government	Development	A2	
+191075	GEN-140	Female	Arabic	Government	Development	A2	
+191088	GEN-140	Female	Arabic	Government	Social Media	B1	
+191115	GEN-140	Female	English	Government	Development	A2	
+191242	GEN-140	Female	Arabic	Government	Social Media	A2	
+191515	GEN-140	Female	Arabic	Government	Social Media	A2	
+191587	GEN-140	Female	Arabic	Government	Social Media	A2	
+191743	GEN-140	Female	Arabic	Government	Social Media	A2	
+191794	GEN-140	Female	Arabic	Government	Social Media	B1	
+191850	GEN-140	Female	Arabic	Private	Social Media	A2	
+191859	GEN-140	Female	English	Government	Social Media	A2	
+191937	GEN-140	Female	Arabic	Government	Development	A2	
+192155	GEN-140	Female	Arabic	Government	Social Media	A2	
+192171	GEN-140	Female	Arabic	Government	Social Media	A2	
+192218	GEN-140	Female	Arabic	Government	Social Media	A1	
+192387	GEN-140	Female	Arabic	Government	Development	A2	
+192397	GEN-140	Female	Arabic	Government	Social Media	A2	
+192469	GEN-140	Female	Arabic	Government	Social Media	A2	
+192479	GEN-140	Female	English	Government	Development	A2	
+192490	GEN-140	Female	Arabic	Government	Social Media	A2	
+192528	GEN-140	Female	Arabic	Government	Social Media	A2	
+192572	GEN-140	Female	Arabic	Private	Social Media	B1	
+192582	GEN-140	Female	English	Government	Social Media	A2	
+192586	GEN-140	Female	Arabic	Government	Development	A2	
+192654	GEN-140	Female	Arabic	Government	Social Media	B1	
+192696	GEN-140	Female	Arabic	Government	Social Media	A2	
+192707	GEN-140	Female	Arabic	Government	Social Media	A2	
+192747	GEN-140	Female	English	Government	Social Media	A2	
+192751	GEN-140	Female	Arabic	Government	Development	A2	
+192922	GEN-140	Female	Arabic	Government	Social Media	B1	
+192949	GEN-140	Female	Arabic	Government	Social Media	B1	
+193035	GEN-140	Female	Arabic	Government	Social Media	A2	
+193363	GEN-140	Female	Arabic	Government	Social Media	B1	
+193451	GEN-140	Female	Arabic	Government	Social Media	A2	
+193838	GEN-140	Female	Arabic	Government	Development	A1	
+194149	GEN-140	Female	Arabic	Government	Social Media	A2	
+194389	GEN-140	Female	Arabic	Government	Social Media	A2	
+194708	GEN-140	Female	Arabic	Government	Social Media	A2	
+194718	GEN-140	Female	Arabic	Government	Social Media	A2	
+195100	GEN-140	Female	Arabic	Government	Development	A2	
+19632	GEN-140	Female	Arabic	Private	Social Media	B1	
+196776	GEN-140	Female	Arabic	Government	Social Media	A2	
+196987	GEN-140	Male	English	Private	Social Media	B1	
+19701	GEN-140	Male	English	Private	Social Media	B1	
+197553	GEN-140	Female	Arabic	Government	Social Media	B1	
+197835	GEN-140	Female	English	Government	Social Media	B1	
+197898	GEN-140	Female	Arabic	Government	Development	B1	
+19791	GEN-140	Male	English	Private	Social Media	B1	
+198249	GEN-140	Female	Arabic	Government	Social Media	A2	
+19883	GEN-140	Female	Arabic	Government	Social Media	B1	
+199101	GEN-140	Female	Arabic	Government	Social Media	A2	
+19921	GEN-140	Female	0	0	Social Media	B1	
+199634	GEN-140	Female	English	Government	Social Media	A2	
+199747	GEN-140	Female	Arabic	Government	Development	B1	
+199818	GEN-140	Female	Arabic	Government	Social Media	B1	
+199951	GEN-140	Female	Arabic	Government	Social Media	A2	
+219833	GEN-140	Male	Arabic	Government	Social Media	A2	
+268469	GEN-140	Male	English	Private	Social Media	B2	
+268819	GEN-140	Male	Arabic	Government	Development	A2	
+273084	GEN-140	Female	English	Private	Social Media	B2	
+278582	GEN-140	Male	Arabic	Government	Social Media	A2	
+284475	GEN-140	Male	Arabic	Government	Development	A2	
+286381	GEN-140	Male	0	0	Development	A2	
+287259	GEN-140	Male	Arabic	Government	Social Media	A2	
+287810	GEN-140	Male	Arabic	Government	Development	A1	
+287997	GEN-140	Male	Arabic	Government	Social Media	A2	
+288097	GEN-140	Male	Arabic	Government	Social Media	A2	
+288874	GEN-140	Male	Arabic	Government	Social Media	A2	
+288992	GEN-140	Male	Arabic	Government	Social Media	A2	
+289073	GEN-140	Male	Arabic	Government	Social Media	A2	
+289115	GEN-140	Male	Arabic	Government	Social Media	A2	
+289903	GEN-140	Male	English	Government	Development	A2	
+290218	GEN-140	Male	English	Private	Social Media	B1	
+290717	GEN-140	Male	English	Government	Social Media	A2	
+290747	GEN-140	Male	Arabic	Government	Social Media	A2	
+292703	GEN-140	Male	English	Government	Social Media	A2	
+293472	GEN-140	Female	English	Government	Social Media	A1	
+294378	GEN-140	Male	Arabic	Government	Development	A2	
+296843	GEN-140	Female	Arabic	Government	Development	A2	
+384092	GEN-140	Male	Arabic	Government	Social Media	B1	
+386369	GEN-140	Male	Arabic	Government	Social Media	B1	
+398069	GEN-140	Male	Arabic	Government	Social Media	B1	
+68618	GEN-140	Female	English	Government	Development	B1	
+68830	GEN-140	Female	English	Private	Social Media	B2	
+80566	GEN-140	Female	Arabic	Private	Social Media	B1	
+80688	GEN-140	Female	English	Private	Social Media	B1	
+80816	GEN-140	Female	English	Private	Social Media	B1	
+80823	GEN-140	Female	Arabic	Government	Social Media	B1	
+81027	GEN-140	Female	English	Government	Tolerance	B1	
+81303	GEN-140	Female	English	Private	Social Media	B1	
+81333	GEN-140	Female	English	Private	Tolerance	B1	
+81425	GEN-140	Female	English	Private	Development	B2	
+81723	GEN-140	Female	English	Private	Social Media	B1	
+81757	GEN-140	Female	Arabic	Government	Social Media	A2	
+81912	GEN-140	Male	English	Private	Social Media	B1	
+81952	GEN-140	Female	English	Private	Social Media	B1	
+81953	GEN-140	Female	English	Private	Social Media	B2	
+82015	GEN-140	Female	English	Private	Social Media	B1	
+82239	GEN-140	Female	English	Private	Social Media	C1	
+82248	GEN-140	Female	English	Private	Social Media	C1	
+82252	GEN-140	Female	English	Private	Social Media	B1	
+82264	GEN-140	Female	English	Private	Social Media	B1	
+82310	GEN-140	Female	Arabic	Government	Social Media	B1	
+82332	GEN-140	Female	English	Private	Social Media	B1	
+82421	GEN-140	Female	English	Private	Social Media	B1	
+82490	GEN-140	Female	English	Private	Social Media	B1	
+82499	GEN-140	Female	English	Private	Social Media	B1	
+82562	GEN-140	Female	English	Private	Social Media	B2	
+82597	GEN-140	Female	0	0	Social Media	A2	
+82659	GEN-140	Female	English	Private	Social Media	B2	
+82673	GEN-140	Female	English	Private	Social Media	B2	
+82748	GEN-140	Female	English	Private	Development	B1	
+82755	GEN-140	Female	English	Private	Social Media	B1	
+82789	GEN-140	Female	English	Private	Social Media	B2	
+82791	GEN-140	Female	English	Private	Social Media	B1	
+82867	GEN-140	Female	Arabic	Government	Social Media	B1	
+82986	GEN-140	Female	English	Private	Social Media	B1	
+83139	GEN-140	Female	English	Private	Social Media	B1	
+83165	GEN-140	Female	English	Private	Social Media	B2	
+83404	GEN-140	Male	English	Private	Social Media	B2	
+83576	GEN-140	Male	English	Private	Social Media	B1	
+83588	GEN-140	Female	English	Private	Social Media	B1	
+83598	GEN-140	Female	English	Private	Development	B2	
+83847	GEN-140	Female	English	Private	Social Media	B2	
+83934	GEN-140	Female	Arabic	Government	Social Media	B1	
+84014	GEN-140	Female	English	Private	Social Media	B2	
+84417	GEN-140	Male	Arabic	Government	Social Media	B1	
+84446	GEN-140	Female	English	Private	Social Media	B1	
+84488	GEN-140	Female	Arabic	Government	Social Media	B1	
+84489	GEN-140	Female	English	Private	Social Media	B1	
+84522	GEN-140	Female	English	Private	Social Media	B2	
+84536	GEN-140	Male	English	Private	Social Media	B1	
+84627	GEN-140	Female	English	Private	Development	B1	
+84660	GEN-140	Female	English	Private	Social Media	B2	
+84687	GEN-140	Female	English	Private	Social Media	C1	
+84688	GEN-140	Female	English	Private	Social Media	B2	
+84792	GEN-140	Female	English	Government	Social Media	B1	
+84846	GEN-140	Female	English	Private	Social Media	B1	
+84933	GEN-140	Female	English	Private	Social Media	B2	
+84992	GEN-140	Female	English	Private	Social Media	B1	
+85007	GEN-140	Female	English	Private	Social Media	B2	
+85028	GEN-140	Female	English	Private	Social Media	B2	
+85294	GEN-140	Female	English	Government	Development	B2	
+85331	GEN-140	Male	English	Private	Social Media	B1	
+85452	GEN-140	Female	English	Private	Social Media	B2	
+85466	GEN-140	Female	English	Private	Social Media	B2	
+85472	GEN-140	Female	English	Private	Social Media	B1	
+85544	GEN-140	Female	English	Government	Social Media	B1	
+85623	GEN-140	Female	English	Private	Social Media	B2	
+85828	GEN-140	Female	English	Private	Social Media	B1	
+85838	GEN-140	Female	English	Private	Social Media	B1	
+85859	GEN-140	Female	English	Private	Social Media	B1	
+85891	GEN-140	Female	Arabic	Government	Social Media	B1	
+85999	GEN-140	Female	English	Private	Social Media	B2	
+86027	GEN-140	Female	Arabic	Government	Development	B2	
+86032	GEN-140	Female	Arabic	Government	Social Media	B2	
+86047	GEN-140	Female	English	Private	Development	B1	
+86193	GEN-140	Female	Arabic	Government	Development	A2	
+86360	GEN-140	Female	English	Government	Social Media	B2	
+86741	GEN-140	Female	English	Private	Development	B2	
+86817	GEN-140	Female	Arabic	Government	Social Media	A2	
+86855	GEN-140	Female	English	Private	Social Media	B2	
+87102	GEN-140	Female	English	Private	Social Media	B2	
+87139	GEN-140	Female	English	Private	Social Media	B2	
+87166	GEN-140	Female	English	Private	Social Media	B1	
+87491	GEN-140	Female	English	Private	Social Media	B2	
+87682	GEN-140	Female	English	Private	Social Media	B2	
+87760	GEN-140	Female	English	Private	Social Media	C1	
+87782	GEN-140	Female	English	Private	Social Media	B1	
+87852	GEN-140	Female	English	Private	Development	B1	
+87953	GEN-140	Female	English	Private	Social Media	B1	
+88061	GEN-140	Female	English	Private	Social Media	B2	
+88225	GEN-140	Female	English	Private	Social Media	B2	
+88375	GEN-140	Female	Arabic	Government	Social Media	B1	
+88399	GEN-140	Female	English	Private	Social Media	C1	
+88480	GEN-140	Female	English	Private	Social Media	B1	
+88780	GEN-140	Female	English	Private	Social Media	B2	
+88788	GEN-140	Female	English	Private	Social Media	B2	
+88938	GEN-140	Female	English	Private	Social Media	B2	
+89064	GEN-140	Female	English	Private	Social Media	B1	
+89199	GEN-140	Female	English	Private	Social Media	B1	
+89212	GEN-140	Female	English	Private	Social Media	A2	
+89249	GEN-140	Female	English	Private	Social Media	B1	
+89373	GEN-140	Female	English	Private	Social Media	B1	
+89381	GEN-140	Female	Arabic	Government	Social Media	B1	
+89391	GEN-140	Female	Arabic	Private	Social Media	B1	
+89415	GEN-140	Female	Arabic	Government	Social Media	B1	
+89543	GEN-140	Female	English	Private	Social Media	B1	
+89580	GEN-140	Female	Arabic	Government	Social Media	B1	
+89587	GEN-140	Female	English	Private	Social Media	B2	
+89645	GEN-140	Female	English	Private	Social Media	B2	
+89653	GEN-140	Female	English	Semi-Private	Social Media	B2	
+89674	GEN-140	Female	Arabic	Government	Tolerance	B1	
+89676	GEN-140	Female	English	Private	Social Media	B2	
+89742	GEN-140	Female	English	Private	Social Media	B1	
+89751	GEN-140	Female	Arabic	Government	Social Media	A2	
+89774	GEN-140	Female	Arabic	Government	Social Media	B2	
+89881	GEN-140	Female	English	Private	Social Media	B1	
+89908	GEN-140	Female	English	Private	Social Media	B1	
+89953	GEN-140	Female	Arabic	Private	Social Media	A2	
+89976	GEN-140	Female	English	Private	Social Media	B1	
+89977	GEN-140	Female	0	0	Social Media	B1	
+90092	GEN-140	Female	Arabic	Government	Social Media	B2	
+90095	GEN-140	Female	0	0	Social Media	B1	
+90250	GEN-140	Male	English	Government	Social Media	B1	
+90308	GEN-140	Female	English	Private	Social Media	B1	
+90397	GEN-140	Female	English	Private	Social Media	C1	
+90410	GEN-140	Female	0	0	Social Media	B2	
+90411	GEN-140	Female	English	Private	Social Media	B2	
+90436	GEN-140	Female	English	Private	Tolerance	B2	
+90450	GEN-140	Female	English	Private	Social Media	B1	
+90528	GEN-140	Female	English	Government	Social Media	B1	
+90530	GEN-140	Female	English	Private	Social Media	B2	
+90557	GEN-140	Female	English	Private	Tolerance	B1	
+90626	GEN-140	Female	English	Private	Social Media	B2	
+90635	GEN-140	Female	English	Private	Social Media	B2	
+90783	GEN-140	Female	English	Private	Social Media	C1	
+90785	GEN-140	Female	Arabic	Government	Social Media	B1	
+90807	GEN-140	Female	English	Government	Social Media	B1	
+90813	GEN-140	Female	English	Private	Social Media	C1	
+90847	GEN-140	Female	English	Private	Social Media	B1	
+90857	GEN-140	Female	English	Private	Social Media	B2	
+90858	GEN-140	Female	English	Private	Social Media	B2	
+90873	GEN-140	Female	English	Private	Social Media	B1	
+90901	GEN-140	Female	English	Private	Social Media	B1	
+90940	GEN-140	Female	English	Private	Social Media	B1	
+91028	GEN-140	Female	English	Private	Social Media	B2	
+91113	GEN-140	Female	Arabic	Government	Development	B1	
+91138	GEN-140	Female	0	0	Social Media	B1	
+91170	GEN-140	Female	English	Private	Social Media	B2	
+91241	GEN-140	Female	English	Government	Social Media	B1	
+91246	GEN-140	Female	English	Private	Social Media	B1	
+91303	GEN-140	Female	English	Private	Social Media	B1	
+91347	GEN-140	Female	Arabic	Government	Social Media	B1	
+91415	GEN-140	Female	English	Private	Social Media	B2	
+91667	GEN-140	Female	Arabic	Government	Social Media	B1	
+91705	GEN-140	Female	Arabic	Government	Social Media	B1	
+92004	GEN-140	Female	Arabic	Private	Social Media	B1	
+92054	GEN-140	Female	English	Private	Social Media	B1	
+92103	GEN-140	Female	Arabic	Government	Social Media	B1	
+92132	GEN-140	Female	English	Private	Social Media	A2	
+92169	GEN-140	Female	0	0	Social Media	B2	
+92201	GEN-140	Female	English	Private	Social Media	B1	
+92245	GEN-140	Female	Arabic	Government	Social Media	B1	
+92418	GEN-140	Female	Arabic	Government	Social Media	A2	
+92524	GEN-140	Female	Arabic	Government	Social Media	B1	
+92581	GEN-140	Female	Arabic	Government	Social Media	B1	
+92616	GEN-140	Female	0	0	Social Media	B2	
+92692	GEN-140	Female	Arabic/English	Government	Social Media	B2	
+92726	GEN-140	Female	Arabic	Government	Social Media	B1	
+92771	GEN-140	Female	Arabic	Government	Social Media	B1	
+92800	GEN-140	Female	English	Government	Social Media	B1	
+92844	GEN-140	Female	English	Private	Development	B2	
+92866	GEN-140	Female	Arabic	Government	Social Media	B1	
+92874	GEN-140	Female	Arabic	Government	Social Media	B2	
+92903	GEN-140	Female	Arabic	Government	Social Media	B1	
+92956	GEN-140	Female	English	Private	Social Media	B2	
+92988	GEN-140	Female	0	0	Social Media	A2	
+93034	GEN-140	Female	0	Secondary Technical School	Development	B2	
+93037	GEN-140	Female	Arabic	Government	Social Media	B1	
+93285	GEN-140	Female	Arabic	Government	Social Media	B1	
+93360	GEN-140	Female	Arabic	Government	Social Media	A2	
+93361	GEN-140	Female	English	Government	Social Media	B1	
+93362	GEN-140	Female	English	Private	Social Media	B1	
+93459	GEN-140	Female	Arabic	Government	Social Media	B1	
+93547	GEN-140	Female	0	Secondary Technical School	Social Media	B1	
+93579	GEN-140	Male	English	Private	Social Media	B1	
+93749	GEN-140	Female	Arabic	Government	Social Media	B2	
+93907	GEN-140	Male	English	Private	Social Media	B2	
+93912	GEN-140	Female	English	Government	Social Media	B1	
+93931	GEN-140	Female	Arabic	Private	Social Media	B1	
+94052	GEN-140	Female	Arabic	Government	Social Media	B1	
+94176	GEN-140	Female	0	0	Social Media	B1	
+94320	GEN-140	Female	English	Government	Social Media	B2	
+94968	GEN-140	Female	Arabic	Government	Social Media	B1	
+94976	GEN-140	Female	English	Private	Social Media	B1	
+95010	GEN-140	Female	Arabic	Government	Social Media	B1	
+95062	GEN-140	Female	Arabic	Government	Social Media	A2	
+95099	GEN-140	Female	0	0	Development	B1	
+95136	GEN-140	Female	Arabic	Government	Social Media	B1	
+95156	GEN-140	Female	English	Government	Social Media	B1	
+95314	GEN-140	Female	Arabic	Government	Social Media	B1	
+95365	GEN-140	Female	English	Private	Social Media	B2	
+95601	GEN-140	Male	Arabic	Government	Social Media	A2	
+95626	GEN-140	Male	English	Government	Social Media	B1	
+95796	GEN-140	Female	Arabic	Government	Social Media	B1	
+95921	GEN-140	Female	English	Private	Social Media	B2	
+95973	GEN-140	Female	Arabic	Government	Social Media	B1	
+96120	GEN-140	Female	Arabic	Government	Development	B1	
+96339	GEN-140	Female	English	Private	Social Media	B1	
+96463	GEN-140	Female	Arabic	Government	Social Media	B1	
+96479	GEN-140	Female	Arabic	Government	Social Media	B1	
+96671	GEN-140	Female	English	Private	Social Media	B2	
+96682	GEN-140	Female	Arabic	Government	Tolerance	B1	
+96683	GEN-140	Female	English	Government	Development	B1	
+96735	GEN-140	Female	Arabic	Government	Social Media	B1	
+96882	GEN-140	Female	Arabic	Government	Social Media	B1	
+96883	GEN-140	Female	English	Private	Social Media	B2	
+96903	GEN-140	Female	English	Private	Social Media	B2	
+97035	GEN-140	Female	Arabic	Government	Social Media	B1	
+97068	GEN-140	Female	English	Private	Social Media	B1	
+97113	GEN-140	Female	Arabic	Government	Social Media	A2	
+97236	GEN-140	Female	Arabic	Government	Social Media	A2	
+97333	GEN-140	Female	English	Government	Social Media	A2	
+97412	GEN-140	Male	0	0	Social Media	B1	
+97455	GEN-140	Male	English	Private	Social Media	B1	
+97525	GEN-140	Female	Arabic	Government	Social Media	B1	
+97652	GEN-140	Female	English	Government	Social Media	B2	
+97702	GEN-140	Male	Arabic	Government	Development	A2	
+97705	GEN-140	Female	English	Private	Social Media	B2	
+97726	GEN-140	Female	English	Private	Social Media	B1	
+97761	GEN-140	Female	English	Private	Social Media	B1	
+97769	GEN-140	Female	English	Private	Social Media	B1	
+97791	GEN-140	Female	English	Government	Development	B1	
+97823	GEN-140	Female	Arabic	Government	Development	B1	
+97827	GEN-140	Female	Arabic	Government	Social Media	B2	
+97841	GEN-140	Female	Arabic	Government	Tolerance	B1	
+97908	GEN-140	Female	Arabic	Government	Social Media	B1	
+97945	GEN-140	Female	English	Private	Social Media	B1	
+97947	GEN-140	Female	Arabic	Government	Social Media	B1	
+97964	GEN-140	Female	Arabic	Government	Social Media	B2	
+97981	GEN-140	Female	English	Private	Social Media	B2	
+98023	GEN-140	Female	English	Private	Social Media	B2	
+98089	GEN-140	Female	Arabic	Government	Social Media	B1	
+98135	GEN-140	Female	Arabic	Government	Development	B1	
+98148	GEN-140	Female	Arabic	Government	Social Media	C1	
+98231	GEN-140	Female	0	0	Social Media	C1	
+98397	GEN-140	Female	English	Government	Social Media	B1	
+98572	GEN-140	Female	Arabic	Government	Social Media	B1	
+98675	GEN-140	Female	Arabic	Government	Social Media	B1	
+98704	GEN-140	Female	English	Government	Social Media	B1	
+98795	GEN-140	Female	Arabic	Government	Social Media	B2	
+98812	GEN-140	Female	English	Private	Social Media	B1	
+98853	GEN-140	Female	Arabic	Government	Development	B1	
+99025	GEN-140	Female	Arabic	Government	Social Media	B1	
+99201	GEN-140	Female	Arabic	Government	Development	A2	
+99212	GEN-140	Female	Arabic	Government	Social Media	B1	
+99341	GEN-140	Female	Arabic	Government	Social Media	B1	
+99351	GEN-140	Female	Arabic	Government	Social Media	B1	
+99438	GEN-140	Female	Arabic	Government	Social Media	B2	
+99442	GEN-140	Female	Arabic	Government	Social Media	B1	
+99443	GEN-140	Female	English	Private	Social Media	B1	
+99584	GEN-140	Female	Arabic	Government	Social Media	A2	
+99590	GEN-140	Female	Arabic	Government	Tolerance	B1	
+99787	GEN-140	Female	English	Private	Social Media	B2	
+99933	GEN-140	Female	English	Private	Social Media	B2	

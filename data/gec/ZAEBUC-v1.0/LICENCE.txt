@@ -1,0 +1,21 @@
+//////////////////////////////////////////////////////////////////////////////
+// License for ZAEBUC: The Zayed Arabic-English Bilingual Undergraduate Corpus
+//////////////////////////////////////////////////////////////////////////////
+
+This work is licensed under a Creative Commons
+Attribution-NonCommercial-ShareAlike 4.0 International License.
+(https://creativecommons.org/licenses/by-nc-sa/4.0/)
+
+Created by Nizar Habash and David Palfreyman, at the Computational
+Approaches to Modeling Language (CAMeL) Lab in New York University Abu
+Dhabi, and Zayed University respectively.
+
+Please cite Habash & Palfreyman (2022) if you use The Zayed
+Arabic-English Bilingual Undergraduate Corpus in your research:
+
+Nizar Habash & David Palfreyman. ZAEBUC: An Annotated Arabic-English
+Bilingual Writer Corpus. In Proceedings of the 13th Conference on
+Language Resources and Evaluation (LREC 2022), pages 79-88, Marseille,
+2022.
+
+//////////////////////////////////////////////////////////////////////////////
