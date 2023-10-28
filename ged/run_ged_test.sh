@@ -34,16 +34,16 @@ python error_detection.py \
      --per_device_eval_batch_size $BATCH_SIZE \
      --seed $SEED \
      --do_pred \
-     --pred_output_file ${exp}_${pred_mode}.preds.txt.check \
+     --pred_output_file ${exp}_${pred_mode}.preds.txt \
      --pred_mode $pred_mode # or test to get the test predictions
 
      # Evaluation
-        paste $DATA_DIR/${pred_mode}.txt $OUTPUT_DIR/${DATASET}_${pred_mode}.preds.txt.check \
-            > $OUTPUT_DIR/eval_data_${pred_mode}_${DATASET}.txt.check
+        paste $DATA_DIR/${pred_mode}.txt $OUTPUT_DIR/${DATASET}_${pred_mode}.preds.txt \
+            > $OUTPUT_DIR/eval_data_${pred_mode}_${DATASET}.txt
 
-        python evaluate.py  --data $OUTPUT_DIR/eval_data_${pred_mode}_${DATASET}.txt.check \
+        python evaluate.py  --data $OUTPUT_DIR/eval_data_${pred_mode}_${DATASET}.txt \
                             --labels $LABELS \
-                            --output $OUTPUT_DIR/${DATASET}_${pred_mode}.results.check
+                            --output $OUTPUT_DIR/${DATASET}_${pred_mode}.results
 
-        rm $OUTPUT_DIR/eval_data_${pred_mode}_${DATASET}.txt.check
+        rm $OUTPUT_DIR/eval_data_${pred_mode}_${DATASET}.txt
 
