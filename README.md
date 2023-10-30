@@ -25,6 +25,25 @@ conda create -n python=3.7
 pip install -r requirements.txt
 ```
 
+## Experiments and Reproducibility:
+
+This repo is organized as follows:
+1. [data]():
+
+2. [ged]():
+
+3. [gec]():
+
+4. [alignment]():
+
+5. [areta]():
+
+6. [transformers]():
+
+7. [utils]():
+
+8. [stat_significance]():
+    
 
 ## License:
 
