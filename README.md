@@ -42,7 +42,6 @@ This repo is organized as follows:
 
 7. [utils]():
 
-8. [stat_significance]():
     
 
 ## License:
