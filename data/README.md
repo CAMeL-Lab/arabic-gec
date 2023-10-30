@@ -56,3 +56,5 @@ It is important to note that the GED data used to create the json lines are base
 
 
 ## M<sup>2</sup> Scorer Edits:
+
+Since the ZAEBUC dataset does not have manually created m2edits files, as was done in QALB-2014 and QALB-2015, we use our alignment algorithm to generate the m2edits for the dev and test sets for ZAEBUC. Moreover, we also rely on our alignment algorithm to generate m2edits for the non-punctuation versions of the dev and test sets of QALB-2014, QALB-2015, and ZAEBUC. Automatically generated m2edits are [here](https://github.com/balhafni/arabic-gec/tree/master/data/m2edits) and can obtained by running `bash create_m2edits.sh`.
