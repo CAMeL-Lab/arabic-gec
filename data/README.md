@@ -55,4 +55,4 @@ For GEC, we create json lines files that encapsulate both the grammatical error 
 It is important to note that the GED data used to create the json lines are based on the predictions of our GED models. Except for `*.oracle.json` files where we used gold GED data, which are used to conduct our oracle experiments.
 
 
-## M2 Scorer Edits:
+## M<sup>2</sup> Scorer Edits:
