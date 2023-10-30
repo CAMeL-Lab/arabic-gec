@@ -9,7 +9,7 @@ def get_best_checkpoint_gec(model_path):
     checkpoint_scores = []
 
     for checkpoint in checkpoints:
-        for eval_file in glob.glob(os.path.join(checkpoint, 'zaebuc_dev.preds.check.txt.m2')):
+        for eval_file in glob.glob(os.path.join(checkpoint, 'zaebuc_dev.preds.oracle.txt.m2')):
             with open(eval_file) as f:
                 f_score = f.readlines()[3].strip().split()[-1]
                 checkpoint_scores.append((eval_file, f_score))
