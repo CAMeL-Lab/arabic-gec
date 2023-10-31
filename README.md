@@ -28,17 +28,12 @@ pip install -r requirements.txt
 ## Experiments and Reproducibility:
 
 This repo is organized as follows:
-1. [data]():
-
-2. [ged]():
-
-3. [gec]():
-
-4. [alignment]():
-
-5. [areta]():
-
-6. [transformers]():
+1. [data](data): includes all the data we used throughout our paper to train and test various systems. This includes alignments, m2edits, GED, GEC, and all the utilities we used.
+2. [ged](ged): includes the scripts needed to train and evaluate our GED models.
+3. [gec](gec): includes the scripts needed to train and evaluate our GEC models.
+4. [alignment](alignment): a stand-alone script for the alignment algorithm we introduced in our paper. 
+5. [areta](areta): a slightly improved version of ARETA, an error type annotation tool for Modern Standard Arabic (MSA).
+6. [transformers](transformers): our extended version of Hugging Face's transformers that allows incorporating GED information with seq2seq models.
 
 
     
