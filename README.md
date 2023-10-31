@@ -40,7 +40,6 @@ This repo is organized as follows:
 
 6. [transformers]():
 
-7. [utils]():
 
     
 
