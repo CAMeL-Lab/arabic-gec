@@ -75,8 +75,10 @@ python generate.py \
   --max_target_length 1024 \
   --predict_with_generate \
   --prediction_file $pred_file
-
 ```
+
+The generated outputs of our models on the dev and test sets are in the [predictions](predictions) directory.
+
 ## Evaluation:
 
 We pick the best model checkpoint (for the seq2seq models) based on the development sets. However, the M<sup>2</sup> scorer suffers from extreme running times in cases where the generated outputs differ significantly from the input. To mitigate this bottleneck, we extend the [M<sup>2</sup> scorer](https://github.com/CAMeL-Lab/arabic-gec/tree/master/gec/utils/m2scorer) by introducing a python3 version with a [time limit](https://github.com/CAMeL-Lab/arabic-gec/blob/master/gec/utils/m2scorer/m2scorer.py#L141) for each sentence during evaluation. If the evaluation of a single generated sentence surpasses this limit, we pass the input sentence to the output without modifications.
