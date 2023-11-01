@@ -79,11 +79,10 @@ python generate.py \
 ```
 ## Evaluation:
 
-Talk about the m2scorer skip time on the dev set.
-
-If the file name has a pp, sentences were skipped. we do this only on the dev sets.
-
-If the file name has official, this is the python2 m2scorer from the qalb release.
+We pick the best model checkpoint (for the seq2seq models) based on the development sets. However, the M<sup>2</sup> scorer suffers from extreme running times in cases where the generated outputs differ significantly from the input. To mitigate this bottleneck, we extend the [M<sup>2</sup> scorer](https://github.com/CAMeL-Lab/arabic-gec/tree/master/gec/utils/m2scorer) by introducing a python3 version with a [time limit](https://github.com/CAMeL-Lab/arabic-gec/blob/master/gec/utils/m2scorer/m2scorer.py#L141) for each sentence during evaluation. If the evaluation of a single generated sentence surpasses this limit, we pass the input sentence to the output without modifications.
+We implement this extension in a modular way that allows us to import and use M<sup>2</sup> scorer to evaluate the generated outputs. In cases where we generated sentences are replaced by the input, the generated output file will end with a `.pp` extension. 
 
 
-At the end of the fine-tuning, we pick the best checkpoint based on the F<sub>0.5</sub> performance on the dev sets.
+It is important to note that we use our extended version of the M<sup>2</sup> scorer when reporting our results on the development sets **only**. When reporting our results on the
+test sets, we use M<sup>2</sup> scorer python2 release that is provided by the QALB shared task. During the evaluation, we use the manually created m2edits for QALB-2014 and QALB-2015 which are publicly available as part of the shared task. For ZAEBUC, we rely on our alignment to create the m2edits automatically. For the no-punctuation evaluation, we use the automatically created m2edits for all datasets.
+
