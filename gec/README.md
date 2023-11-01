@@ -10,11 +10,11 @@ We use the contextual morphological analysis and disambiguation model introduced
 
 
 ### MLE:
-The code for the MLE model we describe in our paper can be found [here](), with instructions on how to run it.
+The code for the MLE model we describe in our paper can be found [here](mle), with instructions on how to run it.
 
 
 ### GPT-3.5:
-We provide the code we used to prompt gpt-3.5 turbo (ChatGPT) along the full set of prompts [here](). Make sure to provide your OpenAI **[API_KEY](https://github.com/CAMeL-Lab/arabic-gec/blob/master/gec/chatgpt_gec.py#L12)** before running the script.
+We provide the code we used to prompt gpt-3.5 turbo (ChatGPT) along the full set of prompts [here](chatgpt_gec.py). Make sure to provide your OpenAI **[API_KEY](https://github.com/CAMeL-Lab/arabic-gec/blob/master/gec/chatgpt_gec.py#L12)** before running the script.
 
 
 ## Seq2Seq Models:
