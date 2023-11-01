@@ -19,11 +19,65 @@ We provide the code we used to prompt gpt-3.5 turbo (ChatGPT) along the full set
 
 ## Seq2Seq Models:
 
+We provide [scripts](training_scripts) to reproduce the GEC models we built by fine-tuning [AraBART]() and [AraT5](). It is important to note that you need to specify the correct training file corresponding to each experiment. We provide a detailed description of the data we used to build our GEC models [here]((https://github.com/CAMeL-Lab/arabic-gec/tree/master/data)). Each of the provided [scripts](training_scripts] will have a variant of the following code based on the experiment we'd like to run:
 
-### Fine-tuning:
+```bash
 
+MODEL=/path/to/model # or huggingface model id
+OUTPUT_DIR=/path/to/output/dir
+TRAIN_FILE=/path/to/gec/train/file
+LABELS=/path/to/ged/labels
+STEPS=1000 # 500 for qalb14 and 1000 for mix
+BATCH_SIZE=16 # 32 for qalb14 and 16 for mix
 
-### Evaluation:
+python run_gec.py \
+  --model_name_or_path $MODEL \
+  --do_train \
+  --optim adamw_torch \
+  --source_lang raw \
+  --target_lang cor \
+  --train_file $TRAIN_FILE \
+  --ged_tags  $LABELS \
+  --save_steps $STEPS \
+  --num_train_epochs 10 \
+  --output_dir $OUTPUT_DIR \
+  --per_device_train_batch_size $BATCH_SIZE \
+  --per_device_eval_batch_size $BATCH_SIZE \
+  --max_target_length 1024 \
+  --seed 42 \
+  --overwrite_cache \
+  --overwrite_output_dir
+```
+
+We also provide the [scripts](generation_scripts) we used during inference to generate grammatically correct outputs using the fine-tuned models. Each of the provided [scripts](generation_scripts) will have a variant of the following code based on the experiment we'd like to run:
+
+```bash
+
+model=/path/to/model
+pred_file=/prediction/file/name
+test_file=/path/to/test/file # dev or test 
+m2_edits=/path/to/m2edits
+m2_edits_nopnx=/path/to/m2edits/without/punctuation
+
+python generate.py \
+  --model_name_or_path $model \
+  --source_lang raw \
+  --target_lang cor \
+  --use_ged \
+  --preprocess_merges \
+  --test_file $test_file \
+  --m2_edits $m2_edits \
+  --m2_edits_nopnx $m2_edits_nopnx \
+  --per_device_eval_batch_size 16 \
+  --output_dir $checkpoint \
+  --num_beams 5 \
+  --num_return_sequences 1 \
+  --max_target_length 1024 \
+  --predict_with_generate \
+  --prediction_file $pred_file
+
+```
+## Evaluation:
 
 Talk about the m2scorer skip time on the dev set.
 
