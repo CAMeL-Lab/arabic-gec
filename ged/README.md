@@ -74,3 +74,5 @@ python evaluate.py  --data $OUTPUT_DIR/eval_data_${pred_mode}_${DATASET}.txt \
 rm $OUTPUT_DIR/eval_data_${pred_mode}_${DATASET}.txt
 ```
 
+[predictions](predictions) includes our GED models predictions and results.
+
