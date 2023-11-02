@@ -32,7 +32,7 @@ BATCH_SIZE=8 # 16 for qalb14 8 for mix
 
 
 
-python /home/ba63/gec-release/gec/run_gec.py \
+python /home/ba63/gec/bart-t5-new/run_gec.py \
     --model_name_or_path $MODEL \
     --do_train \
     --optim adamw_torch \
