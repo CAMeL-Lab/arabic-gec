@@ -1,8 +1,1 @@
-*m2 linguist-language=Python
-data/* linguist-language=Python
-alignment/* linguist-language=Python
-areta/* linguist-language=Python
-transformers/docs/* linguist-vendored=Python
-transformers/examples/* linguist-vendored=Python
-gec/predictions/*  linguist-language=Python
-
+* linguist-vendored
