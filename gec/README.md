@@ -92,3 +92,7 @@ test sets, we use M<sup>2</sup> scorer python2 release that is provided by the Q
 Running our extended version of the M<sup>2</sup> scorer can be done using the [eval_checkpoint_skip.sh](eval_checkpoint_skip.sh) script, whereas running the QALB shared task  M<sup>2</sup> scorer can be done using the [eval_checkpoint.sh](eval_checkpoint.sh) script.
 
 
+## Error Analysis:
+
+We provide a detailed [error analysis](error_analysis) of the specific error type performance of AraBART against our best system (i.e., AraBART+Morph+GED<sup>13</sup>) on average on the development sets. 
+
