@@ -1,3 +1,4 @@
+*m2 linguist-language=Python
 data/* linguist-language=Python
 alignment/* linguist-language=Python
 areta/* linguist-language=Python
