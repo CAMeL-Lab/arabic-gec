@@ -1,1 +1,2 @@
-* linguist-vendored
+data/* linguist-vendored
+gec/predictions/* linguist-vendored
