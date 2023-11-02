@@ -82,7 +82,7 @@ The generated outputs of our models on the dev and test sets are in the [predict
 ## Evaluation:
 
 We pick the best model checkpoint (for the seq2seq models) based on the development sets. However, the M<sup>2</sup> scorer suffers from extreme running times in cases where the generated outputs differ significantly from the input. To mitigate this bottleneck, we extend the [M<sup>2</sup> scorer](https://github.com/CAMeL-Lab/arabic-gec/tree/master/gec/utils/m2scorer) by introducing a python3 version with a [time limit](https://github.com/CAMeL-Lab/arabic-gec/blob/master/gec/utils/m2scorer/m2scorer.py#L141) for each sentence during evaluation. If the evaluation of a single generated sentence surpasses this limit, we pass the input sentence to the output without modifications.
-We implement this extension in a modular way that allows us to import and use M<sup>2</sup> scorer to evaluate the generated outputs within other scripts. In cases where the generated sentences are replaced by the input, the generated output file will end with a `.pp` extension. 
+We implement this extension in a modular way that allows us to import and use M<sup>2</sup> scorer to evaluate the generated outputs within other scripts. In cases where the generated sentences are replaced by the input, the generated output file will end with a `.pp` extension. Note that our version of the  M<sup>2</sup> scorer has been tested and is identical to the M<sup>2</sup> scorer released as part of the QALB shared task in terms of evaluation.
 
 
 It is important to note that we use our extended version of the M<sup>2</sup> scorer when reporting our results on the development sets **only**. When reporting our results on the
