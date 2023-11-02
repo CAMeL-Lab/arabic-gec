@@ -1,2 +1,3 @@
-data/* linguist-vendored
-gec/predictions/* linguist-vendored
+* linguist-vendored
+*.py linguist-vendored=false
+*.sh linguist-vendored=false
