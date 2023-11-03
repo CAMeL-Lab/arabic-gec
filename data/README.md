@@ -1,6 +1,6 @@
 # Data
 
-We used the [QALB-2014](), [QALB-2015](), and [ZAEBUC]() datasets to train and evaluate our models. For the QALB-2014 and QALB-2015, we use the publicly available train, dev, and test splits. For ZAEBUC, we randomly split the data into train (70%), dev (15%), and test (15%) while keeping a balanced distribution of CEFR levels. 
+We used the [QALB-2014](https://camel.abudhabi.nyu.edu/qalb-shared-task-2015/), [QALB-2015](https://camel.abudhabi.nyu.edu/qalb-shared-task-2015/), and [ZAEBUC](https://sites.google.com/view/zaebuc/home) datasets to train and evaluate our models. For the QALB-2014 and QALB-2015, we use the publicly available train, dev, and test splits. For ZAEBUC, we randomly split the data into train (70%), dev (15%), and test (15%) while keeping a balanced distribution of CEFR levels. 
 
 ## Preprocessing, Alignment, and Automatic Error Typing:
 
@@ -10,7 +10,7 @@ We preprocess the data before using it to train our models. The preprocessing in
 
 ### Morphological Preprocessing:
 
-We do an additional morphological preprocessing step over the erroneous sentences only. This is done by running the contextual morphological analysis and disambiguation introduced by [Inoue et al., 2022]() and that is publicly available in [CAMeL Tools](). This step is done by running `bash camelira_gec.sh`. The generated output of this preprocessing constitutes the **Morph** system we report on in our paper in Table 4.
+We do an additional morphological preprocessing step over the erroneous sentences only. This is done by running the contextual morphological analysis and disambiguation introduced by [Inoue et al., 2022](https://aclanthology.org/2022.findings-acl.135.pdf) and that is publicly available in [CAMeL Tools](https://github.com/CAMeL-Lab/camel_tools). This step is done by running `bash camelira_gec.sh`. The generated output of this preprocessing constitutes the **Morph** system we report on in our paper in Table 4. **Important Note**: please note that you have to use an extended version of the [SAMA 3.1](https://catalog.ldc.upenn.edu/LDC2010L01) morphological database to replicate our experiment. We [release](https://github.com/CAMeL-Lab/arabic-gec/releases/tag/arabic-gec) a [muddled](https://github.com/CAMeL-Lab/muddler) version of this database. Once you download the database, make sure to update its [path](https://github.com/CAMeL-Lab/arabic-gec/blob/master/data/utils/camelira_gec.py#L10) in the script we provide.
 
 
 ### Alignment:
