@@ -8,10 +8,6 @@ We follow the same constraints that were introduced in the QALB-2014 and QALB-20
 
 At the end of the fine-tuning, we pick the best checkpoint based on the F<sub>0.5</sub> performance of the GED task on the dev sets.
 
-
-**TODO**: The fine-tuned GED CAMeLBERT models, which we use with our best GEC system, are available here this.
-
-
 To run the fine-tuning:
 
 ```bash
