@@ -19,7 +19,7 @@ We provide the code we used to prompt gpt-3.5 turbo (ChatGPT) along the full set
 
 ## Seq2Seq Models:
 
-We provide [scripts](training_scripts) to reproduce the GEC models we built by fine-tuning [AraBART]() and [AraT5](). It is important to note that you need to specify the correct training file corresponding to each experiment. We provide a detailed description of the data we used to build our GEC models [here]((https://github.com/CAMeL-Lab/arabic-gec/tree/master/data)). Each of the provided [scripts](training_scripts] will have a variant of the following code based on the experiment we'd like to run:
+We provide [scripts](training_scripts) to reproduce the GEC models we built by fine-tuning [AraBART](https://huggingface.co/moussaKam/AraBART) and [AraT5](https://huggingface.co/moussaKam/AraBART). It is important to note that you need to specify the correct training file corresponding to each experiment. We provide a detailed description of the data we used to build our GEC models [here]((https://github.com/CAMeL-Lab/arabic-gec/tree/master/data)). Each of the provided [scripts](training_scripts) will have a variant of the following code based on the experiment we'd like to run:
 
 ```bash
 
