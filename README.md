@@ -21,7 +21,7 @@ To obtain multi-class grammatical error detection (GED) labels, we use an enhanc
 ```bash
 cd areta
 
-conda create -n python=3.7
+conda create -n areta python=3.7
 pip install -r requirements.txt
 ```
 
