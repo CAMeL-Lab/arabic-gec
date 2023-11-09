@@ -38,13 +38,13 @@ This repo is organized as follows:
 
 ## Hugging Face Integration:
 
-We make our [GED](https://huggingface.co/CAMeL-Lab/camelbert-msa-morph-ged-13) and [GEC](https://huggingface.co/CAMeL-Lab/arabart-gec-morph-ged-13) models publicly available on Hugging Face.
+We make our GED and GEC models publicly available on [Hugging Face](https://huggingface.co/collections/CAMeL-Lab/gec-6541e5996be058da06556994).
 
 ### GED:
 ```python
 
 from transformers import pipeline
-ged = pipeline('token-classification', model='CAMeL-Lab/camelbert-msa-morph-ged-13')
+ged = pipeline('token-classification', model='CAMeL-Lab/camelbert-msa-qalb14-ged-13')
 text = 'و قال له انه يحب اكل الطعام بكثره'
 predictions = ged(text)
 print(predictions)
@@ -63,11 +63,11 @@ import torch
 
 bert_disambig = BERTUnfactoredDisambiguator.pretrained()
 
-ged_tokenizer = AutoTokenizer.from_pretrained('CAMeL-Lab/camelbert-msa-morph-ged-13')
-ged_model = BertForTokenClassification.from_pretrained('CAMeL-Lab/camelbert-msa-morph-ged-13')
+ged_tokenizer = AutoTokenizer.from_pretrained('CAMeL-Lab/camelbert-msa-qalb14-ged-13')
+ged_model = BertForTokenClassification.from_pretrained('CAMeL-Lab/camelbert-msa-qalb14-ged-13')
 
-gec_tokenizer = AutoTokenizer.from_pretrained('CAMeL-Lab/arabart-gec-morph-ged-13')
-gec_model = MBartForConditionalGeneration.from_pretrained('CAMeL-Lab/arabart-gec-morph-ged-13')
+gec_tokenizer = AutoTokenizer.from_pretrained('CAMeL-Lab/arabart-qalb14-gec-ged-13')
+gec_model = MBartForConditionalGeneration.from_pretrained('CAMeL-Lab/arabart-qalb14-gec-ged-13')
 
 text = 'و قال له انه يحب اكل الطعام بكثره .'
 
