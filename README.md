@@ -38,7 +38,7 @@ This repo is organized as follows:
 
 ## Hugging Face Integration:
 
-We make our GED and GEC models publicly available on [Hugging Face](https://huggingface.co/collections/CAMeL-Lab/gec-6541e5996be058da06556994).
+We make our GED and GEC models publicly available on [Hugging Face](https://huggingface.co/collections/CAMeL-Lab/ged-and-gec-6541e5996be058da06556994).
 
 ### GED:
 ```python
