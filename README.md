@@ -1,6 +1,6 @@
 # Arabic Grammatical Error Detection and Correction
 
-This repo contains code and pretrained models to reproduce the results in our paper [Advancements in Arabic Grammatical Error Detection and Correction: An Empirical Investigation](https://arxiv.org/abs/2305.14734).
+This repo contains code and pretrained models to reproduce the results in our paper [Advancements in Arabic Grammatical Error Detection and Correction: An Empirical Investigation](https://aclanthology.org/2023.emnlp-main.396.pdf).
 
 ## Requirements:
 
@@ -126,7 +126,7 @@ This repo is available under the MIT license. See the [LICENSE](LICENSE) for mor
 
 ## Citation:
 
-If you find the code or data in this repo helpful, please cite [our paper](https://arxiv.org/abs/2305.14734):
+If you find the code or data in this repo helpful, please cite [our paper](https://aclanthology.org/2023.emnlp-main.396.pdf):
 
 ```bibtex
 @inproceedings{alhafni-etal-2023-advancements,
